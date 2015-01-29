@@ -1,9 +1,22 @@
 console.log('File core.js loaded')
 
-var iframe = document.getElementById('output-iframe')
-var iframeDocument = iframe.contentDocument
-var output = iframeDocument.getElementById('screen-output')
-var source = window.opener._content.document
+var _iframe
+var _iframeDocument
+var _output
+var _source
+
+function init() {
+  _iframe = document.getElementById('output-iframe')
+  _iframeDocument = _iframe.contentDocument
+  _output = _iframeDocument.getElementById('screen-output')
+  _source = window.opener._content.document
+}
+
+function start()
+{   
+    console.log('Walking source DOM')
+    walkDOM(_source.body)
+}
 
 function cleanWhitespace(node)
 {
@@ -37,11 +50,13 @@ function walkDOM(dom)
     var node = nodeToExpand;
     if( nodeToExpand.lastChild != null )
     {
-      
+      appendToOutput(getOutput4Tag(node.tagName))
+       /* 
       if(node.tagName == 'H1')
         appendToOutput('HEADING ONE ')
       else
         appendToOutput(node.tagName + ' ')
+      */
       node = nodeToExpand.lastChild
       while(node)
       {
@@ -62,12 +77,21 @@ function walkDOM(dom)
 
 function appendToOutput(text)
 {
-    var child = iframeDocument.createTextNode(text)
-    output.appendChild(child)
+    var child = _iframeDocument.createTextNode(text + ' ')
+    _output.appendChild(child)
 }
 
-function start()
-{   
-    console.log('Walking source DOM')
-    walkDOM(source.body)
+function getOutput4Tag(tagName)
+{
+    switch(tagName) {
+        case 'H1':
+            return 'Heading one'    
+        
+        case 'H2':
+            return 'Heading two'
+        
+        default:
+            return tagName
+    } 
 }
+
