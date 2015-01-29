@@ -49,16 +49,16 @@ function walkDOM(dom)
   {
     //console.log(nodeStack)
     var nodeToExpand = nodeStack.pop()
-    console.log('processing node')
+    //console.log('processing node')
     //var node = nodeToExpand;    
     if( nodeToExpand.lastChild != null && ignoreNode(nodeToExpand.tagName) == -1)
     {
-      console.log('Expanding node' + nodeToExpand.tagName)
+      //console.log('Expanding node' + nodeToExpand.tagName)
       appendSpanToOutput(getOutput4Element(nodeToExpand))
       nodeToExpand = nodeToExpand.lastChild
       while(nodeToExpand)
       {
-        console.log('whiling...')
+        //console.log('whiling...')
         nodeStack.push(nodeToExpand)
         nodeToExpand = nodeToExpand.previousSibling
       }
