@@ -90,6 +90,8 @@ function getOutput4Tag(tagName)
         case 'H2':
             return 'Heading two'
         
+        case 'UL':
+          return 'Unordered list of '
         default:
             return tagName
     } 
