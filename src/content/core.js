@@ -14,8 +14,8 @@ function init() {
 
 function start()
 {   
-    console.log('Walking source DOM')
-    walkDOM(_source.body)
+  console.log('Walking source DOM')
+  walkDOM(_source.body)
 }
 
 function cleanWhitespace(node)
@@ -36,6 +36,9 @@ function cleanWhitespace(node)
   return node;
 }
 
+/**
+ * THIS IS DA MAIN FUNCTION (:
+ */
 function walkDOM(dom)
 {
   var nodeStack = new Array()
@@ -46,27 +49,23 @@ function walkDOM(dom)
   {
     //console.log(nodeStack)
     var nodeToExpand = nodeStack.pop()
-    
-    var node = nodeToExpand;
-    if( nodeToExpand.lastChild != null )
+    console.log('processing node')
+    //var node = nodeToExpand;    
+    if( nodeToExpand.lastChild != null && ignoreNode(nodeToExpand.tagName) == -1)
     {
-      appendToOutput(getOutput4Tag(node.tagName))
-       /* 
-      if(node.tagName == 'H1')
-        appendToOutput('HEADING ONE ')
-      else
-        appendToOutput(node.tagName + ' ')
-      */
-      node = nodeToExpand.lastChild
-      while(node)
+      console.log('Expanding node' + nodeToExpand.tagName)
+      appendSpanToOutput(getOutput4Element(nodeToExpand))
+      nodeToExpand = nodeToExpand.lastChild
+      while(nodeToExpand)
       {
-        nodeStack.push(node)
-        node = node.previousSibling
+        console.log('whiling...')
+        nodeStack.push(nodeToExpand)
+        nodeToExpand = nodeToExpand.previousSibling
       }
     }
-    else
+    else if(nodeToExpand.nodeType == 3)
     {
-      appendToOutput(node.textContent + ' ')
+      appendTextToOutput(nodeToExpand.textContent + ' ')
     }
       
     //console.log(nodeStack)
@@ -75,25 +74,69 @@ function walkDOM(dom)
   
 }
 
-function appendToOutput(text)
+function appendTextToOutput(text)
 {
-    var child = _iframeDocument.createTextNode(text + ' ')
-    _output.appendChild(child)
+  var child = _iframeDocument.createTextNode(text + ' ')
+  _output.appendChild(child)
 }
 
-function getOutput4Tag(tagName)
+function appendSpanToOutput(text)
 {
+  var spanNode = _iframeDocument.createElement('span')
+  spanNode.className = 'tag-output'
+  var textNode = _iframeDocument.createTextNode(text + ' ')
+  spanNode.appendChild(textNode)
+  _output.appendChild(spanNode)
+}
+
+/**
+ * Returns text for certain tags
+ */
+function getOutput4Element(node)
+{
+  var tagName = node.tagName;  
+  //console.log('Number of nodes: '+ countListNodes(node));
+  //var output = '<span class="tag-output">';
+  
     switch(tagName) {
         case 'H1':
-            return 'Heading one'    
-        
+          return 'Heading one'    
         case 'H2':
-            return 'Heading two'
-        
+          return 'Heading two'
         case 'UL':
-          return 'Unordered list of '
+          return ('Unordered list of ' + countListNodes(node) + ' elements')
         default:
             return tagName
-    } 
+    }
+  //output += '<span>'
+  
+  //return output
+}
+
+/**
+ * Returns -1 if node can be processed
+ * othervice returns a positive number
+ */
+function ignoreNode(nodeTag) {
+  var excludedNodes = [
+    'AUDIO', //???    
+    'CANVAS', //???
+    'DIALOG', //???
+    'HEAD',
+    'IFRAME',
+    'MAP', //???
+    'META',
+    'NOSCRIPT',
+    'OBJECT', //???
+    'SCRIPT',
+    'VIDEO' //???    
+  ]
+  
+  return excludedNodes.indexOf(nodeTag)
+  
+}
+
+function countListNodes(node) {
+  return node.childNodes.length
 }
 
