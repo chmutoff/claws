@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE window SYSTEM "chrome://xulschoolhello/locale/browserOverlay.dtd">
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!-- Extremely recommended to keep this css include!! -->
+<window id="mainWindow" title="Main window"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script type="application/x-javascript" src="chrome://xulschoolhello/content/core.js" />
+  
+  <box orient="horizontal" flex="1">
+    <iframe id="output-iframe" flex="1" type="content" src="output.html"/>
+  </box>
+
+</window>
