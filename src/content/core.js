@@ -5,11 +5,12 @@ var _iframeDocument
 var _output
 var _source
 
-function init() {
+function init()
+{
   _iframe = document.getElementById('output-iframe')
   _iframeDocument = _iframe.contentDocument
   _output = _iframeDocument.getElementById('screen-output')
-  _source = window.opener._content.document
+  _source = window.opener.content.document
 }
 
 function start()
@@ -34,6 +35,26 @@ function cleanWhitespace(node)
     }
   }
   return node;
+}
+
+/**
+ * Cleans an input text by removing all the multiple whitespaces and brakelines
+ *
+ * Source1: TextFixer (http://www.textfixer.com/tutorials/javascript-line-breaks.php)
+ * Source2: MDN Reference (http://www.textfixer.com/tutorials/javascript-line-breaks.php) * 
+ */
+function cleanText(text)
+{
+  //Replace all 3 types of line breaks with a space
+  text = text.replace(/(\r\n|\n|\r)/gm," ")
+  
+  //Replace all double white spaces with single spaces
+  text = text.replace(/\s+/g," ")
+  
+  //Remove whitespace from both ends of a string
+  text = text.trim()
+  
+  return text;
 }
 
 /**
@@ -99,14 +120,31 @@ function getOutput4Element(node)
   //var output = '<span class="tag-output">';
   
     switch(tagName) {
-        case 'H1':
-          return 'Heading one'    
-        case 'H2':
-          return 'Heading two'
-        case 'UL':
-          return ('Unordered list of ' + countListNodes(node) + ' elements')
-        default:
-            return tagName
+      case 'A':
+        addLink(node)
+        return 'Link'        
+      case 'H1':
+        addHeading(node)
+        return 'Heading one'    
+      case 'H2':
+        addHeading(node)
+        return 'Heading two'
+      case 'H3':
+        addHeading(node)
+        return 'Heading three'
+      case 'H4':
+        addHeading(node)
+        return 'Heading four'
+      case 'H5':
+        addHeading(node)
+        return 'Heading five'
+      case 'H6':
+        addHeading(node)
+        return 'Heading six'
+      case 'UL':
+        return ('Unordered list of ' + countListNodes(node) + ' elements')
+      default:
+        return tagName
     }
   //output += '<span>'
   
@@ -140,3 +178,30 @@ function countListNodes(node) {
   return node.childNodes.length
 }
 
+function addHeading(node)
+{
+  var headingList = document.getElementById('heading-list')
+  var headingText = node.textContent
+  headingList.appendItem(headingText, '')
+  
+  // TODO: APPEND IMAGE ALT TEXT (if exists <h1>text<img src="" alt="altText"></h1>) 
+}
+
+/**
+ * Possible href values (W3C)
+ * /hello
+ * #canvas
+ * http://example.org/
+ */
+function addLink(node)
+{
+  var linkList = document.getElementById('link-list')
+  var linkText = node.textContent
+  var linkURL = node.getAttribute('href');
+  
+  var item = linkList.appendItem(linkText, '')
+  item.ondblclick = function(){window.open(linkURL, '_blank')}
+  
+  console.log('append ' + linkText)  
+  // TODO: APPEND IMAGE ALT TEXT (if exists <h1>text<img src="" alt="altText"></h1>) 
+}

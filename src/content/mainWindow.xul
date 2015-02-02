@@ -6,9 +6,12 @@
         onload="init();start();"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script type="application/x-javascript" src="chrome://xulschoolhello/content/core.js" />
-  
+
   <box orient="horizontal" flex="1">
     <iframe id="output-iframe" flex="1" type="content" src="output.html"/>
   </box>
+  
+  <listbox id="heading-list"></listbox>
+  <listbox id="link-list"></listbox>
 
 </window>
