@@ -1,5 +1,7 @@
 console.log('File core.js loaded')
 
+// TODO: replace some var for let (if necesary)
+
 var _iframe
 var _iframeDocument
 var _output
@@ -69,13 +71,27 @@ function walkDOM(dom)
   do
   {
     //console.log(nodeStack)
-    var nodeToExpand = nodeStack.pop()
     //console.log('processing node')
-    //var node = nodeToExpand;    
-    if( nodeToExpand.lastChild != null && ignoreNode(nodeToExpand.tagName) == -1)
+    
+    var nodeToExpand = nodeStack.pop()
+    // check if node needs to be expanded
+    if( nodeToExpand.lastChild != null && ignoreNode(nodeToExpand.tagName) == -1 )
     {
       //console.log('Expanding node' + nodeToExpand.tagName)
-      appendSpanToOutput(getOutput4Element(nodeToExpand))
+      
+      // insert tag text if necesary
+      var outputText = getOutput4Element(nodeToExpand)
+      if ( outputText != '') {
+        appendSpanToOutput(outputText)
+      }     
+      
+      // insert closing tag text if necesary
+      var closingText = getClosingText(nodeToExpand)
+      if ( closingText != '' ) {
+        nodeStack.push(closingText)
+      }
+      
+      // expand node
       nodeToExpand = nodeToExpand.lastChild
       while(nodeToExpand)
       {
@@ -84,9 +100,28 @@ function walkDOM(dom)
         nodeToExpand = nodeToExpand.previousSibling
       }
     }
+    // Node can't be expanded but we need to take some info (an alt attribue of an image)
+    else if (nodeToExpand.nodeType == 1) {
+      // insert tag text if necesary
+      var outputText = getOutput4Element(nodeToExpand)
+      if ( outputText != '' ) {
+        appendSpanToOutput(outputText)
+      }
+      
+      // insert text of revelant attributes if necesary
+      var attributeText = getAttributeText(nodeToExpand)
+      if (attributeText) {
+        appendTextToOutput(attributeText)
+      }
+    }
+    // print textNode content
     else if(nodeToExpand.nodeType == 3)
     {
       appendTextToOutput(nodeToExpand.textContent + ' ')
+    }
+    // print piled string
+    else if (typeof(nodeToExpand) == 'string') {
+      appendSpanToOutput(nodeToExpand)
     }
       
     //console.log(nodeStack)
@@ -105,7 +140,7 @@ function appendSpanToOutput(text)
 {
   var spanNode = _iframeDocument.createElement('span')
   spanNode.className = 'tag-output'
-  var textNode = _iframeDocument.createTextNode(text + ' ')
+  var textNode = _iframeDocument.createTextNode(text)
   spanNode.appendChild(textNode)
   _output.appendChild(spanNode)
 }
@@ -115,14 +150,18 @@ function appendSpanToOutput(text)
  */
 function getOutput4Element(node)
 {
-  var tagName = node.tagName;  
+  var tagName = node.tagName
   //console.log('Number of nodes: '+ countListNodes(node));
   //var output = '<span class="tag-output">';
   
     switch(tagName) {
       case 'A':
         addLink(node)
-        return 'Link'        
+        return 'Link'
+      case 'BLOCKQUOTE':
+        return 'Quotation'
+      case 'DL':
+        return ('Definition list of ' + countListNodes(node) + ' elements')
       case 'H1':
         addHeading(node)
         return 'Heading one'    
@@ -141,32 +180,62 @@ function getOutput4Element(node)
       case 'H6':
         addHeading(node)
         return 'Heading six'
+      case 'HR':
+        return 'Separador'
+      case 'IMG':
+        return ('Image')
+      case 'OL':
+        return ('Ordered list of ' + countListNodes(node) + ' elements')
+      case 'PRE':
+        return ''
       case 'UL':
         return ('Unordered list of ' + countListNodes(node) + ' elements')
       default:
-        return tagName
+        return ''
     }
   //output += '<span>'
   
   //return output
 }
 
+function getClosingText(node)
+{
+  var tagName = node.tagName
+  switch (tagName) {
+    case 'BLOCKQUOTE':
+      return 'End of quotation'
+    case 'DL':
+      return 'End of definition list'
+    case 'OL':
+      return 'End of ordered list'
+    case 'UL':
+      return 'End of unordered list'
+    default:
+      return ''
+  }
+}
+
+
 /**
  * Returns -1 if node can be processed
- * othervice returns a positive number
+ * otherwice returns a positive number
  */
 function ignoreNode(nodeTag) {
   var excludedNodes = [
-    'AUDIO', //???    
+    'AUDIO', //???
+    'BASE',
     'CANVAS', //???
     'DIALOG', //???
     'HEAD',
     'IFRAME',
+    'LINK',
     'MAP', //???
     'META',
     'NOSCRIPT',
     'OBJECT', //???
     'SCRIPT',
+    'STYLE',
+    'TITLE',
     'VIDEO' //???    
   ]
   
@@ -202,6 +271,18 @@ function addLink(node)
   var item = linkList.appendItem(linkText, '')
   item.ondblclick = function(){window.open(linkURL, '_blank')}
   
-  console.log('append ' + linkText)  
+  //console.log('append ' + linkText)  
   // TODO: APPEND IMAGE ALT TEXT (if exists <h1>text<img src="" alt="altText"></h1>) 
 }
+
+function getAttributeText(node) {
+  var tagName = node.tagName
+  switch (tagName) {
+    case 'IMG':
+      return node.getAttribute('alt')
+    default:
+      return ''
+  }
+}
+
+

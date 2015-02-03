@@ -20,7 +20,7 @@
   
   // This is for the right click menu.
   <popup id="contentAreaContextMenu">
-    <menuitem id="contextfangs" label="&xulschoolhello.hello.label;" accesskey="&xulschoolhello.helloItem.accesskey;" oncommand="window.open('chrome://xulschoolhello/content/mainWindow.xul', 'TEST', 'menubar=1,close=1,minimizable=1,scrollbars=1,resizable=1');"/>
+    <menuitem id="readingBearItem" label="&xulschoolhello.hello.label;" accesskey="&xulschoolhello.helloItem.accesskey;" oncommand="window.open('chrome://xulschoolhello/content/mainWindow.xul', 'TEST', 'menubar=1,close=1,minimizable=1,scrollbars=1,resizable=1');"/>
   </popup>
   
   // This is for the Tools menu.
