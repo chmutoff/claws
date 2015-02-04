@@ -160,6 +160,8 @@ function getOutput4Element(node)
         return 'Link'
       case 'BLOCKQUOTE':
         return 'Quotation'
+      case 'CITE':
+        return 'Quotation'
       case 'DL':
         return ('Definition list of ' + countListNodes(node) + ' elements')
       case 'H1':
@@ -188,6 +190,8 @@ function getOutput4Element(node)
         return ('Ordered list of ' + countListNodes(node) + ' elements')
       case 'PRE':
         return ''
+      case 'Q':
+        return 'Quotation'
       case 'UL':
         return ('Unordered list of ' + countListNodes(node) + ' elements')
       default:
@@ -204,10 +208,14 @@ function getClosingText(node)
   switch (tagName) {
     case 'BLOCKQUOTE':
       return 'End of quotation'
+    case 'CITE':
+      return 'End of quotation'
     case 'DL':
       return 'End of definition list'
     case 'OL':
       return 'End of ordered list'
+    case 'Q':
+      return 'End of quotation'
     case 'UL':
       return 'End of unordered list'
     default:
@@ -225,6 +233,7 @@ function ignoreNode(nodeTag) {
     'AUDIO', //???
     'BASE',
     'CANVAS', //???
+    'DATA', // Only in WHATWG version of HTML, not in W3C. Just in case...
     'DIALOG', //???
     'HEAD',
     'IFRAME',
