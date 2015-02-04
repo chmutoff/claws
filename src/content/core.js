@@ -17,7 +17,7 @@ function init()
 
 function start()
 {   
-  console.log('Walking source DOM')
+  //console.log('Walking source DOM')
   walkDOM(_source.body)
 }
 
@@ -43,7 +43,7 @@ function cleanWhitespace(node)
  * Cleans an input text by removing all the multiple whitespaces and brakelines
  *
  * Source1: TextFixer (http://www.textfixer.com/tutorials/javascript-line-breaks.php)
- * Source2: MDN Reference (http://www.textfixer.com/tutorials/javascript-line-breaks.php) * 
+ * Source2: MDN Reference (http://www.textfixer.com/tutorials/javascript-line-breaks.php)
  */
 function cleanText(text)
 {
@@ -70,79 +70,67 @@ function walkDOM(dom)
 
   do
   {
-    //console.log(nodeStack)
-    //console.log('processing node')
-    
+    //console.log(nodeStack)    
     var nodeToExpand = nodeStack.pop()
-    // check if node needs to be expanded
-    if( nodeToExpand.lastChild != null && ignoreNode(nodeToExpand.tagName) == -1 )
-    {
-      //console.log('Expanding node' + nodeToExpand.tagName)
+    
+    // nodeType == 1 -> ELEMENT_NODE
+    if (nodeToExpand.nodeType == 1) {
+      // insert tag text
+      appendSpanToOutput(getOutput4Element(nodeToExpand))
       
-      // insert tag text if necesary
-      var outputText = getOutput4Element(nodeToExpand)
-      if ( outputText != '') {
-        appendSpanToOutput(outputText)
-      }     
+      // insert text of revelant attributes
+      appendTextToOutput(getAttributeText(nodeToExpand))
       
-      // insert closing tag text if necesary
-      var closingText = getClosingText(nodeToExpand)
-      if ( closingText != '' ) {
-        nodeStack.push(closingText)
-      }
-      
-      // expand node
-      nodeToExpand = nodeToExpand.lastChild
-      while(nodeToExpand)
+      // check if node needs to be expanded
+      if ( nodeToExpand.lastChild != null && !isNodeExcluded(nodeToExpand) )
       {
-        //console.log('whiling...')
-        nodeStack.push(nodeToExpand)
-        nodeToExpand = nodeToExpand.previousSibling
+        // insert closing tag var node with text if necesary
+        var closingText = getClosingText(nodeToExpand)
+        if ( closingText != '' ) {
+          nodeStack.push(closingText)
+        }        
+        // expand node
+        nodeToExpand = nodeToExpand.lastChild
+        while(nodeToExpand)
+        {
+          nodeStack.push(nodeToExpand)
+          nodeToExpand = nodeToExpand.previousSibling
+        }
       }
     }
-    // Node can't be expanded but we need to take some info (an alt attribue of an image)
-    else if (nodeToExpand.nodeType == 1) {
-      // insert tag text if necesary
-      var outputText = getOutput4Element(nodeToExpand)
-      if ( outputText != '' ) {
-        appendSpanToOutput(outputText)
-      }
-      
-      // insert text of revelant attributes if necesary
-      var attributeText = getAttributeText(nodeToExpand)
-      if (attributeText) {
-        appendTextToOutput(attributeText)
-      }
-    }
-    // print textNode content
+    // nodeType == 3 -> TEXT_NODE    
     else if(nodeToExpand.nodeType == 3)
     {
+      // print textNode content
       appendTextToOutput(nodeToExpand.textContent + ' ')
     }
-    // print piled string
+    // string contains tag closing announcement
     else if (typeof(nodeToExpand) == 'string') {
       appendSpanToOutput(nodeToExpand)
-    }
-      
-    //console.log(nodeStack)
-    
-  }while(nodeStack.length > 0) 
-  
+    }      
+    //console.log(nodeStack)    
+  }while(nodeStack.length > 0)
 }
 
 function appendTextToOutput(text)
 {
-  var child = _iframeDocument.createTextNode(text + ' ')
-  _output.appendChild(child)
+  if ( text != '' )
+  {
+    var child = _iframeDocument.createTextNode(text + ' ')
+    _output.appendChild(child)
+  }
 }
 
 function appendSpanToOutput(text)
 {
-  var spanNode = _iframeDocument.createElement('span')
-  spanNode.className = 'tag-output'
-  var textNode = _iframeDocument.createTextNode(text)
-  spanNode.appendChild(textNode)
-  _output.appendChild(spanNode)
+  if ( text != '' )
+  {
+    var spanNode = _iframeDocument.createElement('span')
+    spanNode.className = 'tag-output'
+    var textNode = _iframeDocument.createTextNode(text)
+    spanNode.appendChild(textNode)
+    _output.appendChild(spanNode)
+  }
 }
 
 /**
@@ -152,66 +140,62 @@ function getOutput4Element(node)
 {
   var tagName = node.tagName
   //console.log('Number of nodes: '+ countListNodes(node));
-  //var output = '<span class="tag-output">';
   
-    switch(tagName) {
-      case 'A':
-        addLink(node)
-        return 'Link'
-      case 'ADDRESS':
-        return 'Addresss'
-      case 'ASIDE':
-        return 'Related content'
-      case 'BLOCKQUOTE':
-        return 'Quotation'
-      case 'CITE':
-        return 'Quotation'
-      case 'DL':
-        return ('Definition list of ' + countListNodes(node) + ' elements')
-      case 'FOOTER':
-        return 'Footer'
-      case 'HEADER':
-        return 'Header section'
-      case 'H1':
-        addHeading(node)
-        return 'Heading one'    
-      case 'H2':
-        addHeading(node)
-        return 'Heading two'
-      case 'H3':
-        addHeading(node)
-        return 'Heading three'
-      case 'H4':
-        addHeading(node)
-        return 'Heading four'
-      case 'H5':
-        addHeading(node)
-        return 'Heading five'
-      case 'H6':
-        addHeading(node)
-        return 'Heading six'
-      case 'HR':
-        return 'Separador'
-      case 'IMG':
-        return ('Image')
-      case 'MAIN':
-        return 'Main content'
-      case 'NAV':
-        return 'Navigation Element'
-      case 'OL':
-        return ('Ordered list of ' + countListNodes(node) + ' elements')
-      case 'PRE':
-        return ''
-      case 'Q':
-        return 'Quotation'
-      case 'UL':
-        return ('Unordered list of ' + countListNodes(node) + ' elements')
-      default:
-        return ''
-    }
-  //output += '<span>'
-  
-  //return output
+  switch(tagName) {
+    case 'A':
+      addLink(node)
+      return 'Link'
+    case 'ADDRESS':
+      return 'Addresss'
+    case 'ASIDE':
+      return 'Related content'
+    case 'BLOCKQUOTE':
+      return 'Quotation'
+    case 'CITE':
+      return 'Quotation'
+    case 'DL':
+      return ('Definition list of ' + countListNodes(node) + ' elements')
+    case 'FOOTER':
+      return 'Footer'
+    case 'HEADER':
+      return 'Header section'
+    case 'H1':
+      addHeading(node)
+      return 'Heading one'    
+    case 'H2':
+      addHeading(node)
+      return 'Heading two'
+    case 'H3':
+      addHeading(node)
+      return 'Heading three'
+    case 'H4':
+      addHeading(node)
+      return 'Heading four'
+    case 'H5':
+      addHeading(node)
+      return 'Heading five'
+    case 'H6':
+      addHeading(node)
+      return 'Heading six'
+    case 'HR':
+      return 'Separador'
+    case 'IMG':
+      return ('Image')
+    case 'MAIN':
+      return 'Main content'
+    case 'NAV':
+      return 'Navigation Element'
+    case 'OL':
+      return ('Ordered list of ' + countListNodes(node) + ' elements')
+    case 'PRE':
+      return ''
+    case 'Q':
+      return 'Quotation'
+    case 'UL':
+      return ('Unordered list of ' + countListNodes(node) + ' elements')
+    default:
+      return ''
+  }
 }
 
 function getClosingText(node)
@@ -237,30 +221,32 @@ function getClosingText(node)
 
 
 /**
- * Returns -1 if node can be processed
- * otherwice returns a positive number
+ * Returns true if node should not be expanded
  */
-function ignoreNode(nodeTag) {
-  var excludedNodes = [
+function isNodeExcluded(node) {
+  var tag = node.tagName
+  
+  var excludedTagNames = [
     'AUDIO', //???
     'BASE',
     'CANVAS', //???
     'DATA', // Only in WHATWG version of HTML, not in W3C. Just in case...
-    'DIALOG', //???
+    'EMBED', // tag defines a container for an external application or interactive content (a plug-in).
     'HEAD',
-    'IFRAME',
+    'IFRAME', // TODO: process iframe
     'LINK',
     'MAP', //???
     'META',
     'NOSCRIPT',
-    'OBJECT', //???
+    'OBJECT', // tag defines an embedded multimedia object(like audio, video, Java applets, ActiveX, PDF, and Flash)
+    'PARAM', // tag is used to define parameters for plugins embedded with an <object> element
     'SCRIPT',
     'STYLE',
     'TITLE',
     'VIDEO' //???    
   ]
   
-  return excludedNodes.indexOf(nodeTag)
+  return ( excludedTagNames.indexOf(tag) > -1 )
   
 }
 
@@ -296,6 +282,7 @@ function addLink(node)
   // TODO: APPEND IMAGE ALT TEXT (if exists <h1>text<img src="" alt="altText"></h1>) 
 }
 
+// Maybe rename to getImportantAttributeText
 function getAttributeText(node) {
   var tagName = node.tagName
   switch (tagName) {
