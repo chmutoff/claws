@@ -158,12 +158,20 @@ function getOutput4Element(node)
       case 'A':
         addLink(node)
         return 'Link'
+      case 'ADDRESS':
+        return 'Addresss'
+      case 'ASIDE':
+        return 'Related content'
       case 'BLOCKQUOTE':
         return 'Quotation'
       case 'CITE':
         return 'Quotation'
       case 'DL':
         return ('Definition list of ' + countListNodes(node) + ' elements')
+      case 'FOOTER':
+        return 'Footer'
+      case 'HEADER':
+        return 'Header section'
       case 'H1':
         addHeading(node)
         return 'Heading one'    
@@ -186,6 +194,10 @@ function getOutput4Element(node)
         return 'Separador'
       case 'IMG':
         return ('Image')
+      case 'MAIN':
+        return 'Main content'
+      case 'NAV':
+        return 'Navigation Element'
       case 'OL':
         return ('Ordered list of ' + countListNodes(node) + ' elements')
       case 'PRE':
