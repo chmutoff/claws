@@ -179,12 +179,18 @@ function getOutput4Element(node)
       return 'Heading six'
     case 'HR':
       return 'Separador'
+    case 'IFRAME':
+      return 'Marco en línea'
     case 'IMG':
       return ('Image')
     case 'MAIN':
       return 'Main content'
+    case 'MAP':
+      return 'gráfico'
     case 'NAV':
       return 'Navigation Element'
+    case 'OBJECT':
+      return 'objeto integrado'
     case 'OL':
       return ('Ordered list of ' + countListNodes(node) + ' elements')
     case 'PRE':
@@ -208,6 +214,8 @@ function getClosingText(node)
       return 'End of quotation'
     case 'DL':
       return 'End of definition list'
+    case 'IFRAME':
+      return 'fuera de Marco en línea'
     case 'OL':
       return 'End of ordered list'
     case 'Q':
@@ -235,7 +243,6 @@ function isNodeExcluded(node) {
     'HEAD',
     'IFRAME', // TODO: process iframe
     'LINK',
-    'MAP', //???
     'META',
     'NOSCRIPT',
     'OBJECT', // tag defines an embedded multimedia object(like audio, video, Java applets, ActiveX, PDF, and Flash)

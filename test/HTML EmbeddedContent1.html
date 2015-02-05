@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>    
+		<title>HTML Ebmedded content</title>
+		<meta charset="utf-8"/>
+	</head>
+
+	<body>
+		<p>Iframe:</p>
+		<iframe src="iframe.html">
+			<!-- HTML%20TextSemantics1.html -->
+			<p>Your browser does not support iframes.</p>
+		</iframe>
+		
+		<p>Embed:</p>
+		<embed src="http://wiki.alternativaplatform.com/images/1/1e/HelloWorld.swf"> 
+		 
+		<p>Object:</p>
+		<object data="horse.wav">
+		  <param name="autoplay" value="true">
+		</object>
+		
+		<p>Audio:</p>
+		<audio src="audioTest.ogg"
+			autoplay>
+		   Your browser does not support the <code>audio</code> element.
+		</audio>
+		
+		<p>Video con source:</p>
+		<video controls>
+			<source src="foo.ogg" type="video/ogg"> <!-- Picked by Firefox -->
+			<source src="foo.mov" type="video/quicktime"> <!-- Picked by Safari -->
+			I'm sorry; your browser doesn't support HTML 5 video.
+		</video>
+		
+		<p>Video con track:</p>
+		<video src="brave.webm"> <!-- HTML 5.1 Nightly -->
+			<track kind=subtitles src=brave.en.vtt srclang=en label="English">
+			<track kind=captions src=brave.en.hoh.vtt srclang=en label="English for the Hard of Hearing">
+			<track kind=subtitles src=brave.fr.vtt srclang=fr lang=fr label="Français">
+			<track kind=subtitles src=brave.de.vtt srclang=de lang=de label="Deutsch">
+	        </video>
+	</body>
+</html>
