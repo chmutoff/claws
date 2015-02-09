@@ -6,6 +6,7 @@ var _iframe
 var _iframeDocument
 var _output
 var _source
+var _NVDAStringBundle
 
 function init()
 {
@@ -13,6 +14,7 @@ function init()
   _iframeDocument = _iframe.contentDocument
   _output = _iframeDocument.getElementById('screen-output')
   _source = window.opener.content.document
+  _NVDAStringBundle = document.getElementById('NVDA-string-bundle');
 }
 
 function start()
@@ -177,28 +179,28 @@ function getOutput4Element(node)
       // it is not possible for javascript to detect if a link is visited in either Firefox or Chrome (security reasons)
       // https://developer.mozilla.org/en-US/docs/Web/CSS/Privacy_and_the_:visited_selector
       addLink(node)
-      return 'enlace'
+      return _NVDAStringBundle.getString('NVDA.output.link')
     case 'ADDRESS':
       return ''
     case 'AREA':
       addLink(node)
-      return 'enlace '
+      return _NVDAStringBundle.getString('NVDA.output.link')
     case 'ASIDE':
-      return 'complementario punto de referencia'
+      return _NVDAStringBundle.getString('NVDA.output.aside')
     case 'BLOCKQUOTE':
-      return 'Cita'
+      return _NVDAStringBundle.getString('NVDA.output.quote')
     case 'BUTTON':
-      return 'botón'
+      return _NVDAStringBundle.getString('NVDA.output.button')
     case 'CITE':
       return ''
     case 'DATALIST':
-      return 'subMenú tiene auto completado'
+      return _NVDAStringBundle.getString('NVDA.output.datalist')
     case 'DL':
       return 'lista  con  ' + countListNodes(node) + ' elementos'
     case 'FOOTER':
       if (node.parentNode.nodeName == 'BODY') {
         // NVDA only anounces the page footer
-        return 'información de contenido punto de referencia'
+        return _NVDAStringBundle.getString('información de contenido punto de referencia')
       }
       else return ''
     case 'HEADER':
