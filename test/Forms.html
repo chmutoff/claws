@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>    
+        <title>HTML Forms</title>
+        <meta charset="utf-8"/>
+        <style>
+            div,p{ margin-bottom: 15px;}
+        </style>
+</head>
+<body>
+    
+    <p><button name="button">Click me</button></p>
+    
+    <div>
+        Choose a browser from this list:
+        <input list="browsers" />
+        <datalist id="browsers">
+          <option value="Chrome">
+          <option value="Firefox">
+          <option value="Internet Explorer">
+          <option value="Opera">
+          <option value="Safari">
+        </datalist>
+    </div>
+    
+    <div>
+        <form action="test.php" method="post">
+            <fieldset>
+              <legend>Title</legend>
+              <input type="radio" name="radio" id="radio"> <label for="radio">Click me</label>
+            </fieldset>
+        </form>
+    </div>
+    
+    <div>
+        <form action="demo_keygen.asp" method="get">
+            Username: <input type="text" name="usr_name">
+            Encryption: <keygen name="security">
+            <input type="submit">
+        </form>
+    </div>
+    
+    <p>Heat the oven to <meter min="200" max="500" value="350">350 degrees</meter>.</p>
+    
+    <div>
+        <select>
+            <optgroup label="Group 1">
+              <option>Option 1.1</option>
+            </optgroup> 
+            <optgroup label="Group 2">
+              <option>Option 2.1</option>
+              <option>Option 2.2</option>
+            </optgroup>
+            <optgroup label="Group 3" disabled>
+              <option>Option 3.1</option>
+              <option>Option 3.2</option>
+              <option>Option 3.3</option>
+            </optgroup>
+        </select>
+    </div>
+    
+    <div>
+        <form oninput="result.value=parseInt(a.value)+parseInt(b.value)">
+            <input type="range" name="b" value="50" /> +
+            <input type="number" name="a" value="10" /> =
+            <output name="result"></output>
+        </form>
+    </div>
+    
+    <p><progress value="70" max="100">70 %</progress></p>
+    
+    <textarea name="textarea" rows="10" cols="50">Write something here</textarea>
+</body>
+</html>

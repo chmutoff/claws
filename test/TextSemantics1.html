@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>    
+	<title>HTML text semantics 1</title>
+	<meta charset="utf-8"/>
+</head>
+
+<body>
+	<div>
+		<p>Some link tests</p>
+		<a href="https://www.google.es">Gooooogle link</a>
+		<a href="https://www.google.es" id="uncommon-link">
+			Very very uncommon link ):
+			<div>
+				Wooooowwwwww
+				<p><em>Important: </em><span> inside span</span></p>
+			</div>
+		</a>
+		<a href="https://www.google.es" id="link-image">Link with image inside. <img alt="Image alt text" src="imagen.jpg" > And some <b>bold</b> text afterwards.</a>
+		<a href="#somewhere"><img alt="Texto alt imagen" src="image.png">Texto enlace</a>
+	</div>
+
+	<p>
+		Pruebas de em y strong
+		<em>El dinero</em> es importante pero <strong>la salud</strong> lo es mas.
+	</p>
+
+	<p>Texto normal y... <small>Texto pequeño</small></p>
+
+	<p>Texto normal y... <s>Texto tachado</s></p>
+
+	<p>Prueba de cite: <cite>Galileo</cite> dijo: "... y sin embargo, se mueve." </p>
+
+	<p>
+		El estándar dice: <q cite='http://html.conclase.net/w3c/html401-es/struct/text.html#h-9.2.2'>
+		... Q sirve para citas cortas (contenido en línea) que no necesitan cambios de párrafo.</q>
+	</p>
+
+	<p>
+		Prueba de definicion
+		El <dfn>HTML</dfn> es un lenguaje de marcado para hipertextos.
+	</p>
+
+	<p>
+		Prueba de abreviatura
+		El <abbr lang="en" title="Hipertext Markup Language">HTML</abbr>
+		es la lengua franca de la <abbr lang="en" title="World Wide Web">WWW</abbr>
+	</p>
+
+	<p>Prueba de datetime: Article published on <time datetime="2014-09-05">September the 5th, 2014</time></p>
+</body>
+</html>

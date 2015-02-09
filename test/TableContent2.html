@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<head>
+    <title>HTML Tables</title>
+    <meta charset="utf-8" />
+    <style>        
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <p>Table with colgroup</p>
+    <table>
+        <colgroup span="4" class="columns"></colgroup>
+
+        <tr>
+            <th>Countries</th>
+
+            <th>Capitals</th>
+
+            <th>Population</th>
+
+            <th>Language</th>
+        </tr>
+
+        <tr>
+            <td>USA</td>
+
+            <td>Washington D.C.</td>
+
+            <td>309 million</td>
+
+            <td>English</td>
+        </tr>
+
+        <tr>
+            <td>Sweden</td>
+
+            <td>Stockholm</td>
+
+            <td>9 million</td>
+
+            <td>Swedish</td>
+        </tr>
+    </table>
+
+    <p>Table with colgroup and col</p>
+    <table>
+        <colgroup>
+            <col class="column1" />
+            <col class="columns2plus3" span="2" />
+        </colgroup>
+
+        <tr>
+            <th>Lime</th>
+
+            <th>Lemon</th>
+
+            <th>Orange</th>
+        </tr>
+
+        <tr>
+            <td>Green</td>
+
+            <td>Yellow</td>
+
+            <td>Orange</td>
+        </tr>
+    </table>
+</body>
+</html>

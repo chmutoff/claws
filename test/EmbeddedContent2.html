@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>    
+		<title>HTML Ebmedded content 2</title>
+		<meta charset="utf-8"/>
+	</head>
+
+	<body>		
+		<p>Canvas:</p>
+		<canvas id="canvas" width="300" height="300">Tu navegador no admite el elemento &lt;canvas&gt;.</canvas>
+		
+		<p>Map y area:</p>
+		<object data="https://mdn.mozillademos.org/files/1809/firefox-logo.png" 
+			usemap="#map1" type="image/png" 
+			width="135" height="155">
+	       
+		  <map name="map1">
+		    <area href="http://www.mozilla.com/firefox/" 
+		      alt="El navegador" 
+		      shape="rect" 
+		      coords="0,0,60,155">
+	       
+		    <area href="http://www.mozilla.com/thunderbird/" 
+		      alt="El gestor de correo" 
+		      shape="rect" 
+		      coords="75,0,135,155">
+		  </map>
+		</object>
+		
+		<p>SVG Image:</p>
+		<svg height="210" width="500">
+			<polygon points="100,10 40,198 190,78 10,78 160,198" style="fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;"/>
+		</svg>
+		
+		<p>Math:</p>
+		  <math>
+			<mrow>
+				<mi>a</mi>
+				<mo>⁢</mo>
+				<msup>
+					<mi>x</mi>
+					<mn>2</mn>
+				</msup>
+			</mrow>
+		</math>
+	</body>
+</html>
