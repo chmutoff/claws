@@ -69,12 +69,12 @@ function walkDOM(dom)
   nodeStack.push(dom)
 
   do
-  {
-    //console.log(nodeStack)    
+  {       
     var nodeToExpand = nodeStack.pop()
+    //console.log(nodeStack)
     
     // nodeType == 1 -> ELEMENT_NODE
-    if (nodeToExpand.nodeType == 1) {
+    if (nodeToExpand.nodeType == 1) {      
       // insert tag text
       appendSpanToOutput(getOutput4Element(nodeToExpand))
       
@@ -82,25 +82,55 @@ function walkDOM(dom)
       appendTextToOutput(getAttributeText(nodeToExpand))
       
       // check if node needs to be expanded
-      if ( nodeToExpand.lastChild != null && !isNodeExcluded(nodeToExpand) )
+      if ( !isNodeExcluded(nodeToExpand) && !isNodeHidden(nodeToExpand) )
       {
         // insert closing tag var node with text if necesary
         var closingText = getClosingText(nodeToExpand)
         if ( closingText != '' ) {
           nodeStack.push(closingText)
-        }        
+        }
+        
         // expand node
         nodeToExpand = nodeToExpand.lastChild
         while(nodeToExpand)
         {
           nodeStack.push(nodeToExpand)
           nodeToExpand = nodeToExpand.previousSibling
+        }       
+        
+        /*
+        var children = nodeToExpand.children
+        for( var i=children.length-1; i>=0; --i)
+        {
+          console.log(children[i].nodeType)
+          nodeStack.push(children[i])
+        }
+        */  
+        
+      }
+      else if (nodeToExpand.tagName == 'TABLE') {
+        console.log('Processing table')
+        var rows = nodeToExpand.rows
+        for( var i = rows.length-1; i>=0; --i )
+        {
+          nodeStack.push(rows[i])         
+        }
+      }
+      else if (nodeToExpand.tagName == 'IFRAME') {
+        if(nodeToExpand.contentDocument != null)
+        {	
+          nodeStack.push(nodeToExpand.contentDocument.getElementsByTagName('html')[0]);
+          var closingText = getClosingText(nodeToExpand)
+          if ( closingText != '' ) {
+            nodeStack.push(closingText)
+          }
         }
       }
     }
     // nodeType == 3 -> TEXT_NODE    
     else if(nodeToExpand.nodeType == 3)
     {
+      //console.log(nodeToExpand)
       // print textNode content
       appendTextToOutput(nodeToExpand.textContent + ' ')
     }
@@ -143,62 +173,94 @@ function getOutput4Element(node)
   
   switch(tagName) {
     case 'A':
+      // NVDA annouces if link have been visited
+      // it is not possible for javascript to detect if a link is visited in either Firefox or Chrome (security reasons)
+      // https://developer.mozilla.org/en-US/docs/Web/CSS/Privacy_and_the_:visited_selector
       addLink(node)
-      return 'Link'
+      return 'enlace'
     case 'ADDRESS':
-      return 'Addresss'
+      return ''
+    case 'AREA':
+      addLink(node)
+      return 'enlace '
     case 'ASIDE':
-      return 'Related content'
+      return 'complementario punto de referencia'
     case 'BLOCKQUOTE':
-      return 'Quotation'
+      return 'Cita'
+    case 'BUTTON':
+      return 'botón'
     case 'CITE':
-      return 'Quotation'
+      return ''
+    case 'DATALIST':
+      return 'subMenú tiene auto completado'
     case 'DL':
-      return ('Definition list of ' + countListNodes(node) + ' elements')
+      return 'lista  con  ' + countListNodes(node) + ' elementos'
     case 'FOOTER':
-      return 'Footer'
+      if (node.parentNode.nodeName == 'BODY') {
+        // NVDA only anounces the page footer
+        return 'información de contenido punto de referencia'
+      }
+      else return ''
     case 'HEADER':
-      return 'Header section'
+      return 'báner punto de referencia'
     case 'H1':
       addHeading(node)
-      return 'Heading one'    
+      return 'encabezado  nivel 1'    
     case 'H2':
       addHeading(node)
-      return 'Heading two'
+      return 'encabezado  nivel 2'
     case 'H3':
       addHeading(node)
-      return 'Heading three'
+      return 'encabezado  nivel 3'
     case 'H4':
       addHeading(node)
-      return 'Heading four'
+      return 'encabezado  nivel 4'
     case 'H5':
       addHeading(node)
-      return 'Heading five'
+      return 'encabezado  nivel 5'
     case 'H6':
       addHeading(node)
-      return 'Heading six'
+      return 'encabezado  nivel 6'
     case 'HR':
       return 'Separador'
     case 'IFRAME':
       return 'Marco en línea'
     case 'IMG':
-      return ('Image')
+      return ''
+    case 'INPUT':
+      return getInputNodeOutputText(node)
     case 'MAIN':
-      return 'Main content'
+      return 'principal punto de referencia'
     case 'MAP':
       return 'gráfico'
+    case 'METER':
+      return ''
     case 'NAV':
-      return 'Navigation Element'
+      return 'navegación punto de referencia'
     case 'OBJECT':
       return 'objeto integrado'
     case 'OL':
-      return ('Ordered list of ' + countListNodes(node) + ' elements')
+      return 'lista  con ' + countListNodes(node) + ' elementos'
     case 'PRE':
       return ''
+    case 'PROGRESS':
+      return 'barra de progreso'
     case 'Q':
-      return 'Quotation'
+      return ''
+    case 'SELECT':
+      return 'cuadro combinado ' + node.value // TODO: show if is expanded or not
+    case 'TABLE':
+      return 'tabla con ' + getNumRowsInTable(node) + ' filas y ' + getNumCellsInTable(node) + ' columnas'
+    case 'TD':
+      return 'columna ' + (node.cellIndex+1)
+    case 'TEXTAREA':
+      return 'edición  multi línea' 
+    case 'TH':
+      return 'columna ' + (node.cellIndex+1)
+    case 'TR':
+      return 'fila ' + (node.rowIndex+1)
     case 'UL':
-      return ('Unordered list of ' + countListNodes(node) + ' elements')
+      return 'lista  con ' + countListNodes(node) + ' elementos'
     default:
       return ''
   }
@@ -209,22 +271,75 @@ function getClosingText(node)
   var tagName = node.tagName
   switch (tagName) {
     case 'BLOCKQUOTE':
-      return 'End of quotation'
+      return 'fuera de cita'
     case 'CITE':
-      return 'End of quotation'
+      return ''
     case 'DL':
-      return 'End of definition list'
+      return 'fuera de lista'
     case 'IFRAME':
       return 'fuera de Marco en línea'
     case 'OL':
-      return 'End of ordered list'
+      return 'fuera de lista'
     case 'Q':
-      return 'End of quotation'
+      return ''
+    case 'TABLE':
+      return 'fuera de tabla'
     case 'UL':
-      return 'End of unordered list'
+      return 'fuera de lista'
     default:
       return ''
   }
+}
+
+function getInputNodeOutputText(node)
+{
+  var inputType = node.type
+  switch (inputType){
+    case 'button':
+      return 'botón ' + node.value
+    case 'checkbox':
+      return 'casilla de verificación ' + ((node.checked)? 'marcado' : 'no marcado')
+    case 'color':
+      return 'botón'
+    case 'date':
+      return 'edición ' + ((node.autocomplete != 'off')? 'tiene auto completado' : '')
+    case 'datetime':
+      return 'edición ' + ((node.autocomplete != 'off')? 'tiene auto completado' : '')
+    case 'datetime-local':
+      return 'edición ' + ((node.autocomplete != 'off')? 'tiene auto completado' : '')
+    case 'email':
+      return 'edición ' + ((node.autocomplete != 'off')? 'tiene auto completado' : '')
+    case 'file':
+      return 'botón' // TODO: get input button text and "no file selected" text
+    case 'image':
+      return 'botón ' + node.alt
+    case 'month':
+      return 'edición ' + ((node.autocomplete != 'off')? 'tiene auto completado' : '')
+    case 'number':
+      return 'Botón Giratorio edición'
+    case 'password':
+      return 'edición contraseña'
+    case 'radio':
+      return 'botón de opción  ' + ((node.checked)? 'marcado' : 'no marcado')
+    case 'range':
+      return 'deslizador ' + node.value
+    case 'reset':
+      return 'botón' // TODO: get reset button text
+    case 'search':
+      return 'edición ' + ((node.autocomplete != 'off')? 'tiene auto completado' : '')
+    case 'submit':
+      return 'botón' // TODO: get submit button text
+    case 'tel':
+      return 'edición ' + ((node.autocomplete != 'off')? 'tiene auto completado' : '')
+    case 'text':
+      return 'edición ' + ((node.autocomplete != 'off')? 'tiene auto completado' : '')
+    case 'url':
+      return 'edición ' + ((node.autocomplete != 'off')? 'tiene auto completado' : '')
+    case 'week':
+      return 'edición ' + ((node.autocomplete != 'off')? 'tiene auto completado' : '')
+    default:
+      return 'edición'
+  }  
 }
 
 
@@ -236,20 +351,23 @@ function isNodeExcluded(node) {
   
   var excludedTagNames = [
     'AUDIO', //???
-    'BASE',
-    'CANVAS', //???
+    'BASE', // specifies the base URL to use for all relative URLs contained within a document
+    'CANVAS', // draw graphics via scripting
     'DATA', // Only in WHATWG version of HTML, not in W3C. Just in case...
-    'EMBED', // tag defines a container for an external application or interactive content (a plug-in).
-    'HEAD',
+    'EMBED', // tag defines a container for an external application or interactive content (a plug-in)
+    'HEAD', //  specifies the base URL to use for all relative URLs contained within a document
     'IFRAME', // TODO: process iframe
-    'LINK',
-    'META',
+    'LINK', //  specifies relationships between the current document and an external resource
+    'META', // represents any metadata information that cannot be represented by one of the other HTML meta-related elements
     'NOSCRIPT',
-    'OBJECT', // tag defines an embedded multimedia object(like audio, video, Java applets, ActiveX, PDF, and Flash)
-    'PARAM', // tag is used to define parameters for plugins embedded with an <object> element
+    //'OBJECT', // tag defines an embedded multimedia object(like audio, video, Java applets, ActiveX, PDF, and Flash)
+              // TODO: Process MAP tag inside of object!
+    'OPTION',
+    'PARAM',  // tag is used to define parameters for plugins embedded with an <object> element
     'SCRIPT',
-    'STYLE',
-    'TITLE',
+    'STYLE', // contains style information for a document, or a part of document
+    'TABLE',
+    'TITLE', // defines the title of the document, shown in a browser's title bar or on the page's tab
     'VIDEO' //???    
   ]
   
@@ -280,12 +398,12 @@ function addLink(node)
 {
   var linkList = document.getElementById('link-list')
   var linkText = node.textContent
-  var linkURL = node.getAttribute('href');
+  var linkURL = node.getAttribute('href')
+  linkText += node.getAttribute('alt')
   
   var item = linkList.appendItem(linkText, '')
   item.ondblclick = function(){window.open(linkURL, '_blank')}
   
-  //console.log('append ' + linkText)  
   // TODO: APPEND IMAGE ALT TEXT (if exists <h1>text<img src="" alt="altText"></h1>) 
 }
 
@@ -293,11 +411,26 @@ function addLink(node)
 function getAttributeText(node) {
   var tagName = node.tagName
   switch (tagName) {
+    case 'AREA':
+      return node.getAttribute('alt')
     case 'IMG':
       return node.getAttribute('alt')
     default:
       return ''
   }
+}
+
+function getNumRowsInTable(table) {
+  return table.rows.length
+}
+
+function getNumCellsInTable(table) {
+  return table.rows[0].cells.length
+}
+
+function isNodeHidden(node)
+{
+  return (node.style.display == 'none' || node.style.visibility == 'hidden')
 }
 
 
