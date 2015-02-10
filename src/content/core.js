@@ -81,7 +81,7 @@ function walkDOM(dom)
       appendSpanToOutput(getOutput4Element(nodeToExpand))
       
       // insert text of revelant attributes
-      appendTextToOutput(getAttributeText(nodeToExpand))
+      appendTextToOutput(getRelevantInfo(nodeToExpand))
       
       // check if node needs to be expanded
       if ( !isNodeExcluded(nodeToExpand) && !isNodeHidden(nodeToExpand) )
@@ -196,73 +196,73 @@ function getOutput4Element(node)
     case 'DATALIST':
       return _NVDAStringBundle.getString('NVDA.output.datalist')
     case 'DL':
-      return 'lista  con  ' + countListNodes(node) + ' elementos'
+      return _NVDAStringBundle.getFormattedString('NVDA.output.list', [countListNodes(node)])
     case 'FOOTER':
       if (node.parentNode.nodeName == 'BODY') {
         // NVDA only anounces the page footer
-        return _NVDAStringBundle.getString('información de contenido punto de referencia')
+        return _NVDAStringBundle.getString('NVDA.output.body.footer')
       }
       else return ''
-    case 'HEADER':
-      return 'báner punto de referencia'
     case 'H1':
       addHeading(node)
-      return 'encabezado  nivel 1'    
+      return _NVDAStringBundle.getFormattedString('NVDA.output.heading.level', [1])
     case 'H2':
       addHeading(node)
-      return 'encabezado  nivel 2'
+      return _NVDAStringBundle.getFormattedString('NVDA.output.heading.level', [2])
     case 'H3':
       addHeading(node)
-      return 'encabezado  nivel 3'
+      return _NVDAStringBundle.getFormattedString('NVDA.output.heading.level', [3])
     case 'H4':
       addHeading(node)
-      return 'encabezado  nivel 4'
+      return _NVDAStringBundle.getFormattedString('NVDA.output.heading.level', [4])
     case 'H5':
       addHeading(node)
-      return 'encabezado  nivel 5'
+      return _NVDAStringBundle.getFormattedString('NVDA.output.heading.level', [5])
     case 'H6':
       addHeading(node)
-      return 'encabezado  nivel 6'
+      return _NVDAStringBundle.getFormattedString('NVDA.output.heading.level', [6])
+    case 'HEADER':
+      return _NVDAStringBundle.getString('NVDA.output.header')
     case 'HR':
-      return 'Separador'
+      return _NVDAStringBundle.getString('NVDA.output.hr')
     case 'IFRAME':
-      return 'Marco en línea'
+      return _NVDAStringBundle.getString('NVDA.output.iframe')
     case 'IMG':
       return ''
     case 'INPUT':
       return getInputNodeOutputText(node)
     case 'MAIN':
-      return 'principal punto de referencia'
+      return _NVDAStringBundle.getString('NVDA.output.main')
     case 'MAP':
-      return 'gráfico'
+      return _NVDAStringBundle.getString('NVDA.output.map')
     case 'METER':
       return ''
     case 'NAV':
-      return 'navegación punto de referencia'
+      return _NVDAStringBundle.getString('NVDA.output.nav')
     case 'OBJECT':
-      return 'objeto integrado'
+      return _NVDAStringBundle.getString('NVDA.output.object')
     case 'OL':
-      return 'lista  con ' + countListNodes(node) + ' elementos'
+      return _NVDAStringBundle.getFormattedString('NVDA.output.list', [countListNodes(node)])
     case 'PRE':
       return ''
     case 'PROGRESS':
-      return 'barra de progreso'
+      return _NVDAStringBundle.getString('NVDA.output.progress')
     case 'Q':
       return ''
     case 'SELECT':
-      return 'cuadro combinado ' + node.value // TODO: show if is expanded or not
+      return _NVDAStringBundle.getString('NVDA.output.select') // TODO: show if is expanded or not. Any sense???
     case 'TABLE':
-      return 'tabla con ' + getNumRowsInTable(node) + ' filas y ' + getNumCellsInTable(node) + ' columnas'
+      return _NVDAStringBundle.getFormattedString('NVDA.output.table', [getNumRowsInTable(node), getNumCellsInTable(node)])
     case 'TD':
-      return 'columna ' + (node.cellIndex+1)
+      return _NVDAStringBundle.getFormattedString('NVDA.output.table.column', [(node.cellIndex+1)])
     case 'TEXTAREA':
-      return 'edición  multi línea' 
+      return _NVDAStringBundle.getString('NVDA.output.textarea')
     case 'TH':
-      return 'columna ' + (node.cellIndex+1)
+      return _NVDAStringBundle.getFormattedString('NVDA.output.table.column', [(node.cellIndex+1)])
     case 'TR':
-      return 'fila ' + (node.rowIndex+1)
+      return _NVDAStringBundle.getFormattedString('NVDA.output.table.row', [(node.rowIndex+1)])
     case 'UL':
-      return 'lista  con ' + countListNodes(node) + ' elementos'
+      return _NVDAStringBundle.getFormattedString('NVDA.output.list', countListNodes(node))
     default:
       return ''
   }
@@ -273,21 +273,21 @@ function getClosingText(node)
   var tagName = node.tagName
   switch (tagName) {
     case 'BLOCKQUOTE':
-      return 'fuera de cita'
+      return  _NVDAStringBundle.getString('NVDA.output.quote.end')
     case 'CITE':
       return ''
     case 'DL':
-      return 'fuera de lista'
+      return _NVDAStringBundle.getString('NVDA.ouptut.list.end')
     case 'IFRAME':
-      return 'fuera de Marco en línea'
+      return _NVDAStringBundle.getString('NVDA.output.iframe.end')
     case 'OL':
-      return 'fuera de lista'
+      return _NVDAStringBundle.getString('NVDA.ouptut.list.end')
     case 'Q':
       return ''
     case 'TABLE':
-      return 'fuera de tabla'
+      return _NVDAStringBundle.getString('NVDA.output.table.end')
     case 'UL':
-      return 'fuera de lista'
+      return _NVDAStringBundle.getString('NVDA.ouptut.list.end')
     default:
       return ''
   }
@@ -298,52 +298,59 @@ function getInputNodeOutputText(node)
   var inputType = node.type
   switch (inputType){
     case 'button':
-      return 'botón ' + node.value
+      return _NVDAStringBundle.getString('NVDA.output.button')
     case 'checkbox':
-      return 'casilla de verificación ' + ((node.checked)? 'marcado' : 'no marcado')
+      return _NVDAStringBundle.getString('NVDA.output.input.checkbox') + ' ' + ((node.checked)? _NVDAStringBundle.getString('NVDA.output.input.checkbox.checked') : _NVDAStringBundle.getString('NVDA.output.input.checkbox.unchecked'))
     case 'color':
-      return 'botón'
+      return _NVDAStringBundle.getString('NVDA.output.button')
+    /*
     case 'date':
-      return 'edición ' + ((node.autocomplete != 'off')? 'tiene auto completado' : '')
+      return _NVDAStringBundle.getString('NVDA.output.input.text') + ((node.autocomplete != 'off')? _NVDAStringBundle.getString('NVDA.output.input.text.autocomplete') : '')
     case 'datetime':
-      return 'edición ' + ((node.autocomplete != 'off')? 'tiene auto completado' : '')
+      return _NVDAStringBundle.getString('NVDA.output.input.text') + ((node.autocomplete != 'off')? _NVDAStringBundle.getString('NVDA.output.input.text.autocomplete') : '')
     case 'datetime-local':
-      return 'edición ' + ((node.autocomplete != 'off')? 'tiene auto completado' : '')
+      return _NVDAStringBundle.getString('NVDA.output.input.text') + ((node.autocomplete != 'off')? _NVDAStringBundle.getString('NVDA.output.input.text.autocomplete') : '')
     case 'email':
-      return 'edición ' + ((node.autocomplete != 'off')? 'tiene auto completado' : '')
+      return _NVDAStringBundle.getString('NVDA.output.input.text') + ((node.autocomplete != 'off')? _NVDAStringBundle.getString('NVDA.output.input.text.autocomplete') : '')
+    */
     case 'file':
-      return 'botón' // TODO: get input button text and "no file selected" text
+      return _NVDAStringBundle.getString('NVDA.output.button') // TODO: get input button text and "no file selected" text
     case 'image':
-      return 'botón ' + node.alt
+      return _NVDAStringBundle.getString('NVDA.output.button')
+    /*
     case 'month':
-      return 'edición ' + ((node.autocomplete != 'off')? 'tiene auto completado' : '')
+      return _NVDAStringBundle.getString('NVDA.output.input.text') + ((node.autocomplete != 'off')? _NVDAStringBundle.getString('NVDA.output.input.text.autocomplete') : '')
+    */
     case 'number':
-      return 'Botón Giratorio edición'
+      return _NVDAStringBundle.getString('NVDA.output.input.number')
     case 'password':
-      return 'edición contraseña'
+      return _NVDAStringBundle.getString('NVDA.output.input.password')
     case 'radio':
-      return 'botón de opción  ' + ((node.checked)? 'marcado' : 'no marcado')
+      return _NVDAStringBundle.getString('NVDA.output.input.radio') + ' ' + ((node.checked)? _NVDAStringBundle.getString('NVDA.output.input.checkbox.checked') : _NVDAStringBundle.getString('NVDA.output.input.checkbox.unchecked'))
     case 'range':
-      return 'deslizador ' + node.value
+      return _NVDAStringBundle.getString('NVDA.output.input.range')
     case 'reset':
       return 'botón' // TODO: get reset button text
+    /*
     case 'search':
-      return 'edición ' + ((node.autocomplete != 'off')? 'tiene auto completado' : '')
+      return _NVDAStringBundle.getString('NVDA.output.input.text') + ((node.autocomplete != 'off')? _NVDAStringBundle.getString('NVDA.output.input.text.autocomplete') : '')
+    */
     case 'submit':
       return 'botón' // TODO: get submit button text
+    /*
     case 'tel':
-      return 'edición ' + ((node.autocomplete != 'off')? 'tiene auto completado' : '')
+      return _NVDAStringBundle.getString('NVDA.output.input.text') + ((node.autocomplete != 'off')? _NVDAStringBundle.getString('NVDA.output.input.text.autocomplete') : '')
     case 'text':
-      return 'edición ' + ((node.autocomplete != 'off')? 'tiene auto completado' : '')
+      return _NVDAStringBundle.getString('NVDA.output.input.text') + ((node.autocomplete != 'off')? _NVDAStringBundle.getString('NVDA.output.input.text.autocomplete') : '')
     case 'url':
-      return 'edición ' + ((node.autocomplete != 'off')? 'tiene auto completado' : '')
+      return _NVDAStringBundle.getString('NVDA.output.input.text') + ((node.autocomplete != 'off')? _NVDAStringBundle.getString('NVDA.output.input.text.autocomplete') : '')
     case 'week':
-      return 'edición ' + ((node.autocomplete != 'off')? 'tiene auto completado' : '')
+      return _NVDAStringBundle.getString('NVDA.output.input.text') + ((node.autocomplete != 'off')? _NVDAStringBundle.getString('NVDA.output.input.text.autocomplete') : '')
+    */
     default:
-      return 'edición'
+      return _NVDAStringBundle.getString('NVDA.output.input.text') + ' ' + ((node.autocomplete != 'off')? _NVDAStringBundle.getString('NVDA.output.input.text.autocomplete') : '') // TODO: maybe remove all cases with this input...
   }  
 }
-
 
 /**
  * Returns true if node should not be expanded
@@ -352,25 +359,23 @@ function isNodeExcluded(node) {
   var tag = node.tagName
   
   var excludedTagNames = [
-    'AUDIO', //???
-    'BASE', // specifies the base URL to use for all relative URLs contained within a document
-    'CANVAS', // draw graphics via scripting
-    'DATA', // Only in WHATWG version of HTML, not in W3C. Just in case...
-    'EMBED', // tag defines a container for an external application or interactive content (a plug-in)
-    'HEAD', //  specifies the base URL to use for all relative URLs contained within a document
-    'IFRAME', // TODO: process iframe
-    'LINK', //  specifies relationships between the current document and an external resource
-    'META', // represents any metadata information that cannot be represented by one of the other HTML meta-related elements
+    'AUDIO',    // Nothing to process here
+    'BASE',     // specifies the base URL to use for all relative URLs contained within a document
+    'CANVAS',   // draw graphics via scripting
+    'DATA',     // Only in WHATWG version of HTML, not in W3C. Just in case...
+    'EMBED',    // tag defines a container for an external application or interactive content (a plug-in)
+    'HEAD',     // specifies the base URL to use for all relative URLs contained within a document
+    'IFRAME',   // TODO: process iframe THIS IS EXPANDED MANUALLY
+    'LINK',     // specifies relationships between the current document and an external resource
+    'META',     // represents any metadata information that cannot be represented by one of the other HTML meta-related elements
     'NOSCRIPT',
-    //'OBJECT', // tag defines an embedded multimedia object(like audio, video, Java applets, ActiveX, PDF, and Flash)
-              // TODO: Process MAP tag inside of object!
     'OPTION',
-    'PARAM',  // tag is used to define parameters for plugins embedded with an <object> element
+    'PARAM',    // tag is used to define parameters for plugins embedded with an <object> element
     'SCRIPT',
-    'STYLE', // contains style information for a document, or a part of document
-    'TABLE',
-    'TITLE', // defines the title of the document, shown in a browser's title bar or on the page's tab
-    'VIDEO' //???    
+    'STYLE',    // contains style information for a document, or a part of document
+    'TABLE',    // THIS IS EXPANDED MANUALLY
+    'TITLE',    // defines the title of the document, shown in a browser's title bar or on the page's tab
+    'VIDEO'     // Nothing to process here   
   ]
   
   return ( excludedTagNames.indexOf(tag) > -1 )
@@ -401,7 +406,7 @@ function addLink(node)
   var linkList = document.getElementById('link-list')
   var linkText = node.textContent
   var linkURL = node.getAttribute('href')
-  linkText += node.getAttribute('alt')
+  linkText += ( (node.getAttribute('alt') != null)? node.getAttribute('alt') : '' ) // Get link title from alt attribute of AREA tag
   
   var item = linkList.appendItem(linkText, '')
   item.ondblclick = function(){window.open(linkURL, '_blank')}
@@ -409,14 +414,32 @@ function addLink(node)
   // TODO: APPEND IMAGE ALT TEXT (if exists <h1>text<img src="" alt="altText"></h1>) 
 }
 
-// Maybe rename to getImportantAttributeText
-function getAttributeText(node) {
+/**
+ * Returns relevant node information
+ * i.e: image alt attribute text,
+ *      input value,
+ *      etc...
+ */
+function getRelevantInfo(node) {
   var tagName = node.tagName
+  
   switch (tagName) {
     case 'AREA':
       return node.getAttribute('alt')
     case 'IMG':
       return node.getAttribute('alt')
+    case 'INPUT':
+      var inputType = node.type
+      switch (inputType) {      
+        case 'image':
+          return node.alt
+        case 'radio':
+          return ''
+        default:
+          return node.value
+      }
+    case 'SELECT':
+      return node.value
     default:
       return ''
   }
@@ -432,7 +455,5 @@ function getNumCellsInTable(table) {
 
 function isNodeHidden(node)
 {
-  return (node.style.display == 'none' || node.style.visibility == 'hidden')
+  //return (node.style.display == 'none' || node.style.visibility == 'hidden')
 }
-
-
