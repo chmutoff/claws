@@ -1,8 +1,8 @@
 # The name of the extension.
-extension_name := xulschoolhello
+extension_name := claws
 
 # The UUID of the extension.
-extension_uuid := helloworld@xulschool.com
+extension_uuid := claws@university.project
 
 # The name of the profile dir where the extension can be installed.
 profile_dir := dev
@@ -14,7 +14,7 @@ ZIP := zip
 bin_dir := ../bin
 
 # The target XPI file.
-xpi_file := $(bin_dir)/$(extension_name)2.xpi
+xpi_file := $(bin_dir)/$(extension_name).xpi
 
 # The type of operating system this make command is running on.
 os_type := $(patsubst darwin%,darwin,$(shell echo $(OSTYPE)))
@@ -56,9 +56,10 @@ clean:
 xpi_built := install.rdf \
              chrome.manifest \
              $(wildcard content/*.js) \
+             $(wildcard content/js/*.js) \
              $(wildcard content/*.xul) \
              $(wildcard content/*.xml) \
-	     $(wildcard content/*.html) \
+             $(wildcard content/*.html) \
              $(wildcard content/*.css) \
              $(wildcard skin/*.css) \
              $(wildcard skin/*.png) \

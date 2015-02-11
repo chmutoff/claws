@@ -1,14 +1,17 @@
 <?xml version="1.0"?>
-<!DOCTYPE window SYSTEM "chrome://xulschoolhello/locale/browserOverlay.dtd">
+
+<!DOCTYPE window SYSTEM 
+    "chrome://xulschoolhello/locale/claws.dtd">
+
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
-<!-- Extremely recommended to keep this css include!! -->
-<window id="mainWindow" title="Main window"
+
+<window id="clawsMainWindow" title="Claws - Screen reader emulator"
         onload="init();start();"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  <script type="application/x-javascript" src="chrome://xulschoolhello/content/core.js" />
+  <script type="application/x-javascript" src="chrome://claws/content/js/core.js" />
   <stringbundleset id="NVDAstringbundleset">
     <stringbundle id="NVDA-string-bundle"
-      src="chrome://xulschoolhello/locale/NVDA.properties" />
+      src="chrome://claws/locale/NVDA.properties" />
   </stringbundleset>
 
   <box orient="horizontal" flex="1">

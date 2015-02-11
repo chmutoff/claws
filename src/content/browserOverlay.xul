@@ -1,32 +1,23 @@
 <?xml version="1.0"?>
 
-<?xml-stylesheet type="text/css" href="chrome://global/skin/" ?>
-<?xml-stylesheet type="text/css"
-  href="chrome://xulschoolhello/skin/browserOverlay.css" ?>
-
 <!DOCTYPE overlay SYSTEM
-  "chrome://xulschoolhello/locale/browserOverlay.dtd">
+  "chrome://claws/locale/browserOverlay.dtd">
 
-<overlay id="xulschoolhello-browser-overlay"
-  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-
-  <script type="application/x-javascript"
-    src="chrome://xulschoolhello/content/browserOverlay.js" />
-
-  <stringbundleset id="stringbundleset">
-    <stringbundle id="xulschoolhello-string-bundle"
-      src="chrome://xulschoolhello/locale/browserOverlay.properties" />
-  </stringbundleset>
-  
-  // This is for the right click menu.
-  <popup id="contentAreaContextMenu">
-    <menuitem id="readingBearItem" label="&xulschoolhello.hello.label;" accesskey="&xulschoolhello.helloItem.accesskey;" oncommand="window.open('chrome://xulschoolhello/content/mainWindow.xul', 'TEST', 'menubar=1,close=1,minimizable=1,scrollbars=1,resizable=1');"/>
-  </popup>
-  
-  // This is for the Tools menu.
-  <menupopup id="menu_ToolsPopup">
-          <menuitem insertafter="devToolsSeparator" label="&xulschoolhello.hello.label;"
-          accesskey="&xulschoolhello.helloItem.accesskey;" oncommand="window.open('chrome://xulschoolhello/content/mainWindow.xul', 'TEST', 'menubar=1,close=1,minimizable=1,scrollbars=1,resizable=1');" />	
-  </menupopup>
-
+<overlay id="claws-browser-overlay" 
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+    <script type="application/x-javascript"
+        src="chrome://claws/content/js/browserOverlay.js" />
+ 
+    // Tools menu
+    <menupopup id="menu_ToolsPopup">
+          <menuitem insertafter="devToolsSeparator" label="&claws.menuItem.label;"
+            accesskey="&claws.menuItem.accesskey;" oncommand="ClawsChrome.BrowserOverlay.openClaws(event)" />	
+    </menupopup>
+    
+    // Right click menu
+    <popup id="contentAreaContextMenu">
+        <menuitem id="clawsMenuItem" label="&claws.menuItem.label;" accesskey="&claws.menuItem.accesskey;"       
+          oncommand="ClawsChrome.BrowserOverlay.openClaws(event)"/>
+    </popup> 
+    
 </overlay>
