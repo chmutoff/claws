@@ -56,11 +56,12 @@ clean:
 xpi_built := install.rdf \
              chrome.manifest \
              $(wildcard content/*.js) \
-             $(wildcard content/js/*.js) \
              $(wildcard content/*.xul) \
              $(wildcard content/*.xml) \
              $(wildcard content/*.html) \
              $(wildcard content/*.css) \
+	     $(wildcard defaults/preferences/*.js) \
+	     $(wildcard content/js/*.js) \
              $(wildcard skin/*.css) \
              $(wildcard skin/*.png) \
              $(wildcard locale/*/*.dtd) \

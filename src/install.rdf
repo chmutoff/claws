@@ -19,7 +19,7 @@
     </em:targetApplication>
    
     <!-- Front End MetaData -->
-    <em:name>CLAWS</em:name>
+    <em:name>Claws</em:name>
     <em:description>Screen reader emulator</em:description>
     <em:creator>Anton Chmutov</em:creator>
     <em:homepageURL>http://www.NoWebSiteYet.com/</em:homepageURL>
