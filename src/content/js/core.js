@@ -257,7 +257,7 @@ function TextFactory(){
 }
 
 
-var Claws = function(){
+function Claws(){
   var _iframe
   var _iframeDocument
   var _output
@@ -266,12 +266,7 @@ var Claws = function(){
   
   function init()
   {
-    //console.log('fn init')
-    _iframe = document.getElementById('output-iframe')
-    _iframeDocument = _iframe.contentDocument
-    _output = _iframeDocument.getElementById('screen-output')
-    _source = window.opener.content.document
-    
+    // Get the output functions for selected output mode
     var textFactory = new TextFactory();
     var application = Components.classes["@mozilla.org/fuel/application;1"].getService(Components.interfaces.fuelIApplication)
     var modePref = application.prefs.get("extensions.claws.output.mode")
@@ -279,6 +274,10 @@ var Claws = function(){
     _textProvider = textFactory.createTextProvider(mode)    
   }
   
+  /** Removes useless whitespace text nodes
+   * Source: http://reference.sitepoint.com/javascript/Node/normalize 
+   * by Alex Vincent
+   */
   function cleanWhitespace(node)
   {
     for (var i=0; i<node.childNodes.length; i++)
@@ -319,6 +318,8 @@ var Claws = function(){
   function walkDOM(dom){
     //console.log('walk dom')
     var nodeStack = new Array()
+    var output = window.opener.content.document.createElement('div')
+    output.style["line-height"] = '25px'
     cleanWhitespace(dom)
     nodeStack.push(dom)
   
@@ -329,10 +330,10 @@ var Claws = function(){
       // nodeType == 1 -> ELEMENT_NODE
       if (nodeToExpand.nodeType == 1) {      
         // insert tag text
-        appendSpanToOutput(_textProvider.getText(nodeToExpand))
+        appendSpanToOutput(_textProvider.getText(nodeToExpand), output)
         
         // insert text of revelant attributes
-        appendTextToOutput(_textProvider.getRelevantText(nodeToExpand))
+        appendTextToOutput(_textProvider.getRelevantText(nodeToExpand), output)
         
         // check if node needs to be expanded
         if ( !isNodeExcluded(nodeToExpand) && !isNodeHidden(nodeToExpand) ){
@@ -382,30 +383,31 @@ var Claws = function(){
       else if(nodeToExpand.nodeType == 3){
         //console.log(nodeToExpand)
         // print textNode content
-        appendTextToOutput(nodeToExpand.textContent + ' ')
+        appendTextToOutput(nodeToExpand.textContent + ' ', output)
       }
       // string contains tag closing announcement
       else if (typeof(nodeToExpand) == 'string'){
-        appendSpanToOutput(nodeToExpand)
+        appendSpanToOutput(nodeToExpand, output)
       }      
       //console.log(nodeStack)    
     }while(nodeStack.length > 0)
+    return output
   }
   
-  function appendTextToOutput(text){
+  function appendTextToOutput(text, output){
     if ( text != '' ){
-      var child = _iframeDocument.createTextNode(text + ' ')
-      _output.appendChild(child)
+      var child = window.opener.content.document.createTextNode(text + ' ')
+      output.appendChild(child)
     }
   }
   
-  function appendSpanToOutput(text){
+  function appendSpanToOutput(text, output){
     if ( text != '' ){
-      var spanNode = _iframeDocument.createElement('span')
+      var spanNode = window.opener.content.document.createElement('span')
       spanNode.className = 'tag-output'
-      var textNode = _iframeDocument.createTextNode(text)
+      var textNode = window.opener.content.document.createTextNode(text)
       spanNode.appendChild(textNode)
-      _output.appendChild(spanNode)
+      output.appendChild(spanNode)
     }
   }
   
@@ -444,78 +446,31 @@ var Claws = function(){
   }
   
   return {
-    start : function(){
+    start : function(source){
       init()
-      walkDOM(_source.body)
+      var output = walkDOM(source.body)
+      var iframe = document.getElementById('output-iframe').contentDocument
+      
+      // get user preferences for output style
+      var application = Components.classes["@mozilla.org/fuel/application;1"].getService(Components.interfaces.fuelIApplication)
+      var colorPref = application.prefs.get("extensions.claws.output.element.text.color")
+      var backgroundPref = application.prefs.get("extensions.claws.output.element.text.background") 
+     
+      // style for output
+      var style = iframe.createElement('style')
+      style.type = 'text/css'
+      style.innerHTML = '.tag-output{color: '+colorPref.value+'; background-color: '+backgroundPref.value+'; margin-right: 5px; padding: 2px 5px;}'
+      iframe.getElementsByTagName('head')[0].appendChild(style);
+      
+      // dump the output into iframe
+      iframe.body.appendChild(output)
+    },
+    getOutput : function(node)
+    {
+      init()
+      var output = walkDOM(source.body)
+      console.log(output)
     }
   }
   
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/**
- * Returns text for tags
- */
-function getText(node)
-{
-  
-}
-
-
-
-
-
