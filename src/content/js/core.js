@@ -119,7 +119,7 @@ var nvdaText = {
         case 'TR':
           return NVDAStringBundle.getFormattedString('NVDA.output.table.row', [(node.rowIndex+1)])
         case 'UL':
-          return NVDAStringBundle.getFormattedString('NVDA.output.list', countListNodes(node))
+          return NVDAStringBundle.getFormattedString('NVDA.output.list', [countListNodes(node)])
         default:
           return ''
       }
