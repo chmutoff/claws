@@ -6,23 +6,72 @@ function countListNodes(node){
 }
 
 function addHeading(node){
-  var headingList = document.getElementById('heading-list')
-  var headingText = node.textContent
-  headingList.appendItem(headingText, '')
+  // get heading text including all important atribute info like img alt text
+  var headingText = ''
+  var children = node.childNodes
+  // TODO: maybe refactor domWalker to append nodeList automatically
+  // TODO: maybe shoul use while loop instead of for...
+  for( var i=0; i<children.length; ++i )
+  {
+    var out = Claws().getOutput(children[i])
+    removeSpanFromOutput(out)
+    headingText += out.textContent
+  }
   
-  // TODO: APPEND IMAGE ALT TEXT (if exists <h1>text<img src="" alt="altText"></h1>) 
+  // add heading to the list
+  var headingList = document.getElementById('heading-list')
+  headingList.appendItem(cleanText(headingText), '')
 }
 
 function addLink(node){
+  // get link text including all important atribute info like img alt text
+  var linkText = ''
+  var children = node.childNodes
+  // TODO: maybe refactor domWalker to append nodeList automatically
+  // TODO: maybe shoul use while loop instead of for...
+  for( var i=0; i<children.length; ++i )
+  {
+    var out = Claws().getOutput(children[i])
+    removeSpanFromOutput(out)
+    linkText += out.textContent
+  }
+  
+  // Get link title from alt attribute of AREA tag
+  linkText += ( (node.getAttribute('alt') != null)? node.getAttribute('alt') : '' )
+  
+  // add link to the list
   var linkList = document.getElementById('link-list')
-  var linkText = node.textContent
-  var linkURL = node.getAttribute('href')
-  linkText += ( (node.getAttribute('alt') != null)? node.getAttribute('alt') : '' ) // Get link title from alt attribute of AREA tag
-  
-  var item = linkList.appendItem(linkText, '')
+  var item = linkList.appendItem(cleanText(linkText), '')
+  var linkURL = node.getAttribute('href') 
   item.ondblclick = function(){window.open(linkURL, '_blank')}
+}
+
+function removeSpanFromOutput(node)
+{
+  var spans = node.getElementsByTagName('span')
+  var span
+  while((span = spans[0]))
+  {
+    span.parentNode.removeChild(span)
+  }
+}
+
+/** Cleans an input text by removing all the multiple whitespaces and brakelines
+ * Source1: TextFixer (http://www.textfixer.com/tutorials/javascript-line-breaks.php)
+ * Source2: MDN Reference (http://www.textfixer.com/tutorials/javascript-line-breaks.php)
+ */
+function cleanText(text)
+{
+  //Replace all 3 types of line breaks with a space
+  text = text.replace(/(\r\n|\n|\r)/gm," ")
   
-  // TODO: APPEND IMAGE ALT TEXT (if exists <a>text<img src="" alt="altText"></a>) 
+  //Replace all double white spaces with single spaces
+  text = text.replace(/\s+/g," ")
+  
+  //Remove whitespace from both ends of a string
+  text = text.trim()
+  
+  return text;
 }
 
 var nvdaText = {
@@ -227,10 +276,10 @@ function TextFactory(){
 
 
 function Claws(){
-  var _iframe
-  var _iframeDocument
-  var _output
-  var _source  
+  //var _iframe
+  //var _iframeDocument
+  //var _output
+  //var _source  
   var _textProvider
   
   function init()
@@ -263,24 +312,6 @@ function Claws(){
       }
     }
     return node;
-  }
-  
-  /** Cleans an input text by removing all the multiple whitespaces and brakelines
-   * Source1: TextFixer (http://www.textfixer.com/tutorials/javascript-line-breaks.php)
-   * Source2: MDN Reference (http://www.textfixer.com/tutorials/javascript-line-breaks.php)
-   */
-  function cleanText(text)
-  {
-    //Replace all 3 types of line breaks with a space
-    text = text.replace(/(\r\n|\n|\r)/gm," ")
-    
-    //Replace all double white spaces with single spaces
-    text = text.replace(/\s+/g," ")
-    
-    //Remove whitespace from both ends of a string
-    text = text.trim()
-    
-    return text;
   }
   
   /** THIS IS THE MAIN FUNCTION (: */
@@ -467,9 +498,8 @@ function Claws(){
     getOutput : function(node)
     {
       init()
-      var output = walkDOM(source.body)
-      console.log(output)
+      var output = walkDOM(node)
+      return output
     }
-  }
-  
+  }  
 }
