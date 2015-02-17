@@ -74,6 +74,26 @@ function cleanText(text)
   return text;
 }
 
+function getNumRowsInTable(table) {
+  return table.rows.length
+}
+
+function getNumCellsInTable(table) {
+  return table.rows[0].cells.length
+}
+
+function getCellHeading(node) {
+  // table -> tr -> td
+  if (node.parentNode.rowIndex != 0 && node.parentNode.parentNode.tagName == 'TABLE'){
+    return node.parentNode.parentNode.getElementsByTagName('th')[node.cellIndex].textContent
+  }
+  // table -> tbody|tfoot -> td
+  else if (node.parentNode.rowIndex != 0 && node.parentNode.parentNode.parentNode.tagName == 'TABLE'){
+    return node.parentNode.parentNode.parentNode.getElementsByTagName('th')[node.cellIndex].textContent
+  }
+  else return ''
+}
+
 var nvdaText = {
   getNvdaText : function(node){
     var NVDAStringBundle = document.getElementById('NVDA-string-bundle');
@@ -160,11 +180,11 @@ var nvdaText = {
       case 'TABLE':
         return NVDAStringBundle.getFormattedString('NVDA.output.table', [getNumRowsInTable(node), getNumCellsInTable(node)])
       case 'TD':
-        return NVDAStringBundle.getFormattedString('NVDA.output.table.column', [(node.cellIndex+1)])
+        return getCellHeading(node) + ' ' +  NVDAStringBundle.getFormattedString('NVDA.output.table.column', [(node.cellIndex+1)])
       case 'TEXTAREA':
         return NVDAStringBundle.getString('NVDA.output.textarea')
       case 'TH':
-        return NVDAStringBundle.getFormattedString('NVDA.output.table.column', [(node.cellIndex+1)])
+        return getCellHeading(node) + ' ' +  NVDAStringBundle.getFormattedString('NVDA.output.table.column', [(node.cellIndex+1)])
       case 'TR':
         return NVDAStringBundle.getFormattedString('NVDA.output.table.row', [(node.rowIndex+1)])
       case 'UL':
@@ -276,10 +296,6 @@ function TextFactory(){
 
 
 function Claws(){
-  //var _iframe
-  //var _iframeDocument
-  //var _output
-  //var _source  
   var _textProvider
   
   function init()
@@ -349,23 +365,18 @@ function Claws(){
           {
             nodeStack.push(nodeToExpand)
             nodeToExpand = nodeToExpand.previousSibling
-          }       
-          
-          /*
-          var children = nodeToExpand.children
-          for( var i=children.length-1; i>=0; --i)
-          {
-            console.log(children[i].nodeType)
-            nodeStack.push(children[i])
           }
-          */            
         }
         else if (nodeToExpand.tagName == 'TABLE') {
-          console.log('Processing table')
+          // get table rows in a correct order (tfoot can be before tbody)          
           var rows = nodeToExpand.rows
           for( var i = rows.length-1; i>=0; --i )
           {
             nodeStack.push(rows[i])         
+          }
+          // table can have a caption
+          if (nodeToExpand.getElementsByTagName('caption')[0] != null) {
+            nodeStack.push(nodeToExpand.getElementsByTagName('caption')[0])
           }
         }
         else if (nodeToExpand.tagName == 'IFRAME') {
@@ -411,7 +422,7 @@ function Claws(){
     }
   }
   
-    /** Returns relevant node information
+  /** Returns relevant node information
    * i.e: image alt attribute text,
    *      input value,
    *      etc...
@@ -436,6 +447,8 @@ function Claws(){
         }
       case 'SELECT':
         return node.value
+      case 'TABLE':
+        return node.summary
       default:
         return ''
     }
