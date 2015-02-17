@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>    
+    <title>HTML Hidden content</title>
+    <meta charset="utf-8"/>
+</head>
+
+<body>
+    
+    <h1>Hidden content testing</h1>
+    
+    <p>script</p>
+    <script type="text/javascript">
+        //this should not be processed!
+        console.log('Hello console!')
+        var a = 'bla bla bla...'
+        console.log(a)
+    </script>
+    
+    <p>Div with visibility:hidden</p>
+    <div style="visibility: hidden;"><p>Hidden div XD</p><span>This is not visible!</span></div>
+    
+    <p>Div with display:none</p>
+    <div style="display: none;"><p>Another hidden div (:</p><span>This is not visible neither!</span></div>
+    
+    <p>Div with hidden attribute</p>
+    <div hidden="true">Found this div in Firefox home page.</div>
+    
+    <p>Form with hidden field</p>
+    <form name="hidden-form" action="none.php" method="POST">
+        <div>
+            <input type="text" size="25" value="Visible field">
+            <input type="hidden" name="not-visible" value="Hidden field!">
+        </div>
+    </form>
+    
+</body>
+</html>

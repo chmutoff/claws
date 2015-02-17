@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <!DOCTYPE window SYSTEM 
-    "chrome://xulschoolhello/locale/claws.dtd">
+    "chrome://claws/locale/claws.dtd">
 
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 

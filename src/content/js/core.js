@@ -97,9 +97,9 @@ function getCellHeading(node) {
 var nvdaText = {
   getNvdaText : function(node){
     var NVDAStringBundle = document.getElementById('NVDA-string-bundle');
-    var tagName = node.tagName
+    var tagName = node.tagName.toUpperCase()
     
-    switch(tagName) {
+    switch(tagName){
       case 'A':
         // NVDA annouces if link have been visited
         // it is not possible for javascript to detect if a link is visited in either Firefox or Chrome (security reasons)
@@ -156,7 +156,7 @@ var nvdaText = {
       case 'IMG':
         return ''
       case 'INPUT':
-        return getInputText(node)
+        return nvdaText.getInputNvdaText(node)
       case 'MAIN':
         return NVDAStringBundle.getString('NVDA.output.main')
       case 'MAP':
@@ -196,7 +196,7 @@ var nvdaText = {
   
   getClosingNvdaText : function(node){
     var NVDAStringBundle = document.getElementById('NVDA-string-bundle');
-    var tagName = node.tagName
+    var tagName = node.tagName.toUpperCase()
     switch (tagName) {
       case 'BLOCKQUOTE':
         return  NVDAStringBundle.getString('NVDA.output.quote.end')
@@ -221,7 +221,7 @@ var nvdaText = {
   
   getInputNvdaText : function(node){
     var NVDAStringBundle = document.getElementById('NVDA-string-bundle');
-    var inputType = node.type
+    var inputType = node.type.toUpperCase()
     switch (inputType){
       case 'button':
         return NVDAStringBundle.getString('NVDA.output.button')
@@ -241,6 +241,8 @@ var nvdaText = {
       */
       case 'file':
         return NVDAStringBundle.getString('NVDA.output.button') // TODO: get input button text and "no file selected" text
+      case 'hidden':
+        return ''
       case 'image':
         return NVDAStringBundle.getString('NVDA.output.button')
       /*
@@ -344,21 +346,24 @@ function Claws(){
       //console.log(nodeStack)
       
       // nodeType == 1 -> ELEMENT_NODE
-      if (nodeToExpand.nodeType == 1) {      
+      if ( nodeToExpand.nodeType == 1
+            && !isNodeHidden(nodeToExpand)) {      
         // insert tag text
         appendSpanToOutput(_textProvider.getText(nodeToExpand), output)
         
-        // insert text of revelant attributes
+        // insert text of relevant attributes
         appendTextToOutput(getRelevantText(nodeToExpand), output)
         
         // check if node needs to be expanded
-        if ( !isNodeExcluded(nodeToExpand) && !isNodeHidden(nodeToExpand) ){
+        if ( !isNodeExcluded(nodeToExpand) ){
+          //console.log('Expanding: ' + nodeToExpand.tagName)
           // insert closing tag var node with text if necesary
-          var closingText = _textProvider.getClosingText(nodeToExpand)
-          if ( closingText != '' ) {
+          var closingText = {}
+          closingText.textContent = _textProvider.getClosingText(nodeToExpand)
+          if ( closingText.textContent != '' ) {
+            closingText.nodeType = 'closingText'
             nodeStack.push(closingText)
-          }
-          
+          }          
           // expand node
           nodeToExpand = nodeToExpand.lastChild
           while(nodeToExpand)
@@ -370,21 +375,21 @@ function Claws(){
         else if (nodeToExpand.tagName == 'TABLE') {
           // get table rows in a correct order (tfoot can be before tbody)          
           var rows = nodeToExpand.rows
-          for( var i = rows.length-1; i>=0; --i )
+          for( var i=rows.length-1; i>=0; --i )
           {
-            nodeStack.push(rows[i])         
+            nodeStack.push(rows[i])        
           }
           // table can have a caption
           if (nodeToExpand.getElementsByTagName('caption')[0] != null) {
             nodeStack.push(nodeToExpand.getElementsByTagName('caption')[0])
           }
         }
-        else if (nodeToExpand.tagName == 'IFRAME') {
+        else if (nodeToExpand.tagName == 'IFRAME'){
           if(nodeToExpand.contentDocument != null)
           {	
             nodeStack.push(nodeToExpand.contentDocument.getElementsByTagName('html')[0]);
             var closingText = _textProvider.getClosingText(nodeToExpand)
-            if ( closingText != '' ) {
+            if ( closingText != '' ){
               nodeStack.push(closingText)
             }
           }
@@ -397,8 +402,8 @@ function Claws(){
         appendTextToOutput(nodeToExpand.textContent + ' ', output)
       }
       // string contains tag closing announcement
-      else if (typeof(nodeToExpand) == 'string'){
-        appendSpanToOutput(nodeToExpand, output)
+      else if (nodeToExpand.nodeType == 'closingText'){
+        appendSpanToOutput(nodeToExpand.textContent, output)
       }      
       //console.log(nodeStack)    
     }while(nodeStack.length > 0)
@@ -428,7 +433,7 @@ function Claws(){
    *      etc...
    */
   function getRelevantText(node){
-    var tagName = node.tagName
+    var tagName = node.tagName.toUpperCase()
   
     switch (tagName) {
       case 'AREA':
@@ -437,7 +442,9 @@ function Claws(){
         return node.getAttribute('alt')
       case 'INPUT':
         var inputType = node.type
-        switch (inputType) {      
+        switch (inputType) {
+          case 'hidden':
+            return ''
           case 'image':
             return node.alt
           case 'radio':
@@ -458,7 +465,7 @@ function Claws(){
    * Returns true if node should not be expanded
    */
   function isNodeExcluded(node) {
-    var tag = node.tagName
+    var tag = node.tagName.toUpperCase()
    
     var excludedTagNames = [
       'AUDIO',    // Nothing to process here
@@ -479,13 +486,24 @@ function Claws(){
       'TITLE',    // defines the title of the document, shown in a browser's title bar or on the page's tab
       'VIDEO'     // Nothing to process here   
     ]
-   
+    /*
+    if (excludedTagNames.indexOf(tag) > -1) {
+      console.log('tag should be exluded: ' + tag)
+    }
+    */
     return ( excludedTagNames.indexOf(tag) > -1 )   
   }
   
+  /** Determines whether the node is visible or not
+   *
+   * 1st case -> style="display:none"
+   * 2nd case -> style="visibility:hidden"
+   * 3rd case -> hidden="true"s
+   * Note: hidden inputs are controlled by input text functions
+   */
   function isNodeHidden(node)
   {
-    //return (node.style.display == 'none' || node.style.visibility == 'hidden')
+    return (node.style.display == 'none' || node.style.visibility == 'hidden' || node.hidden == true)
   }
   
   return {
