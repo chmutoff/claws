@@ -1,11 +1,8 @@
 console.log('core.js loaded')
 // TODO: replace some var for let (if necesary)
 
-Components.utils.import("resource://claws/helper.js");
-
-function countListNodes(node){
-  return node.childNodes.length
-}
+Components.utils.import('resource://claws/helper.js');
+Components.utils.import('resource://claws/generalText.js');
 
 function addHeading(node){
   // get heading text including all important atribute info like img alt text
@@ -16,7 +13,7 @@ function addHeading(node){
   for( var i=0; i<children.length; ++i )
   {
     var out = Claws().getOutput(children[i])
-    removeSpanFromOutput(out)
+    generalText.removeSpansFromNode(out)
     headingText += out.textContent
   }
   
@@ -34,7 +31,7 @@ function addLink(node){
   for( var i=0; i<children.length; ++i )
   {
     var out = Claws().getOutput(children[i])
-    removeSpanFromOutput(out)
+    generalText.removeSpansFromNode(out)
     linkText += out.textContent
   }
   
@@ -48,38 +45,6 @@ function addLink(node){
   var item = linkList.appendItem(linkText, '')
  
   item.ondblclick = function(){window.open(linkURL, '_blank')}
-}
-
-function removeSpanFromOutput(node)
-{
-  var spans = node.getElementsByTagName('span')
-  var span
-  while((span = spans[0]))
-  {
-    span.parentNode.removeChild(span)
-  }
-}
-
-
-
-function getNumRowsInTable(table) {
-  return table.rows.length
-}
-
-function getNumCellsInTable(table) {
-  return table.rows[0].cells.length
-}
-
-function getCellHeading(node) {
-  // table -> tr -> td
-  if (node.parentNode.rowIndex != 0 && node.parentNode.parentNode.tagName == 'TABLE'){
-    return node.parentNode.parentNode.getElementsByTagName('th')[node.cellIndex].textContent
-  }
-  // table -> tbody|tfoot -> td
-  else if (node.parentNode.rowIndex != 0 && node.parentNode.parentNode.parentNode.tagName == 'TABLE'){
-    return node.parentNode.parentNode.parentNode.getElementsByTagName('th')[node.cellIndex].textContent
-  }
-  else return ''
 }
 
 var nvdaText = {
@@ -268,6 +233,9 @@ var nvdaText = {
     } 
   },
 }
+
+// iheritance! this is awesome (:
+nvdaText.__proto__ = generalText
 
 function TextFactory(){
   this.createTextProvider = function(mode){
