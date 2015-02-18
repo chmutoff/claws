@@ -11,14 +11,14 @@
     // Tools menu
     <menupopup id="menu_ToolsPopup">
           <menuitem insertafter="devToolsSeparator" label="&claws.menuItem.label;"
-            class="menuitem-iconic" image="chrome://claws/content/icons/claws32.png"
+            class="menuitem-iconic" image="chrome://claws/skin/claws32.png"
             accesskey="&claws.menuItem.accesskey;" oncommand="ClawsChrome.BrowserOverlay.openClaws(event)" />	
     </menupopup>
     
     // Right click menu
     <popup id="contentAreaContextMenu">
         <menuitem id="clawsMenuItem" label="&claws.menuItem.label;" accesskey="&claws.menuItem.accesskey;"
-          class="menuitem-iconic" image="chrome://claws/content/icons/claws32.png"
+          class="menuitem-iconic" image="chrome://claws/skin/claws32.png"
           oncommand="ClawsChrome.BrowserOverlay.openClaws(event)"/>
     </popup> 
     

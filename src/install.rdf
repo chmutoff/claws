@@ -22,6 +22,9 @@
     <em:name>Claws</em:name>
     <em:description>Screen reader emulator</em:description>
     <em:creator>Anton Chmutov</em:creator>
-    <em:homepageURL>http://www.NoWebSiteYet.com/</em:homepageURL>
+    <em:contributor>Sergio Luján Mora</em:contributor>
+    <em:homepageURL>https://github.com/chmutoff/claws</em:homepageURL>
+    <em:iconURL>chrome://claws/skin/claws32.png</em:iconURL>
+    <em:optionsURL>chrome://claws/content/settings.xul</em:optionsURL>
   </Description>      
 </RDF>
