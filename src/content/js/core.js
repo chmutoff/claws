@@ -356,16 +356,19 @@ function Claws(){
         // insert text of relevant attributes
         appendTextToOutput(getRelevantText(nodeToExpand), output)
         
+        // insert closing tag var node with text if necesary
+        var closingText = {
+          nodeType : 'closingText',
+          textContent : _textProvider.getClosingText(nodeToExpand)
+        }
+        if ( closingText.textContent != '' ) {
+          //console.log('closing object:' + closingText.textContent)
+          nodeStack.push(closingText)
+        } 
+        
         // check if node needs to be expanded
         if ( !isNodeExcluded(nodeToExpand) ){
           //console.log('Expanding: ' + nodeToExpand.tagName)
-          // insert closing tag var node with text if necesary
-          var closingText = {}
-          closingText.textContent = _textProvider.getClosingText(nodeToExpand)
-          if ( closingText.textContent != '' ) {
-            closingText.nodeType = 'closingText'
-            nodeStack.push(closingText)
-          }          
           // expand node
           nodeToExpand = nodeToExpand.lastChild
           while(nodeToExpand)
@@ -377,6 +380,7 @@ function Claws(){
         else if (nodeToExpand.tagName == 'TABLE') {
           // get table rows in a correct order (tfoot can be before tbody)          
           var rows = nodeToExpand.rows
+          // add rows to stack
           for( var i=rows.length-1; i>=0; --i )
           {
             nodeStack.push(rows[i])        
@@ -388,12 +392,9 @@ function Claws(){
         }
         else if (nodeToExpand.tagName == 'IFRAME'){
           if(nodeToExpand.contentDocument != null)
-          {	
-            nodeStack.push(nodeToExpand.contentDocument.getElementsByTagName('html')[0]);
-            var closingText = _textProvider.getClosingText(nodeToExpand)
-            if ( closingText != '' ){
-              nodeStack.push(closingText)
-            }
+          {
+            cleanWhitespace(nodeToExpand.contentDocument.body)
+            nodeStack.push(nodeToExpand.contentDocument.body);
           }
         }
       }
