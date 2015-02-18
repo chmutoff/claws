@@ -37,12 +37,14 @@ function addLink(node){
   }
   
   // Get link title from alt attribute of AREA tag
-  linkText += ( (node.getAttribute('alt') != null)? node.getAttribute('alt') : '' )
+  linkText += ( node.hasAttribute('alt') ? node.alt : '' )
   
   // add link to the list
   var linkList = document.getElementById('link-list')
-  var item = linkList.appendItem(cleanText(linkText), '')
   var linkURL = node.getAttribute('href') 
+  linkText = ( linkText != '' ) ? cleanText(linkText) : linkURL // if link has no text show href text
+  var item = linkList.appendItem(linkText, '')
+ 
   item.ondblclick = function(){window.open(linkURL, '_blank')}
 }
 
@@ -437,9 +439,9 @@ function Claws(){
   
     switch (tagName) {
       case 'AREA':
-        return node.getAttribute('alt')
+        return node.alt
       case 'IMG':
-        return node.getAttribute('alt')
+        return node.alt
       case 'INPUT':
         var inputType = node.type
         switch (inputType) {
@@ -499,11 +501,18 @@ function Claws(){
    * 1st case -> style="display:none"
    * 2nd case -> style="visibility:hidden"
    * 3rd case -> hidden="true"s
+   * 4th case -> computedStyle "display:none"
+   * 5th case -> computedStyle "visibility:hidden"
    * Note: hidden inputs are controlled by input text functions
    */
   function isNodeHidden(node)
   {
-    return (node.style.display == 'none' || node.style.visibility == 'hidden' || node.hidden == true)
+    return (node.style.display == 'none'
+              || node.style.visibility == 'hidden'
+                || node.hidden == true
+                  || window.opener.getComputedStyle(node, '').display == 'none'
+                    || window.opener.getComputedStyle(node, '').visibility == 'hidden'
+    )
   }
   
   return {
