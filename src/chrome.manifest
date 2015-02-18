@@ -2,5 +2,6 @@ content         claws                   content/
 skin            claws   classic/1.0     skin/
 locale          claws   en-UK           locale/en-UK/
 locale          claws   es-ES           locale/es-ES/
+resource        claws                   modules/
 
 overlay chrome://browser/content/browser.xul chrome://claws/content/browserOverlay.xul
