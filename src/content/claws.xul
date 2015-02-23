@@ -1,30 +1,28 @@
 <?xml version="1.0"?>
-
-<!DOCTYPE window SYSTEM 
-    "chrome://claws/locale/claws.dtd">
-
+<!DOCTYPE window SYSTEM "chrome://claws/locale/claws.dtd">
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
-
-<window id="claws-main-window" title="&claws.window.title;"
-        onload="Claws().start(window.opener.content.document)"
-        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-        hidechrome="true"> 
-  <script type="application/x-javascript" src="chrome://claws/content/js/core.js" />
-  <stringbundleset id="NVDAstringbundleset">
-    <stringbundle id="NVDA-string-bundle"
-      src="chrome://claws/locale/NVDA.properties" />
+<!-- Extremely recommended to keep this css include!! -->
+<window id="claws-main-window"
+        title="&claws.window.title;"
+        onload="start(window.opener)"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"> 
+  
+  <script type="application/x-javascript" src="chrome://claws/content/js/claws.js" />
+  
+  <stringbundleset id="stringbundleset">
+    <stringbundle id="NVDA-string-bundle" src="chrome://claws/locale/NVDA.properties" />
   </stringbundleset>
   
   <menubar id="claws-menubar">
     <menu id="claws-file-menu" label="File">
-      <menupopup id="action-popup">
+      <menupopup id="file-popup">
         <menuitem label="Close" oncommand="window.close()"/>
       </menupopup>
     </menu>
     <menu id="claws-tools-menu" label="Tools">
       <menupopup id="tools-popup">
-        <menuitem label="Links" oncommand="window.open('chrome://claws/content/links.xul', 'Links', 'menubar=1,close=1,minimizable=1,scrollbars=1,resizable=1');"/>
-        <menuitem label="Headings"/>
+        <menuitem label="Links" oncommand="openLinksWindow()"/>
+        <menuitem label="Headings" oncommand="openHeadingsWindow()"/>
       </menupopup>
     </menu>
   </menubar>
@@ -32,8 +30,7 @@
   <box orient="horizontal" flex="1">
     <iframe id="output-iframe" flex="1" type="content" src="about:blank"/>
   </box>
-  
-  <listbox id="heading-list"></listbox>
-  <listbox id="link-list"></listbox>
-
+  <vbox>
+    <listbox id="links-list"></listbox>
+  </vbox>
 </window>

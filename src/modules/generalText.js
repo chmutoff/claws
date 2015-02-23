@@ -3,15 +3,7 @@ var EXPORTED_SYMBOLS = ['generalText']
 var generalText = {
     countListNodes: function(node) {
         return node.childNodes.length
-    },
-
-    removeSpansFromNode: function(node) {
-        var spans = node.getElementsByTagName('span')
-        var span
-        while ((span = spans[0])) {
-            span.parentNode.removeChild(span)
-        }
-    },
+    },    
 
     getNumRowsInTable: function(table) {
         return table.rows.length
