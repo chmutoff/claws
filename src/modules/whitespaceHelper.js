@@ -1,8 +1,11 @@
 var EXPORTED_SYMBOLS = ['cleanWhitespace', 'cleanText']
 
-/** Removes useless whitespace text nodes
- * Source: http://reference.sitepoint.com/javascript/Node/normalize 
- * by Alex Vincent
+/**
+ * Removes useless whitespace text nodes
+ * 
+ * @param {DOM Node} node which contains whitespace child nodes
+ * @returns {DOM Node} clean node
+ * Source: http://reference.sitepoint.com/javascript/Node/normalize
  */
 
 function cleanWhitespace(node) {
@@ -19,7 +22,11 @@ function cleanWhitespace(node) {
     return node;
 }
 
-/** Cleans an input text by removing all the multiple whitespaces and brakelines
+/**
+ * Cleans an input text by removing all the multiple whitespaces and brakelines
+ * 
+ * @param {string} text to clean
+ * @returns {string} clean text
  * Source1: TextFixer (http://www.textfixer.com/tutorials/javascript-line-breaks.php)
  * Source2: MDN Reference (http://www.textfixer.com/tutorials/javascript-line-breaks.php)
  */

@@ -1,3 +1,6 @@
+/**
+ * Renders headings list
+ */
 function renderHeadingsList() {
     if('arguments' in window && window.arguments.length > 0) {
         var headingsList = window.arguments[0].headingsList

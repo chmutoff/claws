@@ -1,8 +1,23 @@
-var EXPORTED_SYMBOLS = ['NvdaText']
-Components.utils.import('resource://claws/generalText.js');
+var EXPORTED_SYMBOLS = ['NvdaOutput']
+Components.utils.import('resource://claws/outputHelper.js')
 
-function NvdaText(stringBundle)
+/**
+ * Creates an output class for NVDA mode
+ *
+ * NOTE: all the tag names are transfromed to upper case because
+ * depending on doctype they could be in lower/upper case
+ *
+ * @param {Object} stringBundle contains all the localized strings
+ * @returns {Object} functions to generate all the output
+ */
+function NvdaOutput(stringBundle)
 {
+    /**
+     * Generates text output for HTML5 tags
+     *
+     * @param {DOM Node} node which tag is analyzed
+     * @returns {String} Text string as NVDA scren reader would do
+     */
     function getNvdaText(node){
         var tagName = node.tagName.toUpperCase()
         
@@ -65,7 +80,7 @@ function NvdaText(stringBundle)
             case 'SELECT':
                 return stringBundle.getString('NVDA.output.select')
             case 'TABLE':
-                return stringBundle.getFormattedString('NVDA.output.table', [generalText.getNumRowsInTable(node), generalText.getNumCellsInTable(node)])
+                return stringBundle.getFormattedString('NVDA.output.table', [generalText.getNumRowsInTable(node), generalText.getNumColumnsInTable(node)])
             case 'TD':
                 return generalText.getCellHeading(node) + ' ' +  stringBundle.getFormattedString('NVDA.output.table.column', [(node.cellIndex+1)])
             case 'TEXTAREA':
@@ -80,7 +95,14 @@ function NvdaText(stringBundle)
                 return ''
         }
     }
-  
+    
+    /**
+     * Generates text output for HTML5 closing tags
+     * because elements has output text for closing tag
+     *
+     * @param {DOM Node} node which tag is analyzed
+     * @returns {String} Text string as NVDA scren reader would do
+     */
     function getClosingNvdaText(node){
         var tagName = node.tagName.toUpperCase()
         switch (tagName) {
@@ -100,7 +122,13 @@ function NvdaText(stringBundle)
                 return ''
         }
     }
-      
+    
+    /**
+     * Generates text output for <input type="..."> HTML5 element
+     *
+     * @param {DOM Node} input node which type is analyzed
+     * @returns {String} Text string as NVDA scren reader would do
+     */
     function getInputNvdaText(node){
         var inputType = node.type.toUpperCase()
         switch (inputType){

@@ -1,11 +1,5 @@
-# The name of the extension.
-extension_name := claws
-
 # The UUID of the extension.
 extension_uuid := claws@university.project
-
-# The name of the profile dir where the extension can be installed.
-profile_dir := dev
 
 # The zip application to be used.
 ZIP := zip
@@ -14,29 +8,7 @@ ZIP := zip
 bin_dir := ../bin
 
 # The target XPI file.
-xpi_file := $(bin_dir)/$(extension_name).xpi
-
-# The type of operating system this make command is running on.
-os_type := $(patsubst darwin%,darwin,$(shell echo $(OSTYPE)))
-
-# The location of the extension profile.
-ifeq ($(os_type), darwin)
-  profile_location := \
-    ~/Library/Application\ Support/Firefox/Profiles/$(profile_dir)/extensions/\{$(extension_uuid)\}
-else
-  ifeq ($(os_type), linux-gnu)
-    profile_location := \
-      ~/.mozilla/firefox/$(profile_dir)/extensions/\{$(extension_uuid)\}
-  else
-    profile_location := \
-       "$(subst \,\\,$(APPDATA))\\Mozilla\\Firefox\\Profiles\\$(profile_dir)\\extensions\\$(extension_uuid).xpi"
-      #"$(subst \,\\,$(APPDATA))\\Mozilla\\Firefox\\Profiles\\$(profile_dir)\\extensions\\{$(extension_uuid)}"
-  endif
-endif
-
-# The temporary location where the extension tree will be copied and built.
-build_dir := $(bin_dir)
-#build_dir := $(bin_dir)/build
+xpi_file := $(bin_dir)/$(extension_uuid).xpi
 
 # This builds the extension XPI file.
 .PHONY: all
@@ -48,34 +20,24 @@ all: $(xpi_file)
 # This cleans all temporary files and directories created by 'make'.
 .PHONY: clean
 clean:
-	@rm -rf $(build_dir)
 	@rm -f $(xpi_file)
 	@echo "Cleanup is done."
 
 # The sources for the XPI file.
 xpi_built := install.rdf \
-             chrome.manifest \
-             $(wildcard content/*.js) \
-             $(wildcard content/*.xul) \
-             $(wildcard content/*.xml) \
-             $(wildcard content/*.html) \
-             $(wildcard content/*.css) \
-	     $(wildcard defaults/preferences/*.js) \
-	     $(wildcard content/js/*.js) \
-             $(wildcard skin/*.css) \
-             $(wildcard skin/*.png) \
-             $(wildcard locale/*/*.dtd) \
-             $(wildcard locale/*/*.properties)
-
-# This builds everything except for the actual XPI, and then it copies it to the
-# specified profile directory, allowing a quick update that requires no install.
-.PHONY: install
-install: $(build_dir) $(xpi_built)
-	@echo "Installing in profile folder: $(profile_location)"
-	@cp -Rf $(build_dir)/* $(profile_location)
-	@echo "Installing in profile folder. Done!"
-	@echo
-
+	chrome.manifest \
+	$(wildcard chrome/content/*.js) \
+	$(wildcard chrome/content/*.xul) \
+	$(wildcard chrome/content/*.xml) \
+	$(wildcard chrome/content/*.html) \
+	$(wildcard chrome/content/*.css) \
+	$(wildcard chrome/content/js/*.js) \
+	$(wildcard chrome/locale/*/*.dtd) \
+	$(wildcard chrome/locale/*/*.properties)\
+	$(wildcard chrome/skin/*.css) \
+	$(wildcard chrome/skin/*.png) \
+	$(wildcard defaults/preferences/*.js) \
+	$(wildcard modules/*.js)
 
 $(xpi_file): $(xpi_built)
 	@echo "Creating XPI file."

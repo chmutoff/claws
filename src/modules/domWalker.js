@@ -1,5 +1,5 @@
 var EXPORTED_SYMBOLS = ['DomWalker']
-Components.utils.import('resource://claws/helper.js');
+Components.utils.import('resource://claws/whitespaceHelper.js')
 
 /**
  * Params:
