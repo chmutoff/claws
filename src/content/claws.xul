@@ -30,7 +30,4 @@
   <box orient="horizontal" flex="1">
     <iframe id="output-iframe" flex="1" type="content" src="about:blank"/>
   </box>
-  <vbox>
-    <listbox id="links-list"></listbox>
-  </vbox>
 </window>

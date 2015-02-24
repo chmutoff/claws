@@ -6,20 +6,17 @@ Components.utils.import('resource://claws/helper.js');
  * textProvider -> object which contains functions to generate node output
  * rootNode -> node to begin walking
  *
- * output -> return
- * linkList -> return
- * headingList -> return
- *
- *
- *
- *
+ * Returns:
+ * WalkDOM function -> walks the dom and returns the output
+ * linkList -> list which contains Object{ text: 'linkText', url: 'linkUrl' }
+ * headingList -> list which contains Object{ text: 'headingText' }
  */
-function DomWalker(textProvider, source)
+function DomWalker(textProvider, sourceWindow)
 {
     // fields
     var _textProvider = textProvider
-    var _sourceWindow = source
-    var _document = source.content.document
+    var _sourceWindow = sourceWindow
+    var _document = sourceWindow.content.document
     var _linkList = []
     var _headingList = []
     
@@ -29,7 +26,7 @@ function DomWalker(textProvider, source)
         var linkText = ''
         var children = node.childNodes
         // TODO: maybe refactor domWalker to append nodeList automatically
-        // TODO: maybe shoul use while loop instead of for...
+        // TODO: maybe should use while loop instead of for...
         for( var i=0; i<children.length; ++i )
         {
             //var out = Claws().getOutput(children[i])
@@ -39,26 +36,14 @@ function DomWalker(textProvider, source)
         }
         
         // Get link title from alt attribute of AREA tag
-        linkText += ( node.hasAttribute('alt') ? node.alt : '' )        
-        var linkURL = node.getAttribute('href') 
+        linkText += ( node.hasAttribute('alt') ? node.alt : '' )
+        var linkURL =  node.href
         linkText = ( linkText != '' ) ? cleanText(linkText) : linkURL // if link has no text show href text
         var item = {
             text : linkText,
             url : linkURL
         }
         _linkList.push(item)
-        
-        // TODO: check when link is like #link
-        
-        /*
-        // add link to the list -> create some list and return it at the end of walkDOM!!!!
-        var linkList = document.getElementById('link-list')  // PARAM!
-        var linkURL = node.getAttribute('href') 
-        linkText = ( linkText != '' ) ? cleanText(linkText) : linkURL // if link has no text show href text
-        var item = linkList.appendItem(linkText, '')
-       
-        item.ondblclick = function(){window.open(linkURL, '_blank')}
-        */
     }
   
     function addHeading(node){
@@ -79,11 +64,6 @@ function DomWalker(textProvider, source)
             text : headingText
         }
         _headingList.push(item)
-        /*
-        // add heading to the list -> create some list and return it at the end of walkDOM!!!!
-        var headingList = document.getElementById('heading-list')
-        headingList.appendItem(cleanText(headingText), '')
-        */
     }
   
     function removeSpansFromNode(node) {
@@ -96,18 +76,15 @@ function DomWalker(textProvider, source)
   
     function appendTextToOutput(text, output){
         if ( text != '' ){
-            //var child = window.opener.content.document.createTextNode(text + ' ') // PARAM!
-            var child = _document.createTextNode(text + ' ') // PARAM!
+            var child = _document.createTextNode(text + ' ')
             output.appendChild(child)
         }
     }
   
     function appendSpanToOutput(text, output){
         if ( text != '' ){
-            //var spanNode = window.opener.content.document.createElement('span') // PARAM!
             var spanNode = _document.createElement('span')
             spanNode.className = 'tag-output'
-            //var textNode = window.opener.content.document.createTextNode(text) // PARAM!
             var textNode = _document.createTextNode(text)
             spanNode.appendChild(textNode)
             output.appendChild(spanNode)

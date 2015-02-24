@@ -27,7 +27,7 @@ function TextFactory(){
 var _linksList
 var _headingsList
 
-function start(source){    
+function start(sourceWindow){    
     var application = Components.classes["@mozilla.org/fuel/application;1"].getService(Components.interfaces.fuelIApplication)
     var modePref = application.prefs.get("extensions.claws.output.mode")
     var mode = modePref.value
@@ -35,8 +35,9 @@ function start(source){
     var textProvider = textFactory.createTextProvider(mode)
     
     //var doc = document.implementation.createDocument( '', '', document.implementation.createDocumentType('html', '', '') )
-    var dw = new DomWalker(textProvider, source)
-    var output = dw.walkDOM(source.content.document.body)
+    //console.log(sourceWindow.content.location.href)
+    var dw = new DomWalker(textProvider, sourceWindow)
+    var output = dw.walkDOM(sourceWindow.content.document.body)
     var iframe = document.getElementById('output-iframe').contentDocument
     
     // get user preferences for output style
