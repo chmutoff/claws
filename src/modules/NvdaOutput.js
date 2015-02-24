@@ -3,12 +3,12 @@ Components.utils.import('resource://claws/outputHelper.js')
 
 /**
  * Creates an output class for NVDA mode
- *
- * NOTE: all the tag names are transfromed to upper case because
- * depending on doctype they could be in lower/upper case
- *
+ * 
  * @param {Object} stringBundle contains all the localized strings
  * @returns {Object} functions to generate all the output
+ *
+ * NOTE: all the tag names are transfromed to upper case because
+ * depending on doctype they could be in lower/upper case * 
  */
 function NvdaOutput(stringBundle)
 {
