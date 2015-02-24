@@ -3,6 +3,10 @@
 <head>    
     <title>HTML Hidden content</title>
     <meta charset="utf-8"/>
+    <style>
+        .hidden1{ display:none }
+        .hidden2{ visibility: hidden }
+    </style>
 </head>
 
 <body>
@@ -33,6 +37,12 @@
             <input type="hidden" name="not-visible" value="Hidden field!">
         </div>
     </form>
+    
+    <p>Element hidden by .hidden1 class</p>
+    <div class="hidden1"><p>Hidden text!!!</p></div>
+    
+    <p>Element hidden by .hidden2 class</p>
+    <div class="hidden2">Very hidden text!!!</div>
     
 </body>
 </html>

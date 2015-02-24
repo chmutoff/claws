@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
+<!DOCTYPE window SYSTEM "chrome://claws/locale/headings.dtd">
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <!-- Extremely recommended to keep this css include!! -->
 <window id="headingsWindow"
-        title="Headings list"
+        title="&headings.window.title;"
         onload="renderHeadingsList()"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script type="application/x-javascript" src="chrome://claws/content/js/headings.js" />

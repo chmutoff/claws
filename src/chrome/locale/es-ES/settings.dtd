@@ -1,0 +1,5 @@
+<!ENTITY claws.options.title                    "Opciones de Claws">
+<!ENTITY claws.options.prefpane.title           "Opciones de Claws">
+<!ENTITY claws.options.mode                     "Modo de salida">            
+<!ENTITY claws.options.element.text.color       "Color de texto de los elementos">
+<!ENTITY claws.options.element.text.background  "Color de fondo de los elementos">

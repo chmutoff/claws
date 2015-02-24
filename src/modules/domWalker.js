@@ -169,9 +169,7 @@ function DomWalker(textProvider, sourceWindow)
      */
     function isNodeHidden(node){
         return (
-            node.style.display == 'none'
-            || node.style.visibility == 'hidden'
-            || node.hidden == true
+            node.hidden == true
             || _sourceWindow.getComputedStyle(node).display == 'none'
             || _sourceWindow.getComputedStyle(node).visibility == 'hidden'
         )
@@ -247,11 +245,15 @@ function DomWalker(textProvider, sourceWindow)
               }
             }
             else if (nodeToExpand.tagName == 'IFRAME'){
-              if(nodeToExpand.contentDocument != null)
-              {
-                cleanWhitespace(nodeToExpand.contentDocument.body)
-                nodeStack.push(nodeToExpand.contentDocument.body);
-              }
+              //if(nodeToExpand.contentDocument != null)
+              //{
+                if(nodeToExpand.hasAttribute('src'))
+                {
+                    cleanWhitespace(nodeToExpand.contentDocument.body)
+                    nodeStack.push(nodeToExpand.contentDocument.body);
+                }
+                else appendTextToOutput('about:blank ', output)
+              //}
             }
           }
           // nodeType == 3 -> TEXT_NODE    

@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
+<!DOCTYPE window SYSTEM "chrome://claws/locale/settings.dtd">
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <!-- Extremely recommended to keep this css include!! -->
 <prefwindow id="claws-prefs"
-     title="Claws Options"
+     title="&claws.options.title;"
      xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
  
-<prefpane id="claws-pane" label="Claws Settings">
+<prefpane id="claws-pane" label="&claws.options.prefpane.title;">
   <preferences>
     <preference id="pref_mode" name="extensions.claws.output.mode" type="string"/>
     <preference id="pref_elem_text_color" name="extensions.claws.output.element.text.color" type="string"/>
@@ -13,17 +14,17 @@
   </preferences>
  
   <hbox align="center">
-    <label control="mode" value="Output mode: "/>
+    <label control="mode" value="&claws.options.mode;: "/>
     <textbox preference="pref_mode" id="mode_textbox" maxlength="4" readonly="true" disabled="true"/>
   </hbox>
   
   <hbox align="center">
-    <label control="elem_text_color" value="Element text color: "/>
+    <label control="elem_text_color" value="&claws.options.element.text.color;: "/>
     <textbox preference="pref_elem_text_color" id="elem_text_color" maxlength="4"/>
   </hbox>
   
   <hbox align="center">
-    <label control="elem_text_background" value="Element background: "/>
+    <label control="elem_text_background" value="&claws.options.element.text.background;: "/>
     <textbox preference="pref_elem_text_background" id="elem_text_background" maxlength="4"/>
   </hbox>
 </prefpane>
