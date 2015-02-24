@@ -14,15 +14,15 @@
   </stringbundleset>
   
   <menubar id="claws-menubar">
-    <menu id="claws-file-menu" label="File">
+    <menu id="claws-file-menu" label="&claws.menu.file;">
       <menupopup id="file-popup">
-        <menuitem label="Close" oncommand="window.close()"/>
+        <menuitem label="&claws.menu.file.close;" oncommand="window.close()"/>
       </menupopup>
     </menu>
-    <menu id="claws-tools-menu" label="Tools">
+    <menu id="claws-tools-menu" label="&claws.menu.tools;">
       <menupopup id="tools-popup">
-        <menuitem label="Links" oncommand="openLinksWindow()"/>
-        <menuitem label="Headings" oncommand="openHeadingsWindow()"/>
+        <menuitem label="&claws.menu.tools.links;" oncommand="openLinksWindow()"/>
+        <menuitem label="&claws.menu.tools.headings;" oncommand="openHeadingsWindow()"/>
       </menupopup>
     </menu>
   </menubar>

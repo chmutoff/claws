@@ -1,1 +1,6 @@
-<!ENTITY claws.window.title       "Claws - Emulador de lector de pantalla">
+<!ENTITY claws.window.title             "Claws - Emulador de lector de pantalla">
+<!ENTITY claws.menu.file                "Archivo">
+<!ENTITY claws.menu.file.close          "Cerrar">
+<!ENTITY claws.menu.tools               "Herramientas">
+<!ENTITY claws.menu.tools.links         "Enlaces">
+<!ENTITY claws.menu.tools.headings      "Encabezados">

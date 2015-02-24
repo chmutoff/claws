@@ -55,7 +55,7 @@ function start(sourceWindow){
  */
 function openLinksWindow()
 {
-    window.openDialog('chrome://claws/content/links.xul', 'links', 'menubar,close,minimizable,scrollbars,resizable', {linksList: _linksList});
+    window.openDialog('chrome://claws/content/links.xul', 'links', 'menubar,close,minimizable,scrollbars,resizable,modal,width=450,height=250', {linksList: _linksList});
 }
 
 /**
@@ -64,5 +64,5 @@ function openLinksWindow()
  */
 function openHeadingsWindow()
 {
-    window.openDialog('chrome://claws/content/headings.xul', 'headings', 'menubar,close,minimizable,scrollbars,resizable', {headingsList: _headingsList});    
+    window.openDialog('chrome://claws/content/headings.xul', 'headings', 'menubar,close,minimizable,scrollbars,resizable,modal,width=450,height=250', {headingsList: _headingsList});    
 }
