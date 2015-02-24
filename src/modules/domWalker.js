@@ -190,7 +190,7 @@ function DomWalker(textProvider, sourceWindow)
             'DATA',     // Only in WHATWG version of HTML, not in W3C. Just in case...
             'EMBED',    // tag defines a container for an external application or interactive content (a plug-in)
             'HEAD',     // specifies the base URL to use for all relative URLs contained within a document
-            'IFRAME',   // TODO: process iframe THIS IS EXPANDED MANUALLY
+            'IFRAME',   // THIS IS EXPANDED MANUALLY
             'LINK',     // specifies relationships between the current document and an external resource
             'META',     // represents any metadata information that cannot be represented by one of the other HTML meta-related elements
             'NOSCRIPT',
