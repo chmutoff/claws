@@ -35,10 +35,8 @@ function NvdaOutput(stringBundle)
                 return stringBundle.getString('NVDA.output.quote')
             case 'BUTTON':
                 return stringBundle.getString('NVDA.output.button')
-            case 'DATALIST':
-                return stringBundle.getString('NVDA.output.datalist')
             case 'DL':
-                return stringBundle.getFormattedString('NVDA.output.list', [generalText.countListNodes(node)])
+                return stringBundle.getFormattedString('NVDA.output.list', [outputHelper.countListNodes(node)])
             case 'FOOTER':
                 if (node.parentNode.nodeName == 'BODY') {
                     // NVDA only anounces the page footer
@@ -61,10 +59,13 @@ function NvdaOutput(stringBundle)
                 return stringBundle.getString('NVDA.output.header')
             case 'HR':
                 return stringBundle.getString('NVDA.output.hr')
-            case 'IFRAME':
+            case 'IFRAME':                
                 return stringBundle.getString('NVDA.output.iframe')
             case 'INPUT':
-                return getInputNvdaText(node)
+                if (node.hasAttribute('list')) {
+                    return stringBundle.getString('NVDA.output.datalist')
+                }
+                else return getInputNvdaText(node)
             case 'MAIN':
                 return stringBundle.getString('NVDA.output.main')
             case 'MAP':
@@ -74,23 +75,23 @@ function NvdaOutput(stringBundle)
             case 'OBJECT':
                 return stringBundle.getString('NVDA.output.object')
             case 'OL':
-                return stringBundle.getFormattedString('NVDA.output.list', [generalText.countListNodes(node)])
+                return stringBundle.getFormattedString('NVDA.output.list', [outputHelper.countListNodes(node)])
             case 'PROGRESS':
                 return stringBundle.getString('NVDA.output.progress')
             case 'SELECT':
                 return stringBundle.getString('NVDA.output.select')
             case 'TABLE':
-                return stringBundle.getFormattedString('NVDA.output.table', [generalText.getNumRowsInTable(node), generalText.getNumColumnsInTable(node)])
+                return stringBundle.getFormattedString('NVDA.output.table', [outputHelper.getNumRowsInTable(node), outputHelper.getNumColumnsInTable(node)])
             case 'TD':
-                return generalText.getCellHeading(node) + ' ' +  stringBundle.getFormattedString('NVDA.output.table.column', [(node.cellIndex+1)])
+                return outputHelper.getCellHeading(node) + ' ' +  stringBundle.getFormattedString('NVDA.output.table.column', [(node.cellIndex+1)])
             case 'TEXTAREA':
                 return stringBundle.getString('NVDA.output.textarea')
             case 'TH':
-                return generalText.getCellHeading(node) + ' ' +  stringBundle.getFormattedString('NVDA.output.table.column', [(node.cellIndex+1)])
+                return outputHelper.getCellHeading(node) + ' ' +  stringBundle.getFormattedString('NVDA.output.table.column', [(node.cellIndex+1)])
             case 'TR':
                 return stringBundle.getFormattedString('NVDA.output.table.row', [(node.rowIndex+1)])
             case 'UL':
-                return stringBundle.getFormattedString('NVDA.output.list', [generalText.countListNodes(node)])
+                return stringBundle.getFormattedString('NVDA.output.list', [outputHelper.countListNodes(node)])
             default:
                 return ''
         }
@@ -130,7 +131,7 @@ function NvdaOutput(stringBundle)
      * @returns {String} Text string as NVDA scren reader would do
      */
     function getInputNvdaText(node){
-        var inputType = node.type.toUpperCase()
+        var inputType = node.type.toLowerCase()
         switch (inputType){
             case 'button':
                 return stringBundle.getString('NVDA.output.button')
@@ -153,9 +154,9 @@ function NvdaOutput(stringBundle)
             case 'range':
                 return stringBundle.getString('NVDA.output.input.range')
             case 'reset':
-                return 'botón' // TODO: get reset button text
+                return stringBundle.getString('NVDA.output.button') // TODO: get reset button text
             case 'submit':
-                return 'botón' // TODO: get submit button text
+                return stringBundle.getString('NVDA.output.button') // TODO: get submit button text
             default:
                 return stringBundle.getString('NVDA.output.input.text') + ' ' + ((node.autocomplete != 'off')? stringBundle.getString('NVDA.output.input.text.autocomplete') : '')
         } 
