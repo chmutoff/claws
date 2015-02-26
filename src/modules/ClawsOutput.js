@@ -1,7 +1,7 @@
 var EXPORTED_SYMBOLS = ['ClawsOutput']
 Components.utils.import('resource://claws/outputHelper.js');
 
-// NOT implemented yed!
+// NOT yet implemented!
 
 function ClawsOutput(stringBundle)
 {
