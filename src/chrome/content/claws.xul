@@ -14,15 +14,15 @@
   </stringbundleset>
   
   <menubar id="claws-menubar">
-    <menu id="claws-file-menu" label="&claws.menu.file;">
+    <menu id="claws-file-menu" label="&claws.menu.file;" accesskey="&claws.menu.file.accesskey;">
       <menupopup id="file-popup">
-        <menuitem label="&claws.menu.file.close;" oncommand="window.close()"/>
+        <menuitem label="&claws.menu.file.close;" accesskey="&claws.menu.file.close.accesskey;" oncommand="window.close()"/>
       </menupopup>
     </menu>
-    <menu id="claws-tools-menu" label="&claws.menu.tools;">
+    <menu id="claws-tools-menu" label="&claws.menu.tools;" accesskey="&claws.menu.tools.accesskey;">
       <menupopup id="tools-popup">
-        <menuitem label="&claws.menu.tools.links;" oncommand="openLinksWindow()"/>
-        <menuitem label="&claws.menu.tools.headings;" oncommand="openHeadingsWindow()"/>
+        <menuitem label="&claws.menu.tools.links;" accesskey="&claws.menu.tools.links.accesskey;" oncommand="openLinksWindow()"/>
+        <menuitem label="&claws.menu.tools.headings;" accesskey="&claws.menu.tools.headings.accesskey;" oncommand="openHeadingsWindow()"/>
       </menupopup>
     </menu>
   </menubar>

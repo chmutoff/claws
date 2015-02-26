@@ -1,6 +1,11 @@
-<!ENTITY claws.window.title             "Claws - Emulador de lector de pantalla">
-<!ENTITY claws.menu.file                "Archivo">
-<!ENTITY claws.menu.file.close          "Cerrar">
-<!ENTITY claws.menu.tools               "Herramientas">
-<!ENTITY claws.menu.tools.links         "Enlaces">
-<!ENTITY claws.menu.tools.headings      "Encabezados">
+<!ENTITY claws.window.title                     "Claws - Emulador de lector de pantalla">
+<!ENTITY claws.menu.file                        "Archivo">
+<!ENTITY claws.menu.file.accesskey              "A">
+<!ENTITY claws.menu.file.close                  "Cerrar">
+<!ENTITY claws.menu.file.close.accesskey        "C">
+<!ENTITY claws.menu.tools                       "Herramientas">
+<!ENTITY claws.menu.tools.accesskey             "H">
+<!ENTITY claws.menu.tools.links                 "Enlaces">
+<!ENTITY claws.menu.tools.links.accesskey       "l">
+<!ENTITY claws.menu.tools.headings              "Encabezados">
+<!ENTITY claws.menu.tools.headings.accesskey    "E">
