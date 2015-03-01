@@ -14,17 +14,22 @@
   </preferences>
  
   <hbox align="center">
-    <label control="mode" value="&claws.options.mode;: "/>
-    <textbox preference="pref_mode" id="mode_textbox" maxlength="4" readonly="true" disabled="true"/>
+    <label control="mode" value="&claws.options.mode;"/>
+      <menulist id="mode_menulist" preference="pref_mode">
+        <menupopup>
+          <menuitem label="&claws.options.mode.nvda;" value="NVDA"/>
+          <menuitem label="&claws.options.mode.claws;" value="CLAWS"/>
+        </menupopup>
+      </menulist>
   </hbox>
   
   <hbox align="center">
-    <label control="elem_text_color" value="&claws.options.element.text.color;: "/>
+    <label control="elem_text_color" value="&claws.options.element.text.color;"/>
     <textbox preference="pref_elem_text_color" id="elem_text_color" maxlength="4"/>
   </hbox>
   
   <hbox align="center">
-    <label control="elem_text_background" value="&claws.options.element.text.background;: "/>
+    <label control="elem_text_background" value="&claws.options.element.text.background;"/>
     <textbox preference="pref_elem_text_background" id="elem_text_background" maxlength="4"/>
   </hbox>
 </prefpane>

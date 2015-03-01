@@ -11,6 +11,7 @@
   
   <stringbundleset id="stringbundleset">
     <stringbundle id="NVDA-string-bundle" src="chrome://claws/locale/NVDA.properties" />
+    <stringbundle id="CLAWS-string-bundle" src="chrome://claws/locale/CLAWS.properties" />
   </stringbundleset>
   
   <menubar id="claws-menubar">

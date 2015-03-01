@@ -4,15 +4,26 @@ var EXPORTED_SYMBOLS = ['outputHelper']
  * Helper object which contains functions for Output modes
  */
 var outputHelper = {
+    
     /**
      * Counts the number of items in the list
      * 
      * @param {DOM node} list
      * @returns {Integer} number of items in the list
      */
-    countListNodes: function(list) {
+    countListNodes: function(list){
         return list.childNodes.length
-    },    
+    },
+    
+    countItemPositionInList: function(node){
+        var count = 0
+        while(node)
+        {
+            ++count
+            node = node.previousSibling
+        }
+        return count
+    },
     
     /**
      * Counts number of rows in a table
@@ -20,7 +31,7 @@ var outputHelper = {
      * @param {DOM Node} table
      * @returns {Integes} nubmer of rows in a table
      */
-    getNumRowsInTable: function(table) {
+    getNumRowsInTable: function(table){
         return table.rows.length
     },
     
@@ -28,9 +39,9 @@ var outputHelper = {
      * Counts number of columns in a table
      *
      * @param {DOM Node} table
-     * @returns {Integer} number of columns in a table     *
+     * @returns {Integer} number of columns in a table
      */
-    getNumColumnsInTable: function(table) {
+    getNumColumnsInTable: function(table){
         return table.rows[0].cells.length
     },
 
@@ -41,7 +52,7 @@ var outputHelper = {
      * @param {DOM Node} table cell
      * @returns {string} heading for current cell
      */
-    getCellHeading: function(node) {
+    getCellHeading: function(node){
         // table -> tr -> td
         if (node.parentNode.rowIndex != 0 && node.parentNode.parentNode.tagName == 'TABLE') {
             return node.parentNode.parentNode.getElementsByTagName('th')[node.cellIndex].textContent

@@ -15,11 +15,13 @@ function start(sourceWindow){
     
     // get output functions
     var stringBundles = {
-        nvdaStringBundle : document.getElementById('NVDA-string-bundle')
+        nvdaStringBundle : document.getElementById('NVDA-string-bundle'),
+        clawsStringBundle : document.getElementById('CLAWS-string-bundle')
     }
     var application = Components.classes["@mozilla.org/fuel/application;1"].getService(Components.interfaces.fuelIApplication)
     var modePref = application.prefs.get("extensions.claws.output.mode")
     var mode = modePref.value
+    console.log(mode+' mode selected')
     var outputFactory = new OutputFactory(stringBundles)
     var textProvider = outputFactory.createTextProvider(mode)
     
