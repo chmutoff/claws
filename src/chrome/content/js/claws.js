@@ -21,8 +21,11 @@ function start(sourceWindow){
     var application = Components.classes["@mozilla.org/fuel/application;1"].getService(Components.interfaces.fuelIApplication)
     var modePref = application.prefs.get("extensions.claws.output.mode")
     var mode = modePref.value
+    var quotePref = application.prefs.get("extensions.claws.output.quote")
+    var quote = quotePref.value
     console.log(mode+' mode selected')
-    var outputFactory = new OutputFactory(stringBundles)
+    var settings = {quote: quote}
+    var outputFactory = new OutputFactory(stringBundles, settings)
     var textProvider = outputFactory.createTextProvider(mode)
     
     // walk DOM and generate otput with previously generated output functions

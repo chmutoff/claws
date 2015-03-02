@@ -1,5 +1,7 @@
 <!ENTITY claws.options.title                    "Claws Settings">
 <!ENTITY claws.options.prefpane.title           "Claws Settings">
-<!ENTITY claws.options.mode                     "Output mode">            
+<!ENTITY claws.options.mode                     "Output mode">
+<!ENTITY claws.options.mode.nvda                "Nvda">
+<!ENTITY claws.options.mode.claws               "Claws">
 <!ENTITY claws.options.element.text.color       "Element text color">
 <!ENTITY claws.options.element.text.background  "Element background">

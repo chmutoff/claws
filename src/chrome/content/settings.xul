@@ -5,22 +5,29 @@
 <prefwindow id="claws-prefs"
      title="&claws.options.title;"
      xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  
+  <script type="application/x-javascript" src="chrome://claws/content/js/settings.js" />
  
 <prefpane id="claws-pane" label="&claws.options.prefpane.title;">
   <preferences>
     <preference id="pref_mode" name="extensions.claws.output.mode" type="string"/>
+    <preference id="pref_quote" name="extensions.claws.output.quote" type="bool"/>
     <preference id="pref_elem_text_color" name="extensions.claws.output.element.text.color" type="string"/>
     <preference id="pref_elem_text_background" name="extensions.claws.output.element.text.background" type="string"/>
   </preferences>
  
   <hbox align="center">
     <label control="mode" value="&claws.options.mode;"/>
-      <menulist id="mode_menulist" preference="pref_mode">
+      <menulist id="mode_menulist" preference="pref_mode" oncommand="toggleClawsPrefs(event, this)">
         <menupopup>
           <menuitem label="&claws.options.mode.nvda;" value="NVDA"/>
           <menuitem label="&claws.options.mode.claws;" value="CLAWS"/>
         </menupopup>
       </menulist>
+  </hbox>
+  
+  <hbox align="center">
+    <checkbox id="quote" label="Enable quote announcing" preference="pref_quote"/>
   </hbox>
   
   <hbox align="center">

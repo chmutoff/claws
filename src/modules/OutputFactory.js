@@ -7,7 +7,7 @@ Components.utils.import('resource://claws/ClawsOutput.js')
  *
  * @param {Object} stringBundles -> contains all the stringBudles for all the output modes   
  */
-function OutputFactory(stringBundles){
+function OutputFactory(stringBundles, settings){
         /** 
          * Generates an object with 3 text functions for selected output mode
          *
@@ -16,14 +16,14 @@ function OutputFactory(stringBundles){
         this.createTextProvider = function(mode){
                 var textProvider = {}    
                 switch (mode) {
-                        case 'NVDA':                       
+                        case 'NVDA':
                                 var nvdaOutput = new NvdaOutput(stringBundles.nvdaStringBundle)                                
                                 textProvider.getText = nvdaOutput.getNvdaText
                                 textProvider.getClosingText = nvdaOutput.getClosingNvdaText
                                 textProvider.getInputText = nvdaOutput.getInputNvdaText                                
                                 break
                         case 'CLAWS':
-                                var clawsOutput = new ClawsOutput(stringBundles.clawsStringBundle)
+                                var clawsOutput = new ClawsOutput(stringBundles.clawsStringBundle, settings)
                                 textProvider.getText = clawsOutput.getClawsText
                                 textProvider.getClosingText = clawsOutput.getClosingClawsText
                                 textProvider.getInputText = clawsOutput.getInputClawsText

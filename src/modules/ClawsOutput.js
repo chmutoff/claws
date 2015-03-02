@@ -1,22 +1,29 @@
 var EXPORTED_SYMBOLS = ['ClawsOutput']
 Components.utils.import('resource://claws/outputHelper.js');
 
-function ClawsOutput(stringBundle)
-{
-    this.getListItemText = function(node){
+function ClawsOutput(stringBundle, settings){
+    
+    getListItemText = function(node){
         var total = outputHelper.countListNodes(node.parentNode)
         var pos = outputHelper.countItemPositionInList(node)
         
         return 'item '+pos+' of '+total
     }
     
+    showQuote = function(){
+        if (settings === undefined || settings.quote === undefined) {
+            return true;
+        }
+        else return settings.quote
+    }
+    
     /**
      * Generates text output for HTML5 tags
      *
      * @param {DOM Node} node which tag is analyzed
-     * @returns {String} Text string as NVDA scren reader would do
+     * @returns {String} Text string with Claws output
      */
-    this.getClawsText = function(node){
+    getClawsText = function(node){
         var tagName = node.tagName.toUpperCase()
         
         switch(tagName){
@@ -27,14 +34,16 @@ function ClawsOutput(stringBundle)
             case 'ASIDE':
                 return stringBundle.getString('CLAWS.output.aside')
             case 'BLOCKQUOTE':
-                return stringBundle.getString('CLAWS.output.quote')
+                if (showQuote) {
+                    return stringBundle.getString('CLAWS.output.quote')
+                }
+                else return ''                
             case 'BUTTON':
                 return stringBundle.getString('CLAWS.output.button')
             case 'DL':
                 return stringBundle.getFormattedString('CLAWS.output.list', [outputHelper.countListNodes(node)])
             case 'FOOTER':
                 if (node.parentNode.nodeName == 'BODY') {
-                    // NVDA only anounces the page footer
                     return stringBundle.getString('CLAWS.output.body.footer')
                 }
                 else return ''
@@ -60,7 +69,9 @@ function ClawsOutput(stringBundle)
                 if (node.hasAttribute('list')) {
                     return stringBundle.getString('CLAWS.output.datalist')
                 }
-                else return getInputNvdaText(node)
+                else return getInputClawsText(node)
+            case 'LI':
+                return getListItemText(node)
             case 'MAIN':
                 return stringBundle.getString('CLAWS.output.main')
             case 'MAP':
@@ -73,6 +84,11 @@ function ClawsOutput(stringBundle)
                 return stringBundle.getFormattedString('CLAWS.output.list', [outputHelper.countListNodes(node)])
             case 'PROGRESS':
                 return stringBundle.getString('CLAWS.output.progress')
+            case 'Q':
+                if (showQuote) {
+                    return stringBundle.getString('CLAWS.output.quote')
+                }
+                else return ''
             case 'SELECT':
                 return stringBundle.getString('CLAWS.output.select')
             case 'TABLE':
@@ -97,19 +113,27 @@ function ClawsOutput(stringBundle)
      * because elements has output text for closing tag
      *
      * @param {DOM Node} node which tag is analyzed
-     * @returns {String} Text string as NVDA scren reader would do
+     * @returns {String} Text string with Claws output
      */
-    this.getClosingClawsText = function(node){
+    getClosingClawsText = function(node){
         var tagName = node.tagName.toUpperCase()
         switch (tagName) {
             case 'BLOCKQUOTE':
-                return  stringBundle.getString('CLAWS.output.quote.end')
+                if (showQuote) {
+                    return  stringBundle.getString('CLAWS.output.quote.end')
+                }
+                else return ''
             case 'DL':
                 return stringBundle.getString('CLAWS.ouptut.list.end')
             case 'IFRAME':
                 return stringBundle.getString('CLAWS.output.iframe.end')
             case 'OL':
                 return stringBundle.getString('CLAWS.ouptut.list.end')
+            case 'Q':
+                if (showQuote) {
+                    return  stringBundle.getString('CLAWS.output.quote.end')
+                }
+                else return ''
             case 'TABLE':
                 return stringBundle.getString('CLAWS.output.table.end')
             case 'UL':
@@ -123,9 +147,9 @@ function ClawsOutput(stringBundle)
      * Generates text output for <input type="..."> HTML5 element
      *
      * @param {DOM Node} input node which type is analyzed
-     * @returns {String} Text string as NVDA scren reader would do
+     * @returns {String} Text string with Claws output
      */
-    this.getInputClawsText = function(node){
+    getInputClawsText = function(node){
         var inputType = node.type.toUpperCase()
         switch (inputType){
           case 'button':
@@ -177,5 +201,9 @@ function ClawsOutput(stringBundle)
         } 
     }
     
-    return this
+    return{
+        getClawsText : getClawsText,
+        getClosingClawsText : getClosingClawsText,
+        getInputClawsText : getInputClawsText
+    }
 }
