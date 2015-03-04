@@ -61,5 +61,13 @@ var outputHelper = {
         else if (node.parentNode.rowIndex != 0 && node.parentNode.parentNode.parentNode.tagName == 'TABLE') {
             return node.parentNode.parentNode.parentNode.getElementsByTagName('th')[node.cellIndex].textContent
         } else return ''
+    },
+    
+    getHorizontalHeading : function(node){
+        var heading = node.parentElement.firstChild
+        if (heading.tagName.toUpperCase() == 'TH') {
+            return heading.textContent
+        }
+        else return ''
     }
 }

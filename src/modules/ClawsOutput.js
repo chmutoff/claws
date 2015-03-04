@@ -94,7 +94,7 @@ function ClawsOutput(stringBundle, settings){
             case 'TABLE':
                 return stringBundle.getFormattedString('CLAWS.output.table', [outputHelper.getNumRowsInTable(node), outputHelper.getNumColumnsInTable(node)])
             case 'TD':
-                return outputHelper.getCellHeading(node) + ' ' +  stringBundle.getFormattedString('CLAWS.output.table.column', [(node.cellIndex+1)])
+                return outputHelper.getCellHeading(node) + ' ' + outputHelper.getHorizontalHeading(node) + ' ' +  stringBundle.getFormattedString('CLAWS.output.table.column', [(node.cellIndex+1)])
             case 'TEXTAREA':
                 return stringBundle.getString('CLAWS.output.textarea')
             case 'TH':
