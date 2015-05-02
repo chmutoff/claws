@@ -12,6 +12,7 @@
   <preferences>
     <preference id="pref_mode" name="extensions.claws.output.mode" type="string"/>
     <preference id="pref_quote" name="extensions.claws.output.quote" type="bool"/>
+    <preference id="pref_address" name="extensions.claws.output.address" type="bool"/>
     <preference id="pref_elem_text_color" name="extensions.claws.output.element.text.color" type="string"/>
     <preference id="pref_elem_text_background" name="extensions.claws.output.element.text.background" type="string"/>
   </preferences>
@@ -28,6 +29,7 @@
   
   <hbox align="center">
     <checkbox id="quote" label="Enable quote announcing" preference="pref_quote"/>
+    <checkbox id="address" label="Enable address" preference="pref_address"/>
   </hbox>
   
   <hbox align="center">

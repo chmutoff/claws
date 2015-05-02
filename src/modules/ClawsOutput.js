@@ -17,6 +17,13 @@ function ClawsOutput(stringBundle, settings){
         else return settings.quote
     }
     
+    showAddress = function(){
+        if (settings === undefined || settings.address === undefined) {
+            return true;
+        }
+        else return settings.address
+    }
+    
     /**
      * Generates text output for HTML5 tags
      *
@@ -29,6 +36,8 @@ function ClawsOutput(stringBundle, settings){
         switch(tagName){
             case 'A':
                 return stringBundle.getString('CLAWS.output.link')
+            case 'ADDRESS':
+                return stringBundle.getString('CLAWS.output.address')
             case 'AREA':
                 return stringBundle.getString('CLAWS.output.link')
             case 'ASIDE':
@@ -65,6 +74,8 @@ function ClawsOutput(stringBundle, settings){
                 return stringBundle.getString('CLAWS.output.hr')
             case 'IFRAME':                
                 return stringBundle.getString('CLAWS.output.iframe')
+            case 'IMG':
+                return stringBundle.getString('CLAWS.output.image')
             case 'INPUT':
                 if (node.hasAttribute('list')) {
                     return stringBundle.getString('CLAWS.output.datalist')
@@ -150,54 +161,43 @@ function ClawsOutput(stringBundle, settings){
      * @returns {String} Text string with Claws output
      */
     getInputClawsText = function(node){
-        var inputType = node.type.toUpperCase()
+        var inputType = node.getAttribute('type').toLowerCase()
         switch (inputType){
-          case 'button':
-            return stringBundle.getString('CLAWS.output.button')
-          case 'checkbox':
-            return stringBundle.getString('CLAWS.output.input.checkbox') + ' ' + ((node.checked)? stringBundle.getString('CLAWS.output.input.checkbox.checked') : stringBundle.getString('CLAWS.output.input.checkbox.unchecked'))
-          case 'color':
-            return stringBundle.getString('CLAWS.output.button')
-          case 'date':
-            return stringBundle.getString('CLAWS.output.input.text') + ((node.autocomplete != 'off')? stringBundle.getString('CLAWS.output.input.text.autocomplete') : '')
-          case 'datetime':
-            return stringBundle.getString('CLAWS.output.input.text') + ((node.autocomplete != 'off')? stringBundle.getString('CLAWS.output.input.text.autocomplete') : '')
-          case 'datetime-local':
-            return stringBundle.getString('CLAWS.output.input.text') + ((node.autocomplete != 'off')? stringBundle.getString('CLAWS.output.input.text.autocomplete') : '')
-          case 'email':
-            return stringBundle.getString('CLAWS.output.input.text') + ((node.autocomplete != 'off')? stringBundle.getString('CLAWS.output.input.text.autocomplete') : '')
-          case 'file':
-            return stringBundle.getString('CLAWS.output.button') // TODO: get input button text and "no file selected" text
-          case 'hidden':
-            return ''
-          case 'image':
-            return stringBundle.getString('CLAWS.output.button')
-          case 'month':
-            return stringBundle.getString('CLAWS.output.input.text') + ((node.autocomplete != 'off')? stringBundle.getString('CLAWS.output.input.text.autocomplete') : '')
-          case 'number':
-            return stringBundle.getString('CLAWS.output.input.number')
-          case 'password':
-            return stringBundle.getString('CLAWS.output.input.password')
-          case 'radio':
-            return stringBundle.getString('CLAWS.output.input.radio') + ' ' + ((node.checked)? stringBundle.getString('CLAWS.output.input.checkbox.checked') : stringBundle.getString('CLAWS.output.input.checkbox.unchecked'))
-          case 'range':
-            return stringBundle.getString('CLAWS.output.input.range')
-          case 'reset':
-            return 'botуn' // TODO: get reset button text
-          case 'search':
-            return stringBundle.getString('CLAWS.output.input.text') + ((node.autocomplete != 'off')? stringBundle.getString('CLAWS.output.input.text.autocomplete') : '')
-          case 'submit':
-            return 'botуn' // TODO: get submit button text
-          case 'tel':
-            return stringBundle.getString('CLAWS.output.input.text') + ((node.autocomplete != 'off')? stringBundle.getString('CLAWS.output.input.text.autocomplete') : '')
-          case 'text':
-            return stringBundle.getString('CLAWS.output.input.text') + ((node.autocomplete != 'off')? stringBundle.getString('CLAWS.output.input.text.autocomplete') : '')
-          case 'url':
-            return stringBundle.getString('CLAWS.output.input.text') + ((node.autocomplete != 'off')? stringBundle.getString('CLAWS.output.input.text.autocomplete') : '')
-          case 'week':
-            return stringBundle.getString('CLAWS.output.input.text') + ((node.autocomplete != 'off')? stringBundle.getString('CLAWS.output.input.text.autocomplete') : '')
-          default:
-            return stringBundle.getString('CLAWS.output.input.text') + ' ' + ((node.autocomplete != 'off')? stringBundle.getString('CLAWS.output.input.text.autocomplete') : '')
+            case 'button':
+              return stringBundle.getString('CLAWS.output.button')
+            case 'checkbox':
+              return stringBundle.getString('CLAWS.output.input.checkbox') + ' ' + ((node.checked)? stringBundle.getString('CLAWS.output.input.checkbox.checked') : stringBundle.getString('CLAWS.output.input.checkbox.unchecked'))
+            case 'color':
+              return stringBundle.getString('CLAWS.output.input.color')
+            case 'date':
+              return stringBundle.getString('CLAWS.output.input.date')
+            case 'datetime':
+              return stringBundle.getString('CLAWS.output.input.datetime')
+            case 'datetime-local':
+              return stringBundle.getString('CLAWS.output.input.datetime')
+            case 'file':
+              return stringBundle.getString('CLAWS.output.button') // TODO: get input button text and "no file selected" text
+            case 'hidden':
+              return ''
+            case 'image':
+              return stringBundle.getString('CLAWS.output.button')
+            case 'number':
+              return stringBundle.getString('CLAWS.output.input.number')
+            case 'password':
+              return stringBundle.getString('CLAWS.output.input.password')
+            case 'radio':
+              return stringBundle.getString('CLAWS.output.input.radio') + ' ' + ((node.checked)? stringBundle.getString('CLAWS.output.input.checkbox.checked') : stringBundle.getString('CLAWS.output.input.checkbox.unchecked'))
+            case 'range':
+              return stringBundle.getString('CLAWS.output.input.range')
+            case 'reset':
+              return stringBundle.getString('CLAWS.output.button') // TODO: get reset button text
+            case 'search':
+              return stringBundle.getString('CLAWS.output.input.text') + ((node.autocomplete != 'off')? stringBundle.getString('CLAWS.output.input.text.autocomplete') : '')
+            case 'submit':
+              return stringBundle.getString('CLAWS.output.button') // TODO: get submit button text
+            default:
+                //return inputType
+                return stringBundle.getString('CLAWS.output.input.text') + ' ' + ((node.autocomplete != 'off')? stringBundle.getString('CLAWS.output.input.text.autocomplete') : '')
         } 
     }
     
