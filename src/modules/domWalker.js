@@ -25,6 +25,8 @@ function DomWalker(textProvider, sourceWindow)
     /** @private */ var _document = sourceWindow.content.document
     /** @public */  var _linkList = []
     /** @public */  var _headingList = []
+    /** @public */  var _formsList = []
+    
     
     // methods
     /**
@@ -57,7 +59,7 @@ function DomWalker(textProvider, sourceWindow)
         // Get link title from alt attribute of AREA tag
         linkText += ( node.hasAttribute('alt') ? node.alt : '' )
         var linkURL =  node.href // this returns the FULLY QUALIFIED url (getAttribute('href') returns the link as it is)
-        linkText = ( linkText != '' ) ? cleanText(linkText) : linkURL // if link has no text show href text
+        linkText = ( linkText != '' ) ? cleanText(linkText) : 'url:' + linkURL // if link has no text show href text
         var item = {
             text : linkText,
             url : linkURL
@@ -115,6 +117,14 @@ function DomWalker(textProvider, sourceWindow)
     }
     
     /**
+     *
+     
+    function prependTextToOutput(text, output) {
+        var firstChild = _document.createTextNode(text + ' ')
+        output.insertBefore(firstChild, output.firstChild)        
+    }*/
+    
+    /**
      * Appends <span>text</span> to output
      * Span can have special format, to distinguish generated output from plain text
      *
@@ -125,7 +135,7 @@ function DomWalker(textProvider, sourceWindow)
         if ( text != '' ){
             var spanNode = _document.createElement('span')
             spanNode.className = 'tag-output'
-            var textNode = _document.createTextNode(text)
+            var textNode = _document.createTextNode(text + ' ')
             spanNode.appendChild(textNode)
             output.appendChild(spanNode)
         }
@@ -142,6 +152,7 @@ function DomWalker(textProvider, sourceWindow)
      * NOTE: all the tag names are transfromed to upper case because
      * depending on doctype they could be in lower/upper case
      */
+    /*
     function getRelevantText(node){
         var tagName = node.tagName.toUpperCase()
       
@@ -170,7 +181,8 @@ function DomWalker(textProvider, sourceWindow)
               return ''
         }
     }
-  
+    */
+    
     /**
      * Determines whether the node should be excluded from expanding(walking)
      * Some of them are processed manually due to special characteristics (i.e Iframe or table)
@@ -214,6 +226,8 @@ function DomWalker(textProvider, sourceWindow)
      * 5th case -> computedStyle "visibility:hidden"
      * Note: hidden inputs are controlled by input text functions
      *
+     * AREA tag is hidden but ALWAYS must be processed
+     *
      * @returns true if the node is not visible
      *
      * NOTE: there is no need to check node.style.display or node.style.visibility
@@ -221,9 +235,9 @@ function DomWalker(textProvider, sourceWindow)
      */
     function isNodeHidden(node){
         return (
-            node.hidden == true
+            (node.hidden == true
             || _sourceWindow.getComputedStyle(node).display == 'none'
-            || _sourceWindow.getComputedStyle(node).visibility == 'hidden'
+            || _sourceWindow.getComputedStyle(node).visibility == 'hidden') && node.tagName.toUpperCase() != 'AREA'
         )
     }
     
@@ -239,7 +253,7 @@ function DomWalker(textProvider, sourceWindow)
     function walkDOM(dom){
         var nodeStack = new Array()
         var output = _document.createElement('div')
-        output.className = 'output'    
+        output.className = 'output'
         cleanWhitespace(dom)
         nodeStack.push(dom)
       
@@ -251,12 +265,17 @@ function DomWalker(textProvider, sourceWindow)
               
                 var tagName =  nodeToExpand.tagName.toUpperCase()
                 
-                // check if the node is a link and add it to the link list
+                // process links
                 if ( tagName == 'A' || tagName == 'AREA' ) {
                     addLink(nodeToExpand)
                 }
                 
-                // check if the node is a heading (H1 - H6)
+                // count forms
+                if ( tagName == 'FORM' ) {
+                    _formsList.push(nodeToExpand)
+                }
+                
+                // process heading (H1 - H6)
                 var headingPattern = new RegExp('^H[1-6]$')
                 if (headingPattern.test(tagName)) {
                     addHeading(nodeToExpand)
@@ -266,7 +285,7 @@ function DomWalker(textProvider, sourceWindow)
                 appendSpanToOutput(_textProvider.getText(nodeToExpand), output)
                 
                 // insert text of relevant attributes
-                appendTextToOutput(getRelevantText(nodeToExpand), output)
+                appendTextToOutput(_textProvider.getRelevantText(nodeToExpand), output)
                 
                 // insert closing tag var node with text if necesary
                 var closingText = {
@@ -317,12 +336,23 @@ function DomWalker(textProvider, sourceWindow)
                 appendSpanToOutput(nodeToExpand.textContent, output)
             }      
         }while(nodeStack.length > 0)
+        
+        /*
+        // prepend document information like page title, number of links and forms, etc...
+        var docInfo = {
+            docTitle : _document.title,
+            nOfLinks : _linkList.length,
+            nOfForms : _nOfForms
+        }
+        prependTextToOutput(_textProvider.getIntroText(docInfo), output)
+        */
         return output
     } // end of walkDOM fn
     
     return{
         walkDOM : walkDOM,
         linkList : _linkList,
-        headingList: _headingList
+        headingList: _headingList,
+        formsList : _formsList
     } // end of return    
 } // end of class definition

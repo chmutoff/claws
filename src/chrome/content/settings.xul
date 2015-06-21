@@ -4,6 +4,7 @@
 <!-- Extremely recommended to keep this css include!! -->
 <prefwindow id="claws-prefs"
      title="&claws.options.title;"
+     onload="toggleClawsPrefs(event, document.getElementById('mode_menulist'))"
      xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   
   <script type="application/x-javascript" src="chrome://claws/content/js/settings.js" />

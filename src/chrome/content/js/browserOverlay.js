@@ -10,6 +10,6 @@ if ("undefined" == typeof(ClawsChrome)) {
  */
 ClawsChrome.BrowserOverlay = {
   openClaws: function(aEvent) {
-    window.open('chrome://claws/content/claws.xul', 'claws', 'chrome,menubar,close,minimizable,scrollbars,resizable,width=700,height=450');
+    window.open('chrome://claws/content/claws.xul', 'claws', 'menubar,close,minimizable,scrollbars,resizable,width=700,height=450');
   }
 }

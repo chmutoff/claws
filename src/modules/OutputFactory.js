@@ -17,16 +17,20 @@ function OutputFactory(stringBundles, settings){
                 var textProvider = {}    
                 switch (mode) {
                         case 'NVDA':
-                                var nvdaOutput = new NvdaOutput(stringBundles.nvdaStringBundle)                                
+                                var nvdaOutput = new NvdaOutput(stringBundles.nvdaStringBundle)
+                                textProvider.getIntroText = nvdaOutput.getNvdaIntroText
                                 textProvider.getText = nvdaOutput.getNvdaText
                                 textProvider.getClosingText = nvdaOutput.getClosingNvdaText
-                                textProvider.getInputText = nvdaOutput.getInputNvdaText                                
+                                textProvider.getInputText = nvdaOutput.getInputNvdaText
+                                textProvider.getRelevantText = nvdaOutput.getNvdaRelevantText
                                 break
                         case 'CLAWS':
                                 var clawsOutput = new ClawsOutput(stringBundles.clawsStringBundle, settings)
+                                textProvider.getIntroText = clawsOutput.getClawsIntroText
                                 textProvider.getText = clawsOutput.getClawsText
                                 textProvider.getClosingText = clawsOutput.getClosingClawsText
                                 textProvider.getInputText = clawsOutput.getInputClawsText
+                                textProvider.getRelevantText = clawsOutput.getClawsRelevantText
                                 break                        
                 }
                 return textProvider

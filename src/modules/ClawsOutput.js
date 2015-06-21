@@ -6,8 +6,9 @@ function ClawsOutput(stringBundle, settings){
     getListItemText = function(node){
         var total = outputHelper.countListNodes(node.parentNode)
         var pos = outputHelper.countItemPositionInList(node)
-        
-        return 'item '+pos+' of '+total
+       
+        return stringBundle.getFormattedString('CLAWS.output.list.item.pos', [pos, total])
+        //return 'item '+pos+' of '+total
     }
     
     showQuote = function(){
@@ -22,6 +23,10 @@ function ClawsOutput(stringBundle, settings){
             return true;
         }
         else return settings.address
+    }
+    
+    function getClawsIntroText(docInfo){        
+        return docInfo.docTitle + ' ' + stringBundle.getFormattedString('CLAWS.output.pageinfo', [docInfo.nOfLinks, docInfo.nOfForms])
     }
     
     /**
@@ -201,9 +206,40 @@ function ClawsOutput(stringBundle, settings){
         } 
     }
     
+    getClawsRelevantText = function(node){
+        var tagName = node.tagName.toUpperCase()
+      
+        switch (tagName) {
+            case 'AREA':
+              return node.alt
+            case 'IMG':
+              return node.alt + ((node.hasAttribute('longdesc'))? ' ' + node.getAttribute('longdesc') : '')
+            case 'INPUT':
+                var inputType = node.type
+                switch (inputType) {
+                  case 'hidden':
+                    return ''
+                  case 'image':
+                    return node.alt
+                  case 'radio':
+                    return ''
+                  default:
+                    return node.value
+                }
+            case 'SELECT':
+              return node.value
+            case 'TABLE':
+              return node.summary
+            default:
+              return ''
+        }
+    }
+    
     return{
+        getClawsIntroText : getClawsIntroText,
         getClawsText : getClawsText,
         getClosingClawsText : getClosingClawsText,
-        getInputClawsText : getInputClawsText
+        getInputClawsText : getInputClawsText,
+        getClawsRelevantText : getClawsRelevantText
     }
 }

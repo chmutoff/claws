@@ -49,6 +49,16 @@ function start(sourceWindow){
     _linksList = dw.linkList
     _headingsList = dw.headingList
     
+    // prepend document information like page title, number of links and forms, etc...
+    var docInfo = {
+        docTitle : sourceWindow.content.document.title,
+        nOfLinks : _linksList.length,
+        nOfForms : dw.formsList.length
+    }
+    //prependTextToOutput(_textProvider.getIntroText(docInfo), output)
+    var firstChild = sourceWindow.content.document.createTextNode(textProvider.getIntroText(docInfo) + ' ')
+    output.insertBefore(firstChild, output.firstChild)
+    
     // dump the output <div> into iframe
     iframe.body.appendChild(output)
 }

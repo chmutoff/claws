@@ -12,6 +12,9 @@ Components.utils.import('resource://claws/outputHelper.js')
  */
 function NvdaOutput(stringBundle)
 {
+    function getNvdaIntroText(docInfo) {
+        return docInfo.docTitle
+    }
     /**
      * Generates text output for HTML5 tags
      *
@@ -61,6 +64,8 @@ function NvdaOutput(stringBundle)
                 return stringBundle.getString('NVDA.output.hr')
             case 'IFRAME':                
                 return stringBundle.getString('NVDA.output.iframe')
+            case 'IMG':
+                return stringBundle.getString('NVDA.output.img') + ((node.hasAttribute('longdesc'))? ' ' + stringBundle.getString('NVDA.output.img.longdesc') : '')
             case 'INPUT':
                 if (node.hasAttribute('list')) {
                     return stringBundle.getString('NVDA.output.datalist')
@@ -161,11 +166,42 @@ function NvdaOutput(stringBundle)
                 return stringBundle.getString('NVDA.output.input.text') + ' ' + ((node.autocomplete != 'off')? stringBundle.getString('NVDA.output.input.text.autocomplete') : '')
         } 
     }
-        
+    
+    function getNvdaRelevantText(node){
+        var tagName = node.tagName.toUpperCase()
+      
+        switch (tagName) {
+            case 'AREA':
+                return node.alt
+            case 'IMG':               
+                return node.alt
+            case 'INPUT':
+                var inputType = node.type
+                switch (inputType) {
+                  case 'hidden':
+                    return ''
+                  case 'image':
+                    return node.alt
+                  case 'radio':
+                    return ''
+                  default:
+                    return node.value
+                }
+            case 'SELECT':
+                return node.value
+            case 'TABLE':
+                return node.summary
+            default:
+                return ''
+        }
+    }
+    
     return{
+        getNvdaIntroText : getNvdaIntroText,
         getNvdaText : getNvdaText,
         getClosingNvdaText : getClosingNvdaText,
-        getInputNvdaText : getInputNvdaText
+        getInputNvdaText : getInputNvdaText,
+        getNvdaRelevantText : getNvdaRelevantText
         
     }
 }
