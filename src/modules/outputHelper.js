@@ -1,5 +1,10 @@
 var EXPORTED_SYMBOLS = ['outputHelper']
 
+/* DEBUG
+const { classes: Cc, interfaces: Ci, utils: Cu } = Components;
+const {console} = Cu.import("resource://gre/modules/devtools/Console.jsm", {});
+*/
+
 /**
  * Helper object which contains functions for Output modes
  */
@@ -58,7 +63,9 @@ var outputHelper = {
             return node.parentNode.parentNode.getElementsByTagName('th')[node.cellIndex].textContent
         }
         // table -> tbody|tfoot -> td
-        else if (node.parentNode.rowIndex != 0 && node.parentNode.parentNode.parentNode.tagName == 'TABLE') {
+        else if (node.parentNode.rowIndex != 0
+                && node.parentNode.parentNode.parentNode.tagName == 'TABLE'
+                && node.parentNode.parentNode.parentNode.getElementsByTagName('th').length > 0) {
             return node.parentNode.parentNode.parentNode.getElementsByTagName('th')[node.cellIndex].textContent
         } else return ''
     },
