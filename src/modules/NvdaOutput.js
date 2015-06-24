@@ -43,7 +43,7 @@ function NvdaOutput(stringBundle)
             case 'FOOTER':
                 if (node.parentNode.nodeName == 'BODY') {
                     // NVDA only anounces the page footer
-                    return stringBundle.getString('NVDA.output.body.footer')
+                    return stringBundle.getString('NVDA.output.footer')
                 }
                 else return ''
             case 'H1':
@@ -196,12 +196,36 @@ function NvdaOutput(stringBundle)
         }
     }
     
+    function getNvdaAriaLandmarkText(role)
+    {
+        switch (role.toUpperCase()) {
+            case 'BANNER':
+                return stringBundle.getString('NVDA.output.header')
+            case 'COMPLEMENTARY':
+                return stringBundle.getString('NVDA.output.aside')
+            case 'CONTENTINFO':
+                return stringBundle.getString('NVDA.output.footer')
+            case 'FORM':
+                return stringBundle.getString('NVDA.output.form')
+            case 'MAIN': 
+                return stringBundle.getString('NVDA.output.main')
+            case 'NAVIGATION':
+                return stringBundle.getString('NVDA.output.nav')
+            case 'SEARCH':
+                return stringBundle.getString('NVDA.output.search')
+            case 'APPLICATION':
+                return '' // ???
+            default:
+                return ''
+        }
+    }
+    
     return{
         getNvdaIntroText : getNvdaIntroText,
         getNvdaText : getNvdaText,
         getClosingNvdaText : getClosingNvdaText,
         getInputNvdaText : getInputNvdaText,
-        getNvdaRelevantText : getNvdaRelevantText
-        
+        getNvdaRelevantText : getNvdaRelevantText,
+        getNvdaAriaLandmarkText : getNvdaAriaLandmarkText
     }
 }

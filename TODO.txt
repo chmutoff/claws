@@ -1,2 +1,5 @@
 WAI-ARIA landmarks
 Code higlighting (maybe rewrite output fn)
+Full ARIA role support
+Landmarks menu (like links and headings)
+Rename funcions to start with getNVDA and sort return by name

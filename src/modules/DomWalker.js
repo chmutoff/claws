@@ -281,6 +281,10 @@ function DomWalker(textProvider, sourceWindow)
                     addHeading(nodeToExpand)
                 }
                 
+                if (nodeToExpand.hasAttribute('role')) {
+                    appendSpanToOutput(_textProvider.getAriaLandmarkText(nodeToExpand.getAttribute('role')), output)
+                }
+                
                 // insert tag text
                 appendSpanToOutput(_textProvider.getText(nodeToExpand), output)
                 

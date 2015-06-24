@@ -8,7 +8,6 @@ function ClawsOutput(stringBundle, settings){
         var pos = outputHelper.countItemPositionInList(node)
        
         return stringBundle.getFormattedString('CLAWS.output.list.item.pos', [pos, total])
-        //return 'item '+pos+' of '+total
     }
     
     showQuote = function(){
@@ -58,9 +57,11 @@ function ClawsOutput(stringBundle, settings){
                 return stringBundle.getFormattedString('CLAWS.output.list', [outputHelper.countListNodes(node)])
             case 'FOOTER':
                 if (node.parentNode.nodeName == 'BODY') {
-                    return stringBundle.getString('CLAWS.output.body.footer')
+                    return stringBundle.getString('CLAWS.output.page.footer')
                 }
-                else return ''
+                else{
+                    return stringBundle.getString('CLAWS.output.footer')
+                }
             case 'H1':
                 return stringBundle.getFormattedString('CLAWS.output.heading.level', [1])
             case 'H2':
@@ -197,7 +198,7 @@ function ClawsOutput(stringBundle, settings){
             case 'reset':
               return stringBundle.getString('CLAWS.output.button') // TODO: get reset button text
             case 'search':
-              return stringBundle.getString('CLAWS.output.input.text') + ((node.autocomplete != 'off')? stringBundle.getString('CLAWS.output.input.text.autocomplete') : '')
+              return stringBundle.getString('CLAWS.output.input.search') + ' ' + ((node.autocomplete != 'off')? stringBundle.getString('CLAWS.output.input.text.autocomplete') : '')
             case 'submit':
               return stringBundle.getString('CLAWS.output.button') // TODO: get submit button text
             default:
@@ -235,11 +236,36 @@ function ClawsOutput(stringBundle, settings){
         }
     }
     
+    getClawsAriaLandmarkText = function(role)
+    {
+        switch (role.toUpperCase()) {
+            case 'BANNER':
+                return stringBundle.getString('CLAWS.output.header')
+            case 'COMPLEMENTARY':
+                return stringBundle.getString('CLAWS.output.aside')
+            case 'CONTENTINFO':
+                return stringBundle.getString('CLAWS.output.footer')
+            case 'FORM':
+                return stringBundle.getString('CLAWS.output.form')
+            case 'MAIN': 
+                return stringBundle.getString('CLAWS.output.main')
+            case 'NAVIGATION':
+                return stringBundle.getString('CLAWS.output.nav')
+            case 'SEARCH':
+                return stringBundle.getString('CLAWS.output.search')
+            case 'APPLICATION':
+                return '' // ???
+            default:
+                return ''
+        }
+    }
+    
     return{
         getClawsIntroText : getClawsIntroText,
         getClawsText : getClawsText,
         getClosingClawsText : getClosingClawsText,
         getInputClawsText : getInputClawsText,
-        getClawsRelevantText : getClawsRelevantText
+        getClawsRelevantText : getClawsRelevantText,
+        getClawsAriaLandmarkText : getClawsAriaLandmarkText
     }
 }

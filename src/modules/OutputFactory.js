@@ -23,6 +23,7 @@ function OutputFactory(stringBundles, settings){
                                 textProvider.getClosingText = nvdaOutput.getClosingNvdaText
                                 textProvider.getInputText = nvdaOutput.getInputNvdaText
                                 textProvider.getRelevantText = nvdaOutput.getNvdaRelevantText
+                                textProvider.getAriaLandmarkText = nvdaOutput.getNvdaAriaLandmarkText
                                 break
                         case 'CLAWS':
                                 var clawsOutput = new ClawsOutput(stringBundles.clawsStringBundle, settings)
@@ -31,6 +32,7 @@ function OutputFactory(stringBundles, settings){
                                 textProvider.getClosingText = clawsOutput.getClosingClawsText
                                 textProvider.getInputText = clawsOutput.getInputClawsText
                                 textProvider.getRelevantText = clawsOutput.getClawsRelevantText
+                                textProvider.getAriaLandmarkText = clawsOutput.getClawsAriaLandmarkText
                                 break                        
                 }
                 return textProvider

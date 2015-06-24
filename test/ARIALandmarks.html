@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>    
+	<title>ARIA Landmarks Test</title>
+	<meta charset="utf-8"/>
+</head>
+
+<body>
+<div role="banner">banner</div>
+<div id="left-column">
+  <div role="navigation">
+    <ul>
+      <li><a href="#">Nav link #1</a></li>
+      <li><a href="#">Nav link #2</a></li>
+      <li><a href="#">Nav link #3</a></li>
+      <li><a href="#">Nav link #4</a></li>
+    </ul>
+  </div>
+</div>
+<div id="center-column">
+  <div role="main">
+    <p>This is a tutorial on using ARIA Landmarks. Here are the steps you need to take to implement ARIA Landmarks on your site...</p>
+  </div>
+</div>
+<div id="right-column">
+  <div role="complementary">
+    <h2>ARIA and Validation</h2>
+    <p>If you add any ARIA attributes to your page it may cause your code to not validate against the <a href="http://validator.w3.org/">W3C Validation Service</a>. Even though it is frequently said that pages must validate in order to be accessible, this is one exception to that rule. In fact, by adding these non-validating attributes you will be making your page more accessible.</p>
+  </div>
+  <div role="form">
+    <form id="form1" name="form1" method="post" action="">
+      <p><label for="firstName">First Name</label><input type="text" name="firstName" id="firstName" /></p>
+      <p><label for="lastName">Last Name</label><input type="text" name="lastName" id="lastName" /></p>
+      <p><label for="email">Email Address</label><input type="text" name="email" id="email" /></p>
+      <p><input type="submit" name="submit" id="submit" value="Submit" /></p>
+    </form>
+  </div>
+  <div role="contentinfo">BAD contentinfo LANDMARK 1</div>
+  <div role="search">
+    <form id="form2" name="form2" method="post" action="">
+    <p><label for="search-phrase">Search for: </label><input type="text" name="search-phrase" id="search-phrase" /></p>
+    <p><input type="submit" name="submit" id="submit" value="Submit" /></p>
+    </form>
+  </div>
+</div>
+<div role="contentinfo">BAD contentinfo LANDMARK 2</div>
+<div role="contentinfo">
+  <p><a href="#">Legal</a></p>
+  <p><a href="#">Privacy Policy</a></p>
+</div>
+</body>
+</html>
