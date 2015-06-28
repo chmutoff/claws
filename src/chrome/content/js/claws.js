@@ -13,18 +13,25 @@ var _headingsList
  */
 function start(sourceWindow){
     
-    // get output functions
+    // get localized text bundles
     var stringBundles = {
         nvdaStringBundle : document.getElementById('NVDA-string-bundle'),
         clawsStringBundle : document.getElementById('CLAWS-string-bundle')
     }
+    
+    // get settings
     var application = Components.classes["@mozilla.org/fuel/application;1"].getService(Components.interfaces.fuelIApplication)
-    var modePref = application.prefs.get("extensions.claws.output.mode")
-    var mode = modePref.value
-    var quotePref = application.prefs.get("extensions.claws.output.quote")
-    var quote = quotePref.value
-    console.log(mode+' mode selected')
-    var settings = {quote: quote}
+    var mode = application.prefs.get("extensions.claws.output.mode").value
+    var quote = application.prefs.get("extensions.claws.output.quote").value
+    var address = application.prefs.get("extensions.claws.output.address").value
+    var docLang = sourceWindow.content.document.getElementsByTagName('html')[0].getAttribute('lang')
+    var settings = {
+        docLang: docLang,
+        quote: quote,
+        address: address
+    }
+    
+    // get the output funcions for selected mode
     var outputFactory = new OutputFactory(stringBundles, settings)
     var textProvider = outputFactory.createTextProvider(mode)
     
@@ -45,17 +52,17 @@ function start(sourceWindow){
     style.innerHTML += '.output{line-height: 25px}'
     iframe.getElementsByTagName('head')[0].appendChild(style);
     
-    // save links and headings lists to render them later
+    // usefull post process elements
     _linksList = dw.linkList
     _headingsList = dw.headingList
+    var formsList = dw.formsList
     
     // prepend document information like page title, number of links and forms, etc...
     var docInfo = {
         docTitle : sourceWindow.content.document.title,
         nOfLinks : _linksList.length,
-        nOfForms : dw.formsList.length
+        nOfForms : formsList.length
     }
-    //prependTextToOutput(_textProvider.getIntroText(docInfo), output)
     var firstChild = sourceWindow.content.document.createTextNode(textProvider.getIntroText(docInfo) + ' ')
     output.insertBefore(firstChild, output.firstChild)
     

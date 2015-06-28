@@ -1,172 +1,258 @@
 var EXPORTED_SYMBOLS = ['ClawsOutput']
 Components.utils.import('resource://claws/outputHelper.js');
 
-function ClawsOutput(stringBundle, settings){
+function ClawsOutput(stringBundle, settings){    
     
-    getListItemText = function(node){
+    /******************Settings******************/
+    /** @private
+     * HTML document language. Lang attribute of <html>
+     */
+    var docLang = function(){
+        if (settings === undefined || settings.docLang === undefined || settings.docLang == null) {
+            return '';
+        }else return settings.docLang    
+    }
+    
+    /** @private
+     * Announce or not <cite> and <q>
+     */
+    var showQuote = function(){
+        if (settings === undefined || settings.quote === undefined) {
+            return false;
+        }else return settings.quote
+    }
+    
+    /** @private
+     * Announce or not <address>
+     */
+    var showAddress = function(){
+        if (settings === undefined || settings.address === undefined) {
+            return false;
+        }else return settings.address
+    }
+    /***************END of Settings***************/
+    
+    /** @private
+     * Calculates the position of the <li> element inside of the list
+     * 
+     * @returns {Integer}
+     */
+    var getListItemText = function(node){
         var total = outputHelper.countListNodes(node.parentNode)
         var pos = outputHelper.countItemPositionInList(node)
        
         return stringBundle.getFormattedString('CLAWS.output.list.item.pos', [pos, total])
     }
     
-    showQuote = function(){
-        if (settings === undefined || settings.quote === undefined) {
-            return true;
-        }
-        else return settings.quote
-    }
-    
-    showAddress = function(){
-        if (settings === undefined || settings.address === undefined) {
-            return true;
-        }
-        else return settings.address
-    }
-    
-    function getClawsIntroText(docInfo){        
+    /** @public
+     * Create an introduction text of the document in following format:
+     * Document title Page with n links and n forms.
+     * 
+     * @return {String}
+     */
+    var getClawsIntroText = function(docInfo){        
         return docInfo.docTitle + ' ' + stringBundle.getFormattedString('CLAWS.output.pageinfo', [docInfo.nOfLinks, docInfo.nOfForms])
     }
     
-    /**
-     * Generates text output for HTML5 tags
+    /** @public
+     * Generates text output for HTML5 tags and attributes
      *
      * @param {DOM Node} node which tag is analyzed
      * @returns {String} Text string with Claws output
      */
-    getClawsText = function(node){
+    var getClawsText = function(node){
         var tagName = node.tagName.toUpperCase()
+        var output = ''
+        
+        // add begining of lang scope
+        if (node.hasAttribute('lang')) {
+            var lang = node.getAttribute('lang')
+            if (docLang() != '') {
+                output += stringBundle.getFormattedString('CLAWS.output.attribute.lang.full', [docLang(), lang])
+            }            
+        }        
         
         switch(tagName){
             case 'A':
-                return stringBundle.getString('CLAWS.output.link')
+                output += stringBundle.getString('CLAWS.output.link')
+                break
             case 'ADDRESS':
-                return stringBundle.getString('CLAWS.output.address')
-            case 'AREA':
-                return stringBundle.getString('CLAWS.output.link')
-            case 'ASIDE':
-                return stringBundle.getString('CLAWS.output.aside')
-            case 'BLOCKQUOTE':
-                if (showQuote) {
-                    return stringBundle.getString('CLAWS.output.quote')
+                if (showAddress()) {
+                    output += stringBundle.getString('CLAWS.output.address')
                 }
-                else return ''                
+                break
+            case 'AREA':
+                output += stringBundle.getString('CLAWS.output.link')
+                break
+            case 'ASIDE':
+                output += stringBundle.getString('CLAWS.output.aside')
+                break
+            case 'BLOCKQUOTE':
+                if (showQuote()) {
+                    output += stringBundle.getString('CLAWS.output.quote')
+                }
+                break               
             case 'BUTTON':
-                return stringBundle.getString('CLAWS.output.button')
+                output += stringBundle.getString('CLAWS.output.button')
+                break
             case 'DL':
-                return stringBundle.getFormattedString('CLAWS.output.list', [outputHelper.countListNodes(node)])
+                output += stringBundle.getFormattedString('CLAWS.output.list', [outputHelper.countListNodes(node)])
+                break
             case 'FOOTER':
                 if (node.parentNode.nodeName == 'BODY') {
-                    return stringBundle.getString('CLAWS.output.page.footer')
+                    output += stringBundle.getString('CLAWS.output.page.footer')
                 }
                 else{
-                    return stringBundle.getString('CLAWS.output.footer')
+                    output += stringBundle.getString('CLAWS.output.footer')
                 }
+                break
             case 'H1':
-                return stringBundle.getFormattedString('CLAWS.output.heading.level', [1])
+                output += stringBundle.getFormattedString('CLAWS.output.heading.level', [1])
+                break
             case 'H2':
-                return stringBundle.getFormattedString('CLAWS.output.heading.level', [2])
+                output += stringBundle.getFormattedString('CLAWS.output.heading.level', [2])
+                break
             case 'H3':
-                return stringBundle.getFormattedString('CLAWS.output.heading.level', [3])
+                output += stringBundle.getFormattedString('CLAWS.output.heading.level', [3])
+                break
             case 'H4':
-                return stringBundle.getFormattedString('CLAWS.output.heading.level', [4])
+                output += stringBundle.getFormattedString('CLAWS.output.heading.level', [4])
+                break
             case 'H5':
-                return stringBundle.getFormattedString('CLAWS.output.heading.level', [5])
+                output += stringBundle.getFormattedString('CLAWS.output.heading.level', [5])
+                break
             case 'H6':
-                return stringBundle.getFormattedString('CLAWS.output.heading.level', [6])
+                output += stringBundle.getFormattedString('CLAWS.output.heading.level', [6])
+                break
             case 'HEADER':
-                return stringBundle.getString('CLAWS.output.header')
+                output += stringBundle.getString('CLAWS.output.header')
+                break
             case 'HR':
-                return stringBundle.getString('CLAWS.output.hr')
+                output += stringBundle.getString('CLAWS.output.hr')
+                break
             case 'IFRAME':                
-                return stringBundle.getString('CLAWS.output.iframe')
+                output += stringBundle.getString('CLAWS.output.iframe')
+                break
             case 'IMG':
-                return stringBundle.getString('CLAWS.output.image')
+                output += stringBundle.getString('CLAWS.output.image')
+                break
             case 'INPUT':
                 if (node.hasAttribute('list')) {
-                    return stringBundle.getString('CLAWS.output.datalist')
+                    output += stringBundle.getString('CLAWS.output.datalist')
                 }
-                else return getInputClawsText(node)
+                else output += getInputClawsText(node)
+                break
             case 'LI':
-                return getListItemText(node)
+                output += getListItemText(node)
+                break
             case 'MAIN':
-                return stringBundle.getString('CLAWS.output.main')
+                output += stringBundle.getString('CLAWS.output.main')
+                break
             case 'MAP':
-                return stringBundle.getString('CLAWS.output.map')
+                output += stringBundle.getString('CLAWS.output.map')
+                break
             case 'NAV':
-                return stringBundle.getString('CLAWS.output.nav')
+                output += stringBundle.getString('CLAWS.output.nav')
+                break
             case 'OBJECT':
-                return stringBundle.getString('CLAWS.output.object')
+                output += stringBundle.getString('CLAWS.output.object')
+                break
             case 'OL':
-                return stringBundle.getFormattedString('CLAWS.output.list', [outputHelper.countListNodes(node)])
+                output += stringBundle.getFormattedString('CLAWS.output.list', [outputHelper.countListNodes(node)])
+                break
             case 'PROGRESS':
-                return stringBundle.getString('CLAWS.output.progress')
+                output += stringBundle.getString('CLAWS.output.progress')
+                break
             case 'Q':
-                if (showQuote) {
-                    return stringBundle.getString('CLAWS.output.quote')
+                if (showQuote()) {
+                    output += stringBundle.getString('CLAWS.output.quote')
                 }
-                else return ''
+                break
             case 'SELECT':
-                return stringBundle.getString('CLAWS.output.select')
+                output += stringBundle.getString('CLAWS.output.select')
+                break
             case 'TABLE':
-                return stringBundle.getFormattedString('CLAWS.output.table', [outputHelper.getNumRowsInTable(node), outputHelper.getNumColumnsInTable(node)])
+                output += stringBundle.getFormattedString('CLAWS.output.table', [outputHelper.getNumRowsInTable(node), outputHelper.getNumColumnsInTable(node)])
+                break
             case 'TD':
-                return outputHelper.getCellHeading(node) + ' ' + outputHelper.getHorizontalHeading(node) + ' ' +  stringBundle.getFormattedString('CLAWS.output.table.column', [(node.cellIndex+1)])
+                output += outputHelper.getCellHeading(node) + ' ' + outputHelper.getHorizontalHeading(node) + ' ' +  stringBundle.getFormattedString('CLAWS.output.table.column', [(node.cellIndex+1)])
+                break
             case 'TEXTAREA':
-                return stringBundle.getString('CLAWS.output.textarea')
+                output += stringBundle.getString('CLAWS.output.textarea')
+                break
             case 'TH':
-                return outputHelper.getCellHeading(node) + ' ' +  stringBundle.getFormattedString('CLAWS.output.table.column', [(node.cellIndex+1)])
+                output += outputHelper.getCellHeading(node) + ' ' +  stringBundle.getFormattedString('CLAWS.output.table.column', [(node.cellIndex+1)])
+                break
             case 'TR':
-                return stringBundle.getFormattedString('CLAWS.output.table.row', [(node.rowIndex+1)])
+                output += stringBundle.getFormattedString('CLAWS.output.table.row', [(node.rowIndex+1)])
+                break
             case 'UL':
-                return stringBundle.getFormattedString('CLAWS.output.list', [outputHelper.countListNodes(node)])
-            default:
-                return ''
+                output += stringBundle.getFormattedString('CLAWS.output.list', [outputHelper.countListNodes(node)])
+                break
         }
+        
+        return output
     }
     
-    /**
+    /** @public
      * Generates text output for HTML5 closing tags
-     * because elements has output text for closing tag
+     * Some elements has output text for closing tag
+     * i.e.: <li> tag output "List of n elems" ... "End of list"
      *
      * @param {DOM Node} node which tag is analyzed
      * @returns {String} Text string with Claws output
      */
-    getClosingClawsText = function(node){
+    var getClosingClawsText = function(node){
         var tagName = node.tagName.toUpperCase()
+        var output = '';
+        
         switch (tagName) {
             case 'BLOCKQUOTE':
-                if (showQuote) {
-                    return  stringBundle.getString('CLAWS.output.quote.end')
+                if (showQuote()) {
+                    output +=  stringBundle.getString('CLAWS.output.quote.end')
                 }
-                else return ''
+                break
             case 'DL':
-                return stringBundle.getString('CLAWS.ouptut.list.end')
+                output += stringBundle.getString('CLAWS.ouptut.list.end')
+                break
             case 'IFRAME':
-                return stringBundle.getString('CLAWS.output.iframe.end')
+                output += stringBundle.getString('CLAWS.output.iframe.end')
+                break
             case 'OL':
-                return stringBundle.getString('CLAWS.ouptut.list.end')
+                output += stringBundle.getString('CLAWS.ouptut.list.end')
+                break
             case 'Q':
-                if (showQuote) {
-                    return  stringBundle.getString('CLAWS.output.quote.end')
+                if (showQuote()) {
+                    output +=  stringBundle.getString('CLAWS.output.quote.end')
                 }
-                else return ''
+                break
             case 'TABLE':
-                return stringBundle.getString('CLAWS.output.table.end')
+                output += stringBundle.getString('CLAWS.output.table.end')
+                break
             case 'UL':
-                return stringBundle.getString('CLAWS.ouptut.list.end')
-            default:
-                return ''
+                output += stringBundle.getString('CLAWS.ouptut.list.end')
+                break
         }
+        
+        // add end of lang scope
+        if (node.hasAttribute('lang')) {
+            var lang = node.getAttribute('lang')
+            if (docLang() != '') {
+                output += stringBundle.getFormattedString('CLAWS.output.attribute.lang.full', [lang, docLang()])
+            }
+            
+        }
+        
+        return output
     }
     
-    /**
+    /** @public
      * Generates text output for <input type="..."> HTML5 element
      *
      * @param {DOM Node} input node which type is analyzed
      * @returns {String} Text string with Claws output
      */
-    getInputClawsText = function(node){
+    var getInputClawsText = function(node){
         var inputType = node.getAttribute('type').toLowerCase()
         switch (inputType){
             case 'button':
@@ -207,14 +293,25 @@ function ClawsOutput(stringBundle, settings){
         } 
     }
     
-    getClawsRelevantText = function(node){
+    /** @public
+     * Returns relevant node information
+     * i.e: image alt attribute text,
+     *      input value,
+     *      etc...
+     *
+     * @param {DOM Node} node to extract the information
+     *
+     * NOTE: all the tag names are transfromed to upper case because
+     * depending on doctype they could be in lower/upper case
+     */
+    var getClawsRelevantText = function(node){
         var tagName = node.tagName.toUpperCase()
       
         switch (tagName) {
             case 'AREA':
               return node.alt
             case 'IMG':
-              return node.alt + ((node.hasAttribute('longdesc'))? ' ' + node.getAttribute('longdesc') : '')
+              return node.alt + ((node.hasAttribute('longdesc')) ? ' ' + node.getAttribute('longdesc') : '')
             case 'INPUT':
                 var inputType = node.type
                 switch (inputType) {
@@ -236,7 +333,12 @@ function ClawsOutput(stringBundle, settings){
         }
     }
     
-    getClawsAriaLandmarkText = function(role)
+    /** @public
+     *
+     * @param {String} Text of ARIA role atribute
+     * @returns {String} Announcement for corresponding ARIA Landmark
+     */
+    var getClawsAriaLandmarkText = function(role)
     {
         switch (role.toUpperCase()) {
             case 'BANNER':

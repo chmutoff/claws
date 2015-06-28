@@ -9,9 +9,9 @@ Components.utils.import('resource://claws/ClawsOutput.js')
  */
 function OutputFactory(stringBundles, settings){
         /** 
-         * Generates an object with 3 text functions for selected output mode
+         * Generates an object with text functions for selected output mode
          *
-         * @returns {textProvider} An object with getText, getClosingText and getIntputText functions
+         * @returns {textProvider} 
          */
         this.createTextProvider = function(mode){
                 var textProvider = {}    

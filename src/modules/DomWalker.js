@@ -139,52 +139,10 @@ function DomWalker(textProvider, sourceWindow)
             spanNode.appendChild(textNode)
             output.appendChild(spanNode)
         }
-    }
-  
-    /**
-     * Returns relevant node information
-     * i.e: image alt attribute text,
-     *      input value,
-     *      etc...
-     *
-     * @param {DOM Node} node to extract the information
-     *
-     * NOTE: all the tag names are transfromed to upper case because
-     * depending on doctype they could be in lower/upper case
-     */
-    /*
-    function getRelevantText(node){
-        var tagName = node.tagName.toUpperCase()
-      
-        switch (tagName) {
-            case 'AREA':
-              return node.alt
-            case 'IMG':
-              return node.alt
-            case 'INPUT':
-                var inputType = node.type
-                switch (inputType) {
-                  case 'hidden':
-                    return ''
-                  case 'image':
-                    return node.alt
-                  case 'radio':
-                    return ''
-                  default:
-                    return node.value
-                }
-            case 'SELECT':
-              return node.value
-            case 'TABLE':
-              return node.summary
-            default:
-              return ''
-        }
-    }
-    */
+    }   
     
     /**
-     * Determines whether the node should be excluded from expanding(walking)
+     * Determines whether the node should be excluded from expanding(walking) or not
      * Some of them are processed manually due to special characteristics (i.e Iframe or table)
      * 
      * @returns true if node should not be expanded
@@ -248,7 +206,7 @@ function DomWalker(textProvider, sourceWindow)
      * generate some output for closing tag
      *
      * @param {DOM Node} dom root node to begin with
-     * @returns {DOM Node} output content     *
+     * @returns {DOM Node} output content
      */
     function walkDOM(dom){
         var nodeStack = new Array()
@@ -281,6 +239,7 @@ function DomWalker(textProvider, sourceWindow)
                     addHeading(nodeToExpand)
                 }
                 
+                // ARIA role attribute
                 if (nodeToExpand.hasAttribute('role')) {
                     appendSpanToOutput(_textProvider.getAriaLandmarkText(nodeToExpand.getAttribute('role')), output)
                 }
@@ -340,16 +299,6 @@ function DomWalker(textProvider, sourceWindow)
                 appendSpanToOutput(nodeToExpand.textContent, output)
             }      
         }while(nodeStack.length > 0)
-        
-        /*
-        // prepend document information like page title, number of links and forms, etc...
-        var docInfo = {
-            docTitle : _document.title,
-            nOfLinks : _linkList.length,
-            nOfForms : _nOfForms
-        }
-        prependTextToOutput(_textProvider.getIntroText(docInfo), output)
-        */
         return output
     } // end of walkDOM fn
     
