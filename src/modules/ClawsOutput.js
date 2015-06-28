@@ -69,7 +69,10 @@ function ClawsOutput(stringBundle, settings){
             var lang = node.getAttribute('lang')
             if (docLang() != '') {
                 output += stringBundle.getFormattedString('CLAWS.output.attribute.lang.full', [docLang(), lang])
-            }            
+            }
+            else{
+                output += stringBundle.getFormattedString('CLAWS.output.attribute.lang.short.start', [lang])
+            }
         }        
         
         switch(tagName){
@@ -240,7 +243,9 @@ function ClawsOutput(stringBundle, settings){
             if (docLang() != '') {
                 output += stringBundle.getFormattedString('CLAWS.output.attribute.lang.full', [lang, docLang()])
             }
-            
+            else{
+                output += stringBundle.getFormattedString('CLAWS.output.attribute.lang.short.end', [lang])
+            }
         }
         
         return output
