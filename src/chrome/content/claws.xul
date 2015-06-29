@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE window SYSTEM "chrome://claws/locale/claws.dtd">
-<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <!-- Extremely recommended to keep this css include!! -->
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <window id="claws-main-window"
         title="&claws.window.title;"
         onload="start(window.opener)"
@@ -9,11 +9,21 @@
   
   <script type="application/x-javascript" src="chrome://claws/content/js/claws.js" />
   
+  <!-- StringBundles -->
   <stringbundleset id="stringbundleset">
     <stringbundle id="NVDA-string-bundle" src="chrome://claws/locale/NVDA.properties" />
     <stringbundle id="CLAWS-string-bundle" src="chrome://claws/locale/CLAWS.properties" />
   </stringbundleset>
   
+  <!-- Right Click Menu -->
+  <popupset>
+    <menupopup id="rightclick">
+      <menuitem label="Copy selected" onclick="copySelectedOutput()"/>
+      <menuitem label="Copy all" onclick="copyAllOutput()"/>
+    </menupopup>
+  </popupset>
+  
+  <!-- Top Menu Bar -->
   <menubar id="claws-menubar">
     <menu id="claws-file-menu" label="&claws.menu.file;" accesskey="&claws.menu.file.accesskey;">
       <menupopup id="file-popup">
@@ -28,7 +38,9 @@
     </menu>
   </menubar>
 
-  <box orient="horizontal" flex="1">
+  <!-- Iframe with output -->
+  <box orient="horizontal" flex="1" context="rightclick">
     <iframe id="output-iframe" flex="1" type="content" src="about:blank"/>
   </box>
+  
 </window>

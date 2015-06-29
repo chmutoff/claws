@@ -1,7 +1,8 @@
-console.log('claws.js loaded')
-
 Components.utils.import('resource://claws/OutputFactory.js')
 Components.utils.import('resource://claws/DomWalker.js')
+Components.utils.import('resource://claws/whitespaceHelper.js')
+
+const gClipboardHelper = Components.classes["@mozilla.org/widget/clipboardhelper;1"].getService(Components.interfaces.nsIClipboardHelper)
 
 var _linksList
 var _headingsList
@@ -87,4 +88,16 @@ function openLinksWindow()
 function openHeadingsWindow()
 {
     window.openDialog('chrome://claws/content/headings.xul', 'headings', 'menubar,close,minimizable,scrollbars,resizable,modal,width=450,height=250', {headingsList: _headingsList});    
+}
+
+function copySelectedOutput(){
+    var selectedText = document.commandDispatcher.focusedWindow.getSelection().toString()
+    var cleanSelectedText = cleanText(selectedText)
+    gClipboardHelper.copyString(cleanSelectedText)
+}
+
+function copyAllOutput(){
+    var selectedText = document.getElementById('output-iframe').contentDocument.body.textContent
+    var cleanSelectedText = cleanText(selectedText)
+    gClipboardHelper.copyString(cleanSelectedText)
 }

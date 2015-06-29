@@ -1,13 +1,27 @@
 <?xml version="1.0"?>
 <!DOCTYPE window SYSTEM "chrome://claws/locale/headings.dtd">
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
-<!-- Extremely recommended to keep this css include!! -->
 <window id="headingsWindow"
         title="&headings.window.title;"
         onload="renderHeadingsList()"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script type="application/x-javascript" src="chrome://claws/content/js/headings.js" />
-  <vbox>
-    <listbox id="headings-list"></listbox>
-  </vbox>
+  
+  <!-- Right Click Menu -->
+  <popupset>
+    <menupopup id="headingsrightclick">
+      <menuitem label="Copy" onclick="copyHeading()"/>
+    </menupopup>
+  </popupset>
+  
+  <box flex="1" context="headingsrightclick" style="min-width: 450px; min-height: 250px">
+    <listbox id="headings-list" flex="1">
+      <listhead >
+        <listheader label="Heading text" />
+        <listheader label="Heading level" />
+      </listhead>
+      <listcols></listcols>
+    </listbox>
+  </box>
+  
 </window>

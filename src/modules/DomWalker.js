@@ -52,6 +52,7 @@ function DomWalker(textProvider, sourceWindow)
         for( var i=0; i<children.length; ++i )
         {
             var out = walkDOM(children[i])
+            // remove all the announcements and leave the text
             removeSpansFromNode(out)
             linkText += out.textContent
         }
@@ -80,12 +81,15 @@ function DomWalker(textProvider, sourceWindow)
         for( var i=0; i<children.length; ++i )
         {
             var out = walkDOM(children[i])
+            // remove all the announcements and leave the text
             removeSpansFromNode(out)
             headingText += out.textContent
         }
         
+        var cleanHeadingText = cleanText(headingText)
         var item = {
-            text : headingText
+            text : cleanHeadingText,
+            level : node.tagName.toUpperCase()
         }
         _headingList.push(item)
     }

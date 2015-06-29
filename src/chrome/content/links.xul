@@ -1,13 +1,22 @@
 <?xml version="1.0"?>
 <!DOCTYPE window SYSTEM "chrome://claws/locale/links.dtd">
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
-<!-- Extremely recommended to keep this css include!! -->
 <window id="linksWindow"
         title="&links.window.title;"
         onload="renderLinksList()"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script type="application/x-javascript" src="chrome://claws/content/js/links.js" />
-  <vbox>
-    <listbox id="links-list"></listbox>
-  </vbox>
+  
+  <!-- Right Click Menu -->
+  <popupset>
+    <menupopup id="linksrightclick">
+      <menuitem label="Copy text" onclick="copyText()"/>
+      <menuitem label="Copy link" onclick="copyLink()"/>
+    </menupopup>
+  </popupset>
+  
+  <box flex="1" context="linksrightclick" style="min-width: 450px; min-height: 250px">
+    <listbox id="links-list" flex="1"></listbox>
+  </box>
+  
 </window>

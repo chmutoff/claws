@@ -1,5 +1,7 @@
+const gClipboardHelper = Components.classes["@mozilla.org/widget/clipboardhelper;1"].getService(Components.interfaces.nsIClipboardHelper)
+
 /**
- * Renders links list
+ * Render links list
  */
 function renderLinksList() {
     if('arguments' in window && window.arguments.length > 0) {
@@ -7,9 +9,25 @@ function renderLinksList() {
         var listBox = document.getElementById('links-list')
         
         for ( var i in linksList ) {
-            let text = linksList[i].text.toString()
+            let label = linksList[i].text.toString()
             let url  = linksList[i].url.toString()
-            listBox.appendItem(text, '').ondblclick = function(){ window.open(url, '_blank') }
+            listBox.appendItem(label, url).ondblclick = function(){ window.open(url, '_blank') }
         }
     }
+}
+
+/**
+ * Copy link text to clipboard
+ */
+function copyText(){
+    var listBox = document.getElementById('links-list')
+    gClipboardHelper.copyString(listBox.selectedItem.label)
+}
+
+/**
+ * Copy link url to clipboard
+ */
+function copyLink(){
+    var listBox = document.getElementById('links-list')
+    gClipboardHelper.copyString(listBox.selectedItem.value)
 }
