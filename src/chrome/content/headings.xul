@@ -10,15 +10,15 @@
   <!-- Right Click Menu -->
   <popupset>
     <menupopup id="headingsrightclick">
-      <menuitem label="Copy" onclick="copyHeading()"/>
+      <menuitem label="&headings.secondary.copy;" accesskey="&headings.secondary.copy.accesskey;" oncommand="copyHeading()"/>
     </menupopup>
   </popupset>
   
   <box flex="1" context="headingsrightclick" style="min-width: 450px; min-height: 250px">
     <listbox id="headings-list" flex="1">
       <listhead >
-        <listheader label="Heading text" />
-        <listheader label="Heading level" />
+        <listheader label="&headings.list.text;" />
+        <listheader label="&headings.list.level;" />
       </listhead>
       <listcols></listcols>
     </listbox>

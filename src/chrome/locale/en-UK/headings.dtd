@@ -1,1 +1,5 @@
-<!ENTITY headings.window.title          "Headings list">
+<!ENTITY headings.window.title              "Headings list">
+<!ENTITY headings.list.text                 "Heading text">
+<!ENTITY headings.list.level                "Heading level">
+<!ENTITY headings.secondary.copy            "Copy">
+<!ENTITY headings.secondary.copy.accesskey  "C">

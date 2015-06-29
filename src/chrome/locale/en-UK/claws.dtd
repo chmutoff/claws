@@ -1,11 +1,15 @@
-<!ENTITY claws.window.title                     "Claws - Screen reader emulator">
-<!ENTITY claws.menu.file                        "File">
-<!ENTITY claws.menu.file.accesskey              "F">
-<!ENTITY claws.menu.file.close                  "Close">
-<!ENTITY claws.menu.file.close.accesskey        "C">
-<!ENTITY claws.menu.tools                       "Tools">
-<!ENTITY claws.menu.tools.accesskey             "T">
-<!ENTITY claws.menu.tools.links                 "Links">
-<!ENTITY claws.menu.tools.links.accesskey       "L">
-<!ENTITY claws.menu.tools.headings              "Headings">
-<!ENTITY claws.menu.tools.headings.accesskey    "H">
+<!ENTITY claws.window.title                         "Claws - Screen reader emulator">
+<!ENTITY claws.menu.file                            "File">
+<!ENTITY claws.menu.file.accesskey                  "F">
+<!ENTITY claws.menu.file.close                      "Close">
+<!ENTITY claws.menu.file.close.accesskey            "C">
+<!ENTITY claws.menu.tools                           "Tools">
+<!ENTITY claws.menu.tools.accesskey                 "T">
+<!ENTITY claws.menu.tools.links                     "Links">
+<!ENTITY claws.menu.tools.links.accesskey           "L">
+<!ENTITY claws.menu.tools.headings                  "Headings">
+<!ENTITY claws.menu.tools.headings.accesskey        "H">
+<!ENTITY claws.secondary.copy.selected              "Copy selected text">
+<!ENTITY claws.secondary.copy.selected.accesskey    "C">
+<!ENTITY claws.secondary.copy.all                   "Copy all">
+<!ENTITY claws.secondary.copy.all.accesskey         "A">

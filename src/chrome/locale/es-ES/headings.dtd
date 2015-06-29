@@ -1,1 +1,5 @@
-<!ENTITY headings.window.title          "Lista de encabezados">
+<!ENTITY headings.window.title              "Lista de encabezados">
+<!ENTITY headings.list.text                 "Texto de encabezado">
+<!ENTITY headings.list.level                "Nivel de encabezado">
+<!ENTITY headings.secondary.copy            "Copiar">
+<!ENTITY headings.secondary.copy.accesskey  "C">

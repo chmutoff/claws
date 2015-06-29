@@ -10,8 +10,8 @@
   <!-- Right Click Menu -->
   <popupset>
     <menupopup id="linksrightclick">
-      <menuitem label="Copy text" onclick="copyText()"/>
-      <menuitem label="Copy link" onclick="copyLink()"/>
+      <menuitem label="&links.secondary.copy.text;" accesskey="&links.secondary.copy.text.accesskey;" oncommand="copyText()"/>
+      <menuitem label="&links.secondary.copy.url;" accesskey="&links.secondary.copy.url.accesskey;" oncommand="copyLink()"/>
     </menupopup>
   </popupset>
   

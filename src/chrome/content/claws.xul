@@ -18,8 +18,8 @@
   <!-- Right Click Menu -->
   <popupset>
     <menupopup id="rightclick">
-      <menuitem label="Copy selected" onclick="copySelectedOutput()"/>
-      <menuitem label="Copy all" onclick="copyAllOutput()"/>
+      <menuitem label="&claws.secondary.copy.selected;" accesskey="&claws.secondary.copy.selected.accesskey;" oncommand="copySelectedOutput()"/>
+      <menuitem label="&claws.secondary.copy.all;" accesskey="&claws.secondary.copy.all.accesskey;" oncommand="copyAllOutput()"/>
     </menupopup>
   </popupset>
   
