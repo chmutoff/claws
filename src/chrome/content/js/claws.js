@@ -10,7 +10,7 @@ var _headingsList
 /**
  * Extension entry point
  *
- * @param {Window} sourceWindow is the reference to the  window which contains the HTML to process
+ * @param {Window} Reference to the  window which contains the HTML to process
  */
 function start(sourceWindow){
     
@@ -20,17 +20,28 @@ function start(sourceWindow){
         clawsStringBundle : document.getElementById('CLAWS-string-bundle')
     }
     
-    // get settings
+    // get preferences
     var application = Components.classes["@mozilla.org/fuel/application;1"].getService(Components.interfaces.fuelIApplication)
     var mode = application.prefs.get("extensions.claws.output.mode").value
     var quote = application.prefs.get("extensions.claws.output.quote").value
     var address = application.prefs.get("extensions.claws.output.address").value
+    var claws_mode_title = application.prefs.get("extensions.claws.output.claws.mode.title").value
+    var heading_background_color = application.prefs.get("extensions.claws.output.heading.background.color").value
+    var heading_underline = application.prefs.get("extensions.claws.output.heading.underline").value
+    var link_background_color = application.prefs.get("extensions.claws.output.link.background.color").value
+    var link_underline = application.prefs.get("extensions.claws.output.link.underline").value
+    
+    // object with preferences for output modes
     var docLang = sourceWindow.content.document.getElementsByTagName('html')[0].getAttribute('lang')
     var settings = {
         docLang: docLang,
         quote: quote,
-        address: address
+        address: address,
+        claws : {
+            title: claws_mode_title
+        }
     }
+    //TODO: separate settings in arrays
     
     // get the output funcions for selected mode
     var outputFactory = new OutputFactory(stringBundles, settings)
@@ -38,20 +49,29 @@ function start(sourceWindow){
     
     // walk DOM and generate otput with previously generated output functions
     var dw = new DomWalker(textProvider, sourceWindow)
-    var output = dw.walkDOM(sourceWindow.content.document.body)
-    var iframe = document.getElementById('output-iframe').contentDocument
+    var output = dw.walkDOM(sourceWindow.content.document.body)    
     
+    var iframe = document.getElementById('output-iframe')
+    //iframe.src = 'about:blank'
+    var iframeContent = iframe.contentDocument
+    // reset iframe (just in case it was used before)
+    iframeContent.head.innerHTML = ''
+    iframeContent.body.innerHTML = ''
+
     // get user preferences for output style
     var application = Components.classes["@mozilla.org/fuel/application;1"].getService(Components.interfaces.fuelIApplication)
-    var colorPref = application.prefs.get("extensions.claws.output.element.text.color")
-    var backgroundPref = application.prefs.get("extensions.claws.output.element.text.background") 
+    var elemColorPref = application.prefs.get("extensions.claws.output.element.text.color").value
+    var elemBackgroundPref = application.prefs.get("extensions.claws.output.element.text.background.color").value
+    var backgroundColor = application.prefs.get("extensions.claws.output.background.color").value
     
     // style the output
-    var style = iframe.createElement('style')
-    style.type = 'text/css'
-    style.innerHTML = '.tag-output{color: '+colorPref.value+'; background-color: '+backgroundPref.value+'; margin-right: 5px; padding: 2px 5px;}'
-    style.innerHTML += '.output{line-height: 25px}'
-    iframe.getElementsByTagName('head')[0].appendChild(style);
+    var style = iframeContent.createElement('style')
+    style.type = 'text/css'    
+    style.innerHTML = 'body{background-color: '+backgroundColor+'; line-height: 25px; font-family: "Verdana" font-size: 13px; color: #333}'
+    style.innerHTML += '.tag-output{color: '+elemColorPref+'; background-color: '+elemBackgroundPref+'; margin-right: 5px; padding: 2px 5px;}'
+    style.innerHTML += '.heading-text{background-color:'+heading_background_color+'; text-decoration:'+(heading_underline ? 'underline' : 'none')+';}'
+    style.innerHTML += '.link-text{background-color:'+link_background_color+'; text-decoration:'+(link_underline ? 'underline' : 'none')+';}'
+    iframeContent.getElementsByTagName('head')[0].appendChild(style);
     
     // usefull post process elements
     _linksList = dw.linkList
@@ -68,7 +88,7 @@ function start(sourceWindow){
     output.insertBefore(firstChild, output.firstChild)
     
     // dump the output <div> into iframe
-    iframe.body.appendChild(output)
+    iframeContent.body.appendChild(output)
 }
 
 /**

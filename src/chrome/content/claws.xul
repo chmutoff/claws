@@ -5,6 +5,7 @@
 <window id="claws-main-window"
         title="&claws.window.title;"
         onload="start(window.opener)"
+        onfocus="start(window.opener)"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"> 
   
   <script type="application/x-javascript" src="chrome://claws/content/js/claws.js" />
@@ -23,6 +24,11 @@
     </menupopup>
   </popupset>
   
+  <!-- CTRL+C key event -->
+  <keyset>
+    <key id="copy-key" modifiers="accel" key="C" oncommand="copySelectedOutput()"/>
+  </keyset>
+  
   <!-- Top Menu Bar -->
   <menubar id="claws-menubar">
     <menu id="claws-file-menu" label="&claws.menu.file;" accesskey="&claws.menu.file.accesskey;">
@@ -39,7 +45,7 @@
   </menubar>
 
   <!-- Iframe with output -->
-  <box orient="horizontal" flex="1" context="rightclick">
+  <box orient="horizontal" flex="1" context="rightclick"> 
     <iframe id="output-iframe" flex="1" type="content" src="about:blank"/>
   </box>
   

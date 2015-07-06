@@ -1,9 +1,8 @@
 var EXPORTED_SYMBOLS = ['outputHelper']
 
-/* DEBUG
 const { classes: Cc, interfaces: Ci, utils: Cu } = Components;
 const {console} = Cu.import("resource://gre/modules/devtools/Console.jsm", {});
-*/
+
 
 /**
  * Helper object which contains functions for Output modes
@@ -47,7 +46,10 @@ var outputHelper = {
      * @returns {Integer} number of columns in a table
      */
     getNumColumnsInTable: function(table){
-        return table.rows[0].cells.length
+        if (table.rows.length > 0) {
+            return table.rows[0].cells.length
+        }
+        else return 0
     },
 
     /**

@@ -1,47 +1,85 @@
 <?xml version="1.0"?>
 <!DOCTYPE window SYSTEM "chrome://claws/locale/settings.dtd">
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
-<!-- Extremely recommended to keep this css include!! -->
 <prefwindow id="claws-prefs"
-     title="&claws.options.title;"
+     title="&claws.preferences.title;"
      onload="toggleClawsPrefs(event, document.getElementById('mode_menulist'))"
      xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   
   <script type="application/x-javascript" src="chrome://claws/content/js/settings.js" />
  
-<prefpane id="claws-pane" label="&claws.options.prefpane.title;">
-  <preferences>
-    <preference id="pref_mode" name="extensions.claws.output.mode" type="string"/>
-    <preference id="pref_quote" name="extensions.claws.output.quote" type="bool"/>
-    <preference id="pref_address" name="extensions.claws.output.address" type="bool"/>
-    <preference id="pref_elem_text_color" name="extensions.claws.output.element.text.color" type="string"/>
-    <preference id="pref_elem_text_background" name="extensions.claws.output.element.text.background" type="string"/>
-  </preferences>
- 
-  <hbox align="center">
-    <label control="mode" value="&claws.options.mode;"/>
-      <menulist id="mode_menulist" preference="pref_mode" oncommand="toggleClawsPrefs(event, this)">
-        <menupopup>
-          <menuitem label="&claws.options.mode.nvda;" value="NVDA"/>
-          <menuitem label="&claws.options.mode.claws;" value="CLAWS"/>
-        </menupopup>
-      </menulist>
-  </hbox>
-  
-  <hbox align="center">
-    <checkbox id="quote" label="Enable quote announcing" preference="pref_quote"/>
-    <checkbox id="address" label="Enable address" preference="pref_address"/>
-  </hbox>
-  
-  <hbox align="center">
-    <label control="elem_text_color" value="&claws.options.element.text.color;"/>
-    <textbox preference="pref_elem_text_color" id="elem_text_color" maxlength="4"/>
-  </hbox>
-  
-  <hbox align="center">
-    <label control="elem_text_background" value="&claws.options.element.text.background;"/>
-    <textbox preference="pref_elem_text_background" id="elem_text_background" maxlength="4"/>
-  </hbox>
-</prefpane>
- 
+  <prefpane id="claws-pane" label="&claws.preferences.prefpane.title;">
+    <preferences>
+      <preference id="pref_mode" name="extensions.claws.output.mode" type="string"/>
+      <preference id="pref_quote" name="extensions.claws.output.quote" type="bool"/>
+      <preference id="pref_address" name="extensions.claws.output.address" type="bool"/>
+      <preference id="pref_claws_mode_title" name="extensions.claws.output.claws.mode.title" type="bool"/>
+      <preference id="pref_background_color" name="extensions.claws.output.background.color" type="string"/>
+      <preference id="pref_elem_text_color" name="extensions.claws.output.element.text.color" type="string"/>
+      <preference id="pref_elem_text_background_color" name="extensions.claws.output.element.text.background.color" type="string"/>
+      <preference id="pref_heading_background_color" name="extensions.claws.output.heading.background.color" type="string"/>
+      <preference id="pref_heading_underline" name="extensions.claws.output.heading.underline" type="bool"/>
+      <preference id="pref_link_background_color" name="extensions.claws.output.link.background.color" type="string"/>
+      <preference id="pref_link_underline" name="extensions.claws.output.link.underline" type="bool"/>
+    </preferences>
+   
+    <!-- Mode selection --> 
+    <hbox align="center">
+      <label control="mode" value="&claws.preferences.mode;"/>
+        <menulist id="mode_menulist" preference="pref_mode" oncommand="toggleClawsPrefs(event, this)">
+          <menupopup>
+            <menuitem label="&claws.preferences.mode.nvda;" value="NVDA"/>
+            <menuitem label="&claws.preferences.mode.claws;" value="CLAWS"/>
+          </menupopup>
+        </menulist>
+    </hbox>
+    
+    <!-- CLAWS mode preferences -->
+    <hbox>
+      <vbox>
+        <groupbox>
+          <caption label="&claws.preferences.mode.claws.caption;"/>
+          <checkbox id="quote" label="&claws.preferences.mode.claws.quote;" preference="pref_quote"/>
+          <checkbox id="address" label="&claws.preferences.mode.claws.address;" preference="pref_address"/>
+          <checkbox id="claws_mode_title" label="&claws.preferences.mode.claws.title;" preference="pref_claws_mode_title"/>        
+        </groupbox>
+      </vbox>
+      <box style="padding-left:25px;">
+        <image src="chrome://claws/skin/claws_logo_small.png"/>
+      </box>
+    </hbox>
+    
+    <!-- Background color -->
+    <hbox align="center">
+      <label control="background_color" value="&claws.preferences.background.color;"/>
+      <colorpicker preference="pref_background_color" id="background_color" type="button"/>
+    </hbox>
+    
+    <!-- Tag text color -->
+    <hbox align="center">
+      <label control="elem_text_color" value="&claws.preferences.element.text.color;"/>
+      <colorpicker preference="pref_elem_text_color" id="elem_text_color" type="button"/>
+    </hbox>
+    
+    <!-- Tag background color -->
+    <hbox align="center">
+      <label control="elem_text_background_color" value="&claws.preferences.element.text.background.color;"/>
+      <colorpicker preference="pref_elem_text_background_color" id="elem_text_background_color" type="button"/>
+    </hbox>
+    
+    <!-- Headings preferences -->
+    <hbox align="center">
+      <label control="heading_background_color" value="&claws.preferences.headings.text.color;"/>
+      <colorpicker preference="pref_heading_background_color" id="heading_background_color" type="button"/>
+      <checkbox id="heading_underline" label="&claws.preferences.headings.text.underline;" preference="pref_heading_underline"/>
+    </hbox>
+    
+    <!-- Links preferences -->
+    <hbox align="center">
+      <label control="link_background_color" value="&claws.preferences.links.text.color;"/>
+      <colorpicker preference="pref_link_background_color" id="link_background_color" type="button"/>
+      <checkbox id="link_underline" label="&claws.preferences.links.text.underline;" preference="pref_link_underline"/>
+    </hbox>
+    
+  </prefpane> 
 </prefwindow>

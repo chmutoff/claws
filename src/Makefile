@@ -1,5 +1,5 @@
 # The UUID of the extension.
-extension_uuid := claws@university.project
+extension_uuid := claws@alicante.university.project
 
 # The zip application to be used.
 ZIP := zip
@@ -32,6 +32,7 @@ xpi_built := install.rdf \
 	$(wildcard chrome/content/*.html) \
 	$(wildcard chrome/content/*.css) \
 	$(wildcard chrome/content/js/*.js) \
+	$(wildcard chrome/icons/default/*.ico) \
 	$(wildcard chrome/locale/*/*.dtd) \
 	$(wildcard chrome/locale/*/*.properties)\
 	$(wildcard chrome/skin/*.css) \

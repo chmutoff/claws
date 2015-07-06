@@ -4,8 +4,8 @@
      xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 
   <Description about="urn:mozilla:install-manifest">
-    <em:id>claws@university.project</em:id>
-    <em:version>1.0</em:version>
+    <em:id>claws@alicante.university.project</em:id>
+    <em:version>2.0</em:version>
     <em:type>2</em:type>
    
     <!-- Target Application this extension can install into, 
@@ -24,7 +24,7 @@
     <em:creator>Anton Chmutov</em:creator>
     <em:contributor>Sergio Luján Mora</em:contributor>
     <em:homepageURL>https://github.com/chmutoff/claws</em:homepageURL>
-    <em:iconURL>chrome://claws/skin/claws32.png</em:iconURL>
+    <em:iconURL>chrome://claws/skin/claws_logo_small.png</em:iconURL>
     <em:optionsURL>chrome://claws/content/settings.xul</em:optionsURL>
   </Description>      
 </RDF>

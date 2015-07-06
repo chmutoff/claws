@@ -1,5 +1,8 @@
 var EXPORTED_SYMBOLS = ['ClawsOutput']
-Components.utils.import('resource://claws/outputHelper.js');
+
+const { classes: Cc, interfaces: Ci, utils: Cu } = Components;
+Cu.import('resource://claws/outputHelper.js');
+const {console} = Cu.import("resource://gre/modules/devtools/Console.jsm", {});
 
 function ClawsOutput(stringBundle, settings){    
     
@@ -30,6 +33,12 @@ function ClawsOutput(stringBundle, settings){
             return false;
         }else return settings.address
     }
+    
+    var _showTittle = (function(){
+        if (settings === undefined || settings.claws === undefined) {
+            return false;
+        }else return settings.claws.title
+    })()
     /***************END of Settings***************/
     
     /** @private
@@ -311,31 +320,45 @@ function ClawsOutput(stringBundle, settings){
      */
     var getClawsRelevantText = function(node){
         var tagName = node.tagName.toUpperCase()
-      
+        var output = ''
+        
+        if (_showTittle && node.hasAttribute('title')) {
+            output += node.getAttribute('title')
+        }
+        
         switch (tagName) {
             case 'AREA':
-              return node.alt
+                output += node.alt
+                break
             case 'IMG':
-              return node.alt + ((node.hasAttribute('longdesc')) ? ' ' + node.getAttribute('longdesc') : '')
+                output += node.alt + ((node.hasAttribute('longdesc')) ? ' ' + node.getAttribute('longdesc') : '')
+                break
             case 'INPUT':
                 var inputType = node.type
                 switch (inputType) {
-                  case 'hidden':
-                    return ''
-                  case 'image':
-                    return node.alt
-                  case 'radio':
-                    return ''
-                  default:
-                    return node.value
+                    case 'hidden':
+                      output += ''
+                      break
+                    case 'image':
+                      output += node.alt
+                      break
+                    case 'radio':
+                      output += ''
+                      break
+                    default:
+                      output += node.value
                 }
             case 'SELECT':
-              return node.value
+                output += node.value
+                break
             case 'TABLE':
-              return node.summary
+                output += node.summary
+                break
             default:
-              return ''
+                output += ''
         }
+        
+        return output
     }
     
     /** @public

@@ -1,7 +1,16 @@
-<!ENTITY claws.options.title                    "Opciones de Claws">
-<!ENTITY claws.options.prefpane.title           "Opciones de Claws">
-<!ENTITY claws.options.mode                     "Modo de salida:">
-<!ENTITY claws.options.mode.nvda                "Nvda">
-<!ENTITY claws.options.mode.claws               "Claws">
-<!ENTITY claws.options.element.text.color       "Color de texto de los elementos:">
-<!ENTITY claws.options.element.text.background  "Color de fondo de los elementos:">
+<!ENTITY claws.preferences.title                            "Opciones de Claws">
+<!ENTITY claws.preferences.prefpane.title                   "Opciones de Claws">
+<!ENTITY claws.preferences.mode                             "Modo de salida:">
+<!ENTITY claws.preferences.mode.nvda                        "Nvda">
+<!ENTITY claws.preferences.mode.claws                       "Claws">
+<!ENTITY claws.preferences.mode.claws.caption               "Opciones modo CLAWS">
+<!ENTITY claws.preferences.mode.claws.quote                 "Anunciar citas">
+<!ENTITY claws.preferences.mode.claws.address               "Anunciar el tag 'address'">
+<!ENTITY claws.preferences.mode.claws.title                 "Anunciar el atributo 'title'">
+<!ENTITY claws.preferences.background.color                 "Color de fondo">
+<!ENTITY claws.preferences.element.text.color               "Color de texto de los tags">
+<!ENTITY claws.preferences.element.text.background.color    "Color de fondo de los tags">
+<!ENTITY claws.preferences.headings.text.color              "Color de fondo del texto de los encabezados">
+<!ENTITY claws.preferences.headings.text.underline          "Subrayar encabezados">
+<!ENTITY claws.preferences.links.text.color                 "Color de fondo del texto de los enlaces">
+<!ENTITY claws.preferences.links.text.underline             "Subrayar enlaces">
