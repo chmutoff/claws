@@ -146,30 +146,47 @@ function DomWalker(textProvider, sourceWindow)
      */
     function appendTextToOutput(text, output){
         if ( text != '' ){
-            var child = _document.createTextNode(' ' + text + ' ')
+            var child = _document.createTextNode(text + ' ')
             output.appendChild(child)
         }
     }
     
     /**
-     * Appends <span>text</span> to output
+     * Appends <span class="tag-output">text</span> to output
      * Span can have special format, to distinguish generated output from plain text
      *
      * @param {string} this is added to the output
-     * @param {DOM Node} the output, which is a <div> element
+     * @param {DOM Node} the output, which should be a <div> element
      */
-    function appendSpanToOutput(text, output, outputClass=''){
+    function appendSpanToOutput(text, output, className = ''){
         if ( text != '' ){
             var spanNode = _document.createElement('span')
-            if (outputClass == '') {
-                spanNode.className = 'tag-output'
-            }
-            else spanNode.className = outputClass
-            var textNode = _document.createTextNode(text)
+            spanNode.className = 'tag-output '+className
+            var textNode = _document.createTextNode(text + ' ')
             spanNode.appendChild(textNode)
             output.appendChild(spanNode)
         }
-    }   
+    }
+    
+    // useless
+    function appendBreakLineToOutput(output) {
+        var br = _document.createElement('br')
+        output.appendChild(br)
+    }
+    
+    function getTagOutputClass(tagName) {
+        switch (tagName) {
+            case 'H1':
+            case 'H2':
+            case 'H3':
+            case 'H4':
+            case 'H5':
+            case 'H6':
+                return 'heading'
+            default:
+                return ''
+        }
+    }
     
     /**
      * Determine whether the node should be excluded from expanding(walking) or not.
@@ -272,10 +289,11 @@ function DomWalker(textProvider, sourceWindow)
             // nodeType == 1 -> ELEMENT_NODE
             if ( nodeToExpand.nodeType == 1 && !isNodeHidden(nodeToExpand)) {
               
-                var tagName =  nodeToExpand.tagName.toUpperCase()               
+                var tagName =  nodeToExpand.tagName.toUpperCase()
                 
                 // insert opening tag text
-                appendSpanToOutput(_textProvider.getText(nodeToExpand), output)
+                var tagOutputClass = getTagOutputClass(tagName)   
+                appendSpanToOutput(_textProvider.getText(nodeToExpand), output, tagOutputClass)
                 
                 // process heading (H1 - H6)
                 var headingPattern = new RegExp('^H[1-6]$')

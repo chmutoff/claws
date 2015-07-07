@@ -6,6 +6,7 @@ pref("extensions.claws.output.background.color", "#FFFFFF");                //Wh
 pref("extensions.claws.output.element.text.background.color", "#808080");   // Gray background
 pref("extensions.claws.output.element.text.color", "#FFA500");              // Orange text
 pref("extensions.claws.output.heading.background.color","none");
+pref("extensions.claws.output.heading.line.break", false);
 pref("extensions.claws.output.heading.underline", false);
 pref("extensions.claws.output.link.background.color","none");
 pref("extensions.claws.output.link.underline", true);

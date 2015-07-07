@@ -12,5 +12,6 @@
 <!ENTITY claws.preferences.element.text.background.color    "Tag background">
 <!ENTITY claws.preferences.headings.text.color              "Headings text background color">
 <!ENTITY claws.preferences.headings.text.underline          "Underline headings">
+<!ENTITY claws.preferences.headings.line.break              "Insert line break before headings">
 <!ENTITY claws.preferences.links.text.color                 "Links text background color">
 <!ENTITY claws.preferences.links.text.underline             "Underline links">

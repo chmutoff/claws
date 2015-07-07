@@ -9,6 +9,8 @@
 <!ENTITY claws.menu.tools.links.accesskey           "L">
 <!ENTITY claws.menu.tools.headings                  "Headings">
 <!ENTITY claws.menu.tools.headings.accesskey        "H">
+<!ENTITY claws.menu.tools.preferences               "Preferences">
+<!ENTITY claws.menu.tools.preferences.accesskey     "P">
 <!ENTITY claws.secondary.copy.selected              "Copy selected text">
 <!ENTITY claws.secondary.copy.selected.accesskey    "C">
 <!ENTITY claws.secondary.copy.all                   "Copy all">

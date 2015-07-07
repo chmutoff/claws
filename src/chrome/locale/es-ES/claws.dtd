@@ -9,6 +9,8 @@
 <!ENTITY claws.menu.tools.links.accesskey           "l">
 <!ENTITY claws.menu.tools.headings                  "Encabezados">
 <!ENTITY claws.menu.tools.headings.accesskey        "E">
+<!ENTITY claws.menu.tools.preferences               "Opciones">
+<!ENTITY claws.menu.tools.preferences.accesskey     "O">
 <!ENTITY claws.secondary.copy.selected              "Copiar texto seleccionado">
 <!ENTITY claws.secondary.copy.selected.accesskey    "C">
 <!ENTITY claws.secondary.copy.all                   "Copiar todo">

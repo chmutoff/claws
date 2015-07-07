@@ -101,7 +101,7 @@ function ClawsOutput(stringBundle, settings){
                 break
             case 'BLOCKQUOTE':
                 if (showQuote()) {
-                    output += stringBundle.getString('CLAWS.output.quote')
+                    output += stringBundle.getString('CLAWS.output.blockquote')
                 }
                 break               
             case 'BUTTON':
@@ -221,7 +221,7 @@ function ClawsOutput(stringBundle, settings){
         switch (tagName) {
             case 'BLOCKQUOTE':
                 if (showQuote()) {
-                    output +=  stringBundle.getString('CLAWS.output.quote.end')
+                    output +=  stringBundle.getString('CLAWS.output.blockquote.end')
                 }
                 break
             case 'DL':

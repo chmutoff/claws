@@ -40,6 +40,7 @@
       <menupopup id="tools-popup">
         <menuitem label="&claws.menu.tools.links;" accesskey="&claws.menu.tools.links.accesskey;" oncommand="openLinksWindow()"/>
         <menuitem label="&claws.menu.tools.headings;" accesskey="&claws.menu.tools.headings.accesskey;" oncommand="openHeadingsWindow()"/>
+        <menuitem label="&claws.menu.tools.preferences;" accesskey="&claws.menu.tools.preferences.accesskey;" oncommand="openPreferencesWindow()"/>
       </menupopup>
     </menu>
   </menubar>

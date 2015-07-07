@@ -6,6 +6,7 @@ const gClipboardHelper = Components.classes["@mozilla.org/widget/clipboardhelper
 
 var _linksList
 var _headingsList
+var _preferencesWindow = null
 
 /**
  * Extension entry point
@@ -28,12 +29,13 @@ function start(sourceWindow){
     var claws_mode_title = application.prefs.get("extensions.claws.output.claws.mode.title").value
     var heading_background_color = application.prefs.get("extensions.claws.output.heading.background.color").value
     var heading_underline = application.prefs.get("extensions.claws.output.heading.underline").value
+    var heading_line_break = application.prefs.get("extensions.claws.output.heading.line.break").value
     var link_background_color = application.prefs.get("extensions.claws.output.link.background.color").value
     var link_underline = application.prefs.get("extensions.claws.output.link.underline").value
     
     // object with preferences for output modes
     var docLang = sourceWindow.content.document.getElementsByTagName('html')[0].getAttribute('lang')
-    var settings = {
+    var preferences = {
         docLang: docLang,
         quote: quote,
         address: address,
@@ -41,10 +43,10 @@ function start(sourceWindow){
             title: claws_mode_title
         }
     }
-    //TODO: separate settings in arrays
+    //TODO: separate preferences in arrays
     
     // get the output funcions for selected mode
-    var outputFactory = new OutputFactory(stringBundles, settings)
+    var outputFactory = new OutputFactory(stringBundles, preferences)
     var textProvider = outputFactory.createTextProvider(mode)
     
     // walk DOM and generate otput with previously generated output functions
@@ -69,10 +71,12 @@ function start(sourceWindow){
     style.type = 'text/css'    
     style.innerHTML = 'body{background-color: '+backgroundColor+'; line-height: 25px; font-family: "Verdana" font-size: 13px; color: #333}'
     style.innerHTML += '.tag-output{color: '+elemColorPref+'; background-color: '+elemBackgroundPref+'; margin-right: 5px; padding: 2px 5px;}'
+    if (heading_line_break) {
+        style.innerHTML += '.heading{display:block; margin-top:20px;}'
+    }
     style.innerHTML += '.heading-text{background-color:'+heading_background_color+'; text-decoration:'+(heading_underline ? 'underline' : 'none')+';}'
     style.innerHTML += '.link-text{background-color:'+link_background_color+'; text-decoration:'+(link_underline ? 'underline' : 'none')+';}'
     iframeContent.getElementsByTagName('head')[0].appendChild(style);
-    
     // usefull post process elements
     _linksList = dw.linkList
     _headingsList = dw.headingList
@@ -120,4 +124,21 @@ function copyAllOutput(){
     var selectedText = document.getElementById('output-iframe').contentDocument.body.textContent
     var cleanSelectedText = cleanText(selectedText)
     gClipboardHelper.copyString(cleanSelectedText)
+}
+
+function openPreferencesWindow(){
+  if (null == this._preferencesWindow || this._preferencesWindow.closed) {
+    let instantApply =
+      Application.prefs.get("browser.preferences.instantApply");
+    let features =
+      "chrome,titlebar,toolbar,centerscreen" +
+      (instantApply.value ? ",dialog=no" : ",modal");
+
+    this._preferencesWindow =
+      window.openDialog(
+        "chrome://claws/content/preferences.xul",
+        "xulschoolhello-preferences-window", features);
+  }
+
+  this._preferencesWindow.focus();
 }

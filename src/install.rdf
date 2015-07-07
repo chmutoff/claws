@@ -25,6 +25,6 @@
     <em:contributor>Sergio Luján Mora</em:contributor>
     <em:homepageURL>https://github.com/chmutoff/claws</em:homepageURL>
     <em:iconURL>chrome://claws/skin/claws_logo_small.png</em:iconURL>
-    <em:optionsURL>chrome://claws/content/settings.xul</em:optionsURL>
+    <em:optionsURL>chrome://claws/content/preferences.xul</em:optionsURL>
   </Description>      
 </RDF>

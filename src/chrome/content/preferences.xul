@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
-<!DOCTYPE window SYSTEM "chrome://claws/locale/settings.dtd">
+<!DOCTYPE window SYSTEM "chrome://claws/locale/preferences.dtd">
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <prefwindow id="claws-prefs"
      title="&claws.preferences.title;"
      onload="toggleClawsPrefs(event, document.getElementById('mode_menulist'))"
      xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   
-  <script type="application/x-javascript" src="chrome://claws/content/js/settings.js" />
+  <script type="application/x-javascript" src="chrome://claws/content/js/preferences.js" />
  
   <prefpane id="claws-pane" label="&claws.preferences.prefpane.title;">
     <preferences>
@@ -19,6 +19,7 @@
       <preference id="pref_elem_text_background_color" name="extensions.claws.output.element.text.background.color" type="string"/>
       <preference id="pref_heading_background_color" name="extensions.claws.output.heading.background.color" type="string"/>
       <preference id="pref_heading_underline" name="extensions.claws.output.heading.underline" type="bool"/>
+      <preference id="pref_heading_line_break" name="extensions.claws.output.heading.line.break" type="bool"/>
       <preference id="pref_link_background_color" name="extensions.claws.output.link.background.color" type="string"/>
       <preference id="pref_link_underline" name="extensions.claws.output.link.underline" type="bool"/>
     </preferences>
@@ -68,11 +69,14 @@
     </hbox>
     
     <!-- Headings preferences -->
-    <hbox align="center">
-      <label control="heading_background_color" value="&claws.preferences.headings.text.color;"/>
-      <colorpicker preference="pref_heading_background_color" id="heading_background_color" type="button"/>
-      <checkbox id="heading_underline" label="&claws.preferences.headings.text.underline;" preference="pref_heading_underline"/>
-    </hbox>
+    <vbox>
+      <hbox>
+        <label control="heading_background_color" value="&claws.preferences.headings.text.color;"/>
+        <colorpicker preference="pref_heading_background_color" id="heading_background_color" type="button"/>
+        <checkbox id="heading_underline" label="&claws.preferences.headings.text.underline;" preference="pref_heading_underline"/>
+      </hbox>
+      <checkbox id="heading_line_break" label="&claws.preferences.headings.line.break;" preference="pref_heading_line_break"/>  
+    </vbox>
     
     <!-- Links preferences -->
     <hbox align="center">

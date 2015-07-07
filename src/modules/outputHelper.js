@@ -16,14 +16,26 @@ var outputHelper = {
      * @returns {Integer} number of items in the list
      */
     countListNodes: function(list){
-        return list.childNodes.length
+        var count = 0
+        var node=list.firstChild
+        while (node) {
+            // do not count: <!-- <li><a href=".">Home</a></li> -->
+            if (node.nodeType == 1) {
+                ++count
+            }            
+            node = node.nextSibling
+        }
+        return count
     },
     
     countItemPositionInList: function(node){
         var count = 0
         while(node)
         {
-            ++count
+            // do not count: <!-- <li><a href=".">Home</a></li> -->
+            if (node.nodeType == 1) {
+                ++count
+            }            
             node = node.previousSibling
         }
         return count
