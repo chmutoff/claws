@@ -72,7 +72,7 @@ function start(sourceWindow){
     style.innerHTML = 'body{background-color: '+backgroundColor+'; line-height: 25px; font-family: "Verdana" font-size: 13px; color: #333}'
     style.innerHTML += '.tag-output{color: '+elemColorPref+'; background-color: '+elemBackgroundPref+'; margin-right: 5px; padding: 2px 5px;}'
     if (heading_line_break) {
-        style.innerHTML += '.heading{display:block; margin-top:20px;}'
+        style.innerHTML += '.heading{display:block; margin-top:20px;} .heading-text{display:block; margin-bottom:20px;}'
     }
     style.innerHTML += '.heading-text{background-color:'+heading_background_color+'; text-decoration:'+(heading_underline ? 'underline' : 'none')+';}'
     style.innerHTML += '.link-text{background-color:'+link_background_color+'; text-decoration:'+(link_underline ? 'underline' : 'none')+';}'

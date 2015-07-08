@@ -11,7 +11,7 @@
 <!ENTITY claws.preferences.element.text.color               "Color de texto de los tags">
 <!ENTITY claws.preferences.element.text.background.color    "Color de fondo de los tags">
 <!ENTITY claws.preferences.headings.text.color              "Color de fondo del texto de los encabezados">
-<!ENTITY claws.preferences.headings.line.break              "Insertar salto de línea antes de los encabezados">
+<!ENTITY claws.preferences.headings.line.break              "Insertar salto de línea en los encabezados">
 <!ENTITY claws.preferences.headings.text.underline          "Subrayar encabezados">
 <!ENTITY claws.preferences.links.text.color                 "Color de fondo del texto de los enlaces">
 <!ENTITY claws.preferences.links.text.underline             "Subrayar enlaces">
