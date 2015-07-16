@@ -34,9 +34,7 @@ function start(sourceWindow){
     var link_underline = application.prefs.get("extensions.claws.output.link.underline").value
     
     // object with preferences for output modes
-    var docLang = sourceWindow.content.document.getElementsByTagName('html')[0].getAttribute('lang')
     var preferences = {
-        docLang: docLang,
         quote: quote,
         address: address,
         claws : {
@@ -54,7 +52,6 @@ function start(sourceWindow){
     var output = dw.walkDOM(sourceWindow.content.document.body)    
     
     var iframe = document.getElementById('output-iframe')
-    //iframe.src = 'about:blank'
     var iframeContent = iframe.contentDocument
     // reset iframe (just in case it was used before)
     iframeContent.head.innerHTML = ''

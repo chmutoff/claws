@@ -220,12 +220,17 @@ function NvdaOutput(stringBundle)
         }
     }
     
+    function getNvdaLangChangeText(currentLang, newLang) {
+        return ''
+    }
+    
     return{
         getNvdaIntroText : getNvdaIntroText,
         getNvdaText : getNvdaText,
         getClosingNvdaText : getClosingNvdaText,
         getInputNvdaText : getInputNvdaText,
         getNvdaRelevantText : getNvdaRelevantText,
-        getNvdaAriaLandmarkText : getNvdaAriaLandmarkText
+        getNvdaAriaLandmarkText : getNvdaAriaLandmarkText,
+        getNvdaLangChangeText : getNvdaLangChangeText
     }
 }

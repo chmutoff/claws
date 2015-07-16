@@ -8,15 +8,6 @@ function ClawsOutput(stringBundle, settings){
     
     /******************Settings******************/
     /** @private
-     * HTML document language. Lang attribute of <html>
-     */
-    var docLang = function(){
-        if (settings === undefined || settings.docLang === undefined || settings.docLang == null) {
-            return '';
-        }else return settings.docLang    
-    }
-    
-    /** @private
      * Announce or not <cite> and <q>
      */
     var showQuote = function(){
@@ -72,17 +63,6 @@ function ClawsOutput(stringBundle, settings){
     var getClawsText = function(node){
         var tagName = node.tagName.toUpperCase()
         var output = ''
-        
-        // add begining of lang scope
-        if (node.hasAttribute('lang')) {
-            var lang = node.getAttribute('lang')
-            if (docLang() != '') {
-                output += stringBundle.getFormattedString('CLAWS.output.attribute.lang.full', [docLang(), lang])
-            }
-            else{
-                output += stringBundle.getFormattedString('CLAWS.output.attribute.lang.short.start', [lang])
-            }
-        }        
         
         switch(tagName){
             case 'A':
@@ -246,17 +226,6 @@ function ClawsOutput(stringBundle, settings){
                 break
         }
         
-        // add end of lang scope
-        if (node.hasAttribute('lang')) {
-            var lang = node.getAttribute('lang')
-            if (docLang() != '') {
-                output += stringBundle.getFormattedString('CLAWS.output.attribute.lang.full', [lang, docLang()])
-            }
-            else{
-                output += stringBundle.getFormattedString('CLAWS.output.attribute.lang.short.end', [lang])
-            }
-        }
-        
         return output
     }
     
@@ -394,12 +363,18 @@ function ClawsOutput(stringBundle, settings){
         }
     }
     
+    var getClawsLangChangeText = function(currentLang, newLang)
+    {
+        return stringBundle.getFormattedString('CLAWS.output.lang.change.from.to', [currentLang, newLang])
+    }
+    
     return{
         getClawsIntroText : getClawsIntroText,
         getClawsText : getClawsText,
         getClosingClawsText : getClosingClawsText,
         getInputClawsText : getInputClawsText,
         getClawsRelevantText : getClawsRelevantText,
-        getClawsAriaLandmarkText : getClawsAriaLandmarkText
+        getClawsAriaLandmarkText : getClawsAriaLandmarkText,
+        getClawsLangChangeText : getClawsLangChangeText
     }
 }

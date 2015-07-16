@@ -168,12 +168,6 @@ function DomWalker(textProvider, sourceWindow)
         }
     }
     
-    // useless
-    function appendBreakLineToOutput(output) {
-        var br = _document.createElement('br')
-        output.appendChild(br)
-    }
-    
     function getTagOutputClass(tagName) {
         switch (tagName) {
             case 'H1':
@@ -278,10 +272,12 @@ function DomWalker(textProvider, sourceWindow)
      */
     function walkDOM(dom){
         var nodeStack = new Array()
+        var langStack = new Array()
         var output = _document.createElement('div')
         output.className = 'output'
         cleanWhitespace(dom)
         nodeStack.push(dom)
+        langStack.push(_document.documentElement.lang) //apend <html> lang attr value
       
         do{       
             var nodeToExpand = nodeStack.pop()
@@ -315,14 +311,25 @@ function DomWalker(textProvider, sourceWindow)
                 // insert text of relevant attributes
                 appendTextToOutput(_textProvider.getRelevantText(nodeToExpand), output)
                 
-                // insert closing tag var node with text if necesary
+                
+                if (nodeToExpand.hasAttribute('lang')) {
+                    let newLang = nodeToExpand.getAttribute('lang')
+                    let currentLang = langStack.slice().pop()
+                    if ( currentLang != newLang ) {
+                        //console.log("lang change: " + currentLang + ' -> ' + newLang)
+                        appendSpanToOutput(textProvider.getLangChangeText(currentLang, newLang), output)
+                    }
+                    langStack.push(newLang)
+                }
+                
+                // insert closing tag as var node
                 var closingText = {
                     nodeType : 'closingText',
+                    tagName : tagName,
+                    lang : ( nodeToExpand.hasAttribute('lang') ? nodeToExpand.getAttribute('lang') : '' ),
                     textContent : _textProvider.getClosingText(nodeToExpand)
                 }
-                if ( closingText.textContent != '' ){
-                  nodeStack.push(closingText)
-                } 
+                nodeStack.push(closingText)
                 
                 // check if node needs to be expanded
                 if ( !isNodeExcluded(nodeToExpand) && !isNodeExpandedSeparately(nodeToExpand) ){
@@ -368,8 +375,16 @@ function DomWalker(textProvider, sourceWindow)
             else if(nodeToExpand.nodeType == 3){
                 appendTextToOutput(nodeToExpand.textContent, output)
             }
-            // string contains tag closing text
+            // object -> CLOSING_NODE {virtual node}
             else if (nodeToExpand.nodeType == 'closingText'){
+                if (nodeToExpand.lang != '') {
+                    let currentLang = langStack.pop()
+                    let newLang = langStack.slice().pop()
+                    if (newLang != currentLang) {
+                        //console.log("lang change: " + currentLang + ' -> ' + newLang)
+                        appendSpanToOutput(textProvider.getLangChangeText(currentLang, newLang), output)
+                    }
+                }
                 appendSpanToOutput(nodeToExpand.textContent, output)
             }      
         }while(nodeStack.length > 0)
