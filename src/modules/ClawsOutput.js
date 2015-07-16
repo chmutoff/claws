@@ -281,8 +281,10 @@ function ClawsOutput(stringBundle, settings){
               return stringBundle.getString('CLAWS.output.input.datetime')
             case 'datetime-local':
               return stringBundle.getString('CLAWS.output.input.datetime')
+            case 'email':
+                return stringBundle.getString('CLAWS.output.input.type.email')
             case 'file':
-              return stringBundle.getString('CLAWS.output.button') // TODO: get input button text and "no file selected" text
+              return stringBundle.getString('CLAWS.output.input.file')
             case 'hidden':
               return ''
             case 'image':
@@ -296,13 +298,14 @@ function ClawsOutput(stringBundle, settings){
             case 'range':
               return stringBundle.getString('CLAWS.output.input.range')
             case 'reset':
-              return stringBundle.getString('CLAWS.output.button') // TODO: get reset button text
+              return stringBundle.getString('CLAWS.output.input.reset')
             case 'search':
               return stringBundle.getString('CLAWS.output.input.search') + ' ' + ((node.autocomplete != 'off')? stringBundle.getString('CLAWS.output.input.text.autocomplete') : '')
             case 'submit':
-              return stringBundle.getString('CLAWS.output.button') // TODO: get submit button text
+              return stringBundle.getString('CLAWS.output.input.submit')
+            case 'time':
+                return stringBundle.getString('CLAWS.output.input.time')
             default:
-                //return inputType
                 return stringBundle.getString('CLAWS.output.input.text') + ' ' + ((node.autocomplete != 'off')? stringBundle.getString('CLAWS.output.input.text.autocomplete') : '')
         } 
     }
@@ -348,6 +351,7 @@ function ClawsOutput(stringBundle, settings){
                     default:
                       output += node.value
                 }
+                break
             case 'SELECT':
                 output += node.value
                 break
