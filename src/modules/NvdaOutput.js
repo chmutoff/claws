@@ -225,12 +225,15 @@ function NvdaOutput(stringBundle)
     }
     
     return{
-        getNvdaIntroText : getNvdaIntroText,
-        getNvdaText : getNvdaText,
-        getClosingNvdaText : getClosingNvdaText,
-        getInputNvdaText : getInputNvdaText,
-        getNvdaRelevantText : getNvdaRelevantText,
-        getNvdaAriaLandmarkText : getNvdaAriaLandmarkText,
-        getNvdaLangChangeText : getNvdaLangChangeText
+        getIntroText : getNvdaIntroText,
+        getText : getNvdaText,
+        getClosingText : getClosingNvdaText,
+        getInputText : getInputNvdaText,
+        getRelevantText : getNvdaRelevantText,
+        getAriaLandmarkText : getNvdaAriaLandmarkText,
+        getLangChangeText : getNvdaLangChangeText
     }
+    
+    //TODO: rename returned functions getTagText and getClosingTagText
+    //TODO: rename internal functions to getClaws...() and getNvda...()
 }

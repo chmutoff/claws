@@ -17,24 +17,10 @@ function OutputFactory(stringBundles, settings){
                 var textProvider = {}    
                 switch (mode) {
                         case 'NVDA':
-                                var nvdaOutput = new NvdaOutput(stringBundles.nvdaStringBundle)
-                                textProvider.getIntroText = nvdaOutput.getNvdaIntroText
-                                textProvider.getText = nvdaOutput.getNvdaText
-                                textProvider.getClosingText = nvdaOutput.getClosingNvdaText
-                                textProvider.getInputText = nvdaOutput.getInputNvdaText
-                                textProvider.getRelevantText = nvdaOutput.getNvdaRelevantText
-                                textProvider.getAriaLandmarkText = nvdaOutput.getNvdaAriaLandmarkText
-                                textProvider.getLangChangeText = nvdaOutput.getNvdaLangChangeText
+                                textProvider = new NvdaOutput(stringBundles.nvdaStringBundle)
                                 break
                         case 'CLAWS':
-                                var clawsOutput = new ClawsOutput(stringBundles.clawsStringBundle, settings)
-                                textProvider.getIntroText = clawsOutput.getClawsIntroText
-                                textProvider.getText = clawsOutput.getClawsText
-                                textProvider.getClosingText = clawsOutput.getClosingClawsText
-                                textProvider.getInputText = clawsOutput.getInputClawsText
-                                textProvider.getRelevantText = clawsOutput.getClawsRelevantText
-                                textProvider.getAriaLandmarkText = clawsOutput.getClawsAriaLandmarkText
-                                textProvider.getLangChangeText = clawsOutput.getClawsLangChangeText
+                                textProvider = new ClawsOutput(stringBundles.clawsStringBundle, settings)
                                 break                        
                 }
                 return textProvider

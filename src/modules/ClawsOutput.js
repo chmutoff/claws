@@ -369,12 +369,12 @@ function ClawsOutput(stringBundle, settings){
     }
     
     return{
-        getClawsIntroText : getClawsIntroText,
-        getClawsText : getClawsText,
-        getClosingClawsText : getClosingClawsText,
-        getInputClawsText : getInputClawsText,
-        getClawsRelevantText : getClawsRelevantText,
-        getClawsAriaLandmarkText : getClawsAriaLandmarkText,
-        getClawsLangChangeText : getClawsLangChangeText
+        getIntroText : getClawsIntroText,
+        getText : getClawsText,
+        getClosingText : getClosingClawsText,
+        getInputText : getInputClawsText,
+        getRelevantText : getClawsRelevantText,
+        getAriaLandmarkText : getClawsAriaLandmarkText,
+        getLangChangeText : getClawsLangChangeText
     }
 }
