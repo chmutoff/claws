@@ -93,7 +93,7 @@ function start(sourceWindow){
 }
 
 /**
- * Opens a window with links list
+ * Open links list window
  *
  * _linksList is a new window parameter. Links are rendered in the new window
  */
@@ -103,7 +103,7 @@ function openLinksWindow()
 }
 
 /**
- * Opens a window with links list
+ * Open headings list window
  * _headingsList is a new window parameter. Headings are rendered in the new window
  */
 function openHeadingsWindow()
@@ -111,18 +111,27 @@ function openHeadingsWindow()
     window.openDialog('chrome://claws/content/headings.xul', 'headings', 'menubar,close,minimizable,scrollbars,resizable,modal,width=450,height=250', {headingsList: _headingsList});    
 }
 
+/**
+ * Copy selected text to clipboard
+ */
 function copySelectedOutput(){
     var selectedText = document.commandDispatcher.focusedWindow.getSelection().toString()
     var cleanSelectedText = cleanText(selectedText)
     gClipboardHelper.copyString(cleanSelectedText)
 }
 
+/**
+ * Copy all the output to clipboard
+ */
 function copyAllOutput(){
     var selectedText = document.getElementById('output-iframe').contentDocument.body.textContent
     var cleanSelectedText = cleanText(selectedText)
     gClipboardHelper.copyString(cleanSelectedText)
 }
 
+/**
+ * Open preferences window from main window
+ */
 function openPreferencesWindow(){
   if (null == this._preferencesWindow || this._preferencesWindow.closed) {
     let instantApply =

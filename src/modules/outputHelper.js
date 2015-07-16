@@ -3,7 +3,6 @@ var EXPORTED_SYMBOLS = ['outputHelper']
 const { classes: Cc, interfaces: Ci, utils: Cu } = Components;
 const {console} = Cu.import("resource://gre/modules/devtools/Console.jsm", {});
 
-
 /**
  * Helper object which contains functions for Output modes
  */

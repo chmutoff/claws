@@ -263,9 +263,8 @@ function DomWalker(textProvider, sourceWindow)
     
     /**
      * The CORE function! Iterates through DOM tree and generates the output
-     * Only TEXT and ELEMENT nodes are processed
-     * There is another type 'ClosingText' node which is piled when we need to
-     * generate some output for closing tag
+     * Only TEXT and ELEMENT DOM nodes are processed
+     * There is another type 'ClosingText' node which is piled for closing tag
      *
      * @param {DOM Node} DOM root node to begin with
      * @returns {DOM Node} output content
@@ -311,12 +310,11 @@ function DomWalker(textProvider, sourceWindow)
                 // insert text of relevant attributes
                 appendTextToOutput(_textProvider.getRelevantText(nodeToExpand), output)
                 
-                
+                // detect language change
                 if (nodeToExpand.hasAttribute('lang')) {
                     let newLang = nodeToExpand.getAttribute('lang')
                     let currentLang = langStack.slice().pop()
                     if ( currentLang != newLang ) {
-                        //console.log("lang change: " + currentLang + ' -> ' + newLang)
                         appendSpanToOutput(textProvider.getLangChangeText(currentLang, newLang), output)
                     }
                     langStack.push(newLang)
@@ -377,14 +375,15 @@ function DomWalker(textProvider, sourceWindow)
             }
             // object -> CLOSING_NODE {virtual node}
             else if (nodeToExpand.nodeType == 'closingText'){
+                // detect language change
                 if (nodeToExpand.lang != '') {
                     let currentLang = langStack.pop()
                     let newLang = langStack.slice().pop()
                     if (newLang != currentLang) {
-                        //console.log("lang change: " + currentLang + ' -> ' + newLang)
                         appendSpanToOutput(textProvider.getLangChangeText(currentLang, newLang), output)
                     }
                 }
+                // append closing text for some nodes
                 appendSpanToOutput(nodeToExpand.textContent, output)
             }      
         }while(nodeStack.length > 0)

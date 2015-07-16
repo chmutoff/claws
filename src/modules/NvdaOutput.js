@@ -12,10 +12,17 @@ Components.utils.import('resource://claws/outputHelper.js')
  */
 function NvdaOutput(stringBundle)
 {
+    /** @public
+     * Create an introduction text of the document in following format:
+     * Document title
+     * 
+     * @returns {String} Text with document info
+     */
     function getNvdaIntroText(docInfo) {
         return docInfo.docTitle
     }
-    /**
+    
+    /** @public
      * Generates text output for HTML5 tags
      *
      * @param {DOM Node} node which tag is analyzed
@@ -102,7 +109,7 @@ function NvdaOutput(stringBundle)
         }
     }
     
-    /**
+    /** @public
      * Generates text output for HTML5 closing tags
      * because elements has output text for closing tag
      *
@@ -129,7 +136,7 @@ function NvdaOutput(stringBundle)
         }
     }
     
-    /**
+    /** @public
      * Generates text output for <input type="..."> HTML5 element
      *
      * @param {DOM Node} input node which type is analyzed
@@ -167,6 +174,19 @@ function NvdaOutput(stringBundle)
         } 
     }
     
+    /** @public
+     * Generate relevant node information
+     * i.e: image alt attribute text,
+     *      input value,
+     *      etc...
+     *
+     * @param {DOM Node} node to extract the information
+     *
+     * @returns {String} output for relevant attributes
+     *
+     * NOTE: all the tag names are transfromed to upper case because
+     * depending on doctype they could be in lower/upper case
+     */
     function getNvdaRelevantText(node){
         var tagName = node.tagName.toUpperCase()
       
@@ -196,6 +216,15 @@ function NvdaOutput(stringBundle)
         }
     }
     
+    /** @public
+     * Generate the output text for Aria Roles.
+     * Most of them has equivalent HTML5 tag
+     * i.e.: banner role is the same as header tag
+     * 
+     * @param {String} Text of ARIA role atribute
+     * 
+     * @returns {String} Announcement for corresponding ARIA Landmark
+     */
     function getNvdaAriaLandmarkText(role)
     {
         switch (role.toUpperCase()) {
@@ -220,6 +249,9 @@ function NvdaOutput(stringBundle)
         }
     }
     
+    /** @public
+     * Language changes don't generate ANY textual output in NVDA
+     */
     function getNvdaLangChangeText(currentLang, newLang) {
         return ''
     }

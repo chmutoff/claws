@@ -8,7 +8,7 @@ function ClawsOutput(stringBundle, settings){
     
     /******************Settings******************/
     /** @private
-     * Announce or not <cite> and <q>
+     * Announce or not <cite> and <q> tags
      */
     var showQuote = function(){
         if (settings === undefined || settings.quote === undefined) {
@@ -17,7 +17,7 @@ function ClawsOutput(stringBundle, settings){
     }
     
     /** @private
-     * Announce or not <address>
+     * Announce or not <address> tags
      */
     var showAddress = function(){
         if (settings === undefined || settings.address === undefined) {
@@ -25,6 +25,9 @@ function ClawsOutput(stringBundle, settings){
         }else return settings.address
     }
     
+    /** @private
+     * Announce or not 'title' atribute of the node
+     */
     var _showTittle = (function(){
         if (settings === undefined || settings.claws === undefined) {
             return false;
@@ -35,7 +38,7 @@ function ClawsOutput(stringBundle, settings){
     /** @private
      * Calculates the position of the <li> element inside of the list
      * 
-     * @returns {Integer}
+     * @returns {Integer} position of list item inside of the list
      */
     var getListItemText = function(node){
         var total = outputHelper.countListNodes(node.parentNode)
@@ -48,19 +51,20 @@ function ClawsOutput(stringBundle, settings){
      * Create an introduction text of the document in following format:
      * Document title Page with n links and n forms.
      * 
-     * @return {String}
+     * @returns {String} Text with document info
      */
     var getClawsIntroText = function(docInfo){        
         return docInfo.docTitle + ' ' + stringBundle.getFormattedString('CLAWS.output.pageinfo', [docInfo.nOfLinks, docInfo.nOfForms])
     }
     
     /** @public
-     * Generates text output for HTML5 tags and attributes
+     * Generate text output for HTML5 tags and attributes
      *
      * @param {DOM Node} node which tag is analyzed
-     * @returns {String} Text string with Claws output
+     * 
+     * @returns {String} Text with Claws output
      */
-    var getClawsText = function(node){
+    var getClawsTagText = function(node){
         var tagName = node.tagName.toUpperCase()
         var output = ''
         
@@ -187,14 +191,15 @@ function ClawsOutput(stringBundle, settings){
     }
     
     /** @public
-     * Generates text output for HTML5 closing tags
+     * Generate text output for HTML5 closing tags
      * Some elements has output text for closing tag
      * i.e.: <li> tag output "List of n elems" ... "End of list"
      *
      * @param {DOM Node} node which tag is analyzed
+     * 
      * @returns {String} Text string with Claws output
      */
-    var getClosingClawsText = function(node){
+    var getClawsClosingTagText = function(node){
         var tagName = node.tagName.toUpperCase()
         var output = '';
         
@@ -230,9 +235,10 @@ function ClawsOutput(stringBundle, settings){
     }
     
     /** @public
-     * Generates text output for <input type="..."> HTML5 element
+     * Generate text output for <input type="..."> HTML5 element
      *
      * @param {DOM Node} input node which type is analyzed
+     * 
      * @returns {String} Text string with Claws output
      */
     var getInputClawsText = function(node){
@@ -280,12 +286,14 @@ function ClawsOutput(stringBundle, settings){
     }
     
     /** @public
-     * Returns relevant node information
+     * Generate relevant node information
      * i.e: image alt attribute text,
      *      input value,
      *      etc...
      *
      * @param {DOM Node} node to extract the information
+     *
+     * @returns {String} output for relevant attributes
      *
      * NOTE: all the tag names are transfromed to upper case because
      * depending on doctype they could be in lower/upper case
@@ -335,8 +343,12 @@ function ClawsOutput(stringBundle, settings){
     }
     
     /** @public
-     *
+     * Generate the output text for Aria Roles.
+     * Most of them has equivalent HTML5 tag
+     * i.e.: banner role is the same as header tag
+     * 
      * @param {String} Text of ARIA role atribute
+     * 
      * @returns {String} Announcement for corresponding ARIA Landmark
      */
     var getClawsAriaLandmarkText = function(role)
@@ -363,6 +375,14 @@ function ClawsOutput(stringBundle, settings){
         }
     }
     
+    /** @public
+     *  Generate output for lang change: language changed from currentLang to newLang
+     *
+     *  @param currentLang current languange
+     *  @param newLang new language
+     *
+     *  @returns {String} output text
+     */
     var getClawsLangChangeText = function(currentLang, newLang)
     {
         return stringBundle.getFormattedString('CLAWS.output.lang.change.from.to', [currentLang, newLang])
@@ -370,8 +390,8 @@ function ClawsOutput(stringBundle, settings){
     
     return{
         getIntroText : getClawsIntroText,
-        getText : getClawsText,
-        getClosingText : getClosingClawsText,
+        getText : getClawsTagText,
+        getClosingText : getClawsClosingTagText,
         getInputText : getInputClawsText,
         getRelevantText : getClawsRelevantText,
         getAriaLandmarkText : getClawsAriaLandmarkText,
