@@ -1,6 +1,7 @@
 var EXPORTED_SYMBOLS = ['OutputFactory']
 Components.utils.import('resource://claws/NvdaOutput.js')
 Components.utils.import('resource://claws/ClawsOutput.js')
+Components.utils.import('resource://claws/JawsOutput.js')
 
 /**
  * Factory design pattern is used to generate output text functions
@@ -24,7 +25,10 @@ function OutputFactory(stringBundles, settings){
                         case 'CLAWS':
                                 //TODO: maybe settings shold be passed like settings.clawsSettings
                                 textProvider = new ClawsOutput(stringBundles.clawsStringBundle, settings)
-                                break                        
+                                break
+                        case 'JAWS':
+                                textProvider = new JawsOutput()
+                                break
                 }
                 return textProvider
         }

@@ -3,6 +3,7 @@
 <!ENTITY claws.preferences.mode                             "Output mode">
 <!ENTITY claws.preferences.mode.nvda                        "Nvda">
 <!ENTITY claws.preferences.mode.claws                       "Claws">
+<!ENTITY claws.preferences.mode.jaws                        "Jaws">
 <!ENTITY claws.preferences.mode.claws.caption               "CLAWS mode output preferences">
 <!ENTITY claws.preferences.mode.claws.quote                 "Enable quote announcing">
 <!ENTITY claws.preferences.mode.claws.address               "Enable 'address' tag announcing">

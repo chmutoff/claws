@@ -31,6 +31,7 @@
           <menupopup>
             <menuitem label="&claws.preferences.mode.nvda;" value="NVDA"/>
             <menuitem label="&claws.preferences.mode.claws;" value="CLAWS"/>
+            <menuitem label="&claws.preferences.mode.jaws;" value="JAWS"/>
           </menupopup>
         </menulist>
     </hbox>
