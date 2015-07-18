@@ -3,6 +3,7 @@
 <!ENTITY claws.preferences.mode                             "Modo de salida:">
 <!ENTITY claws.preferences.mode.nvda                        "Nvda">
 <!ENTITY claws.preferences.mode.claws                       "Claws">
+<!ENTITY claws.preferences.mode.jaws                        "Jaws">
 <!ENTITY claws.preferences.mode.claws.caption               "Opciones modo CLAWS">
 <!ENTITY claws.preferences.mode.claws.quote                 "Anunciar citas">
 <!ENTITY claws.preferences.mode.claws.address               "Anunciar el tag 'address'">
