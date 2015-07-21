@@ -11,6 +11,10 @@
 <!ENTITY claws.menu.tools.headings.accesskey        "E">
 <!ENTITY claws.menu.tools.preferences               "Opciones">
 <!ENTITY claws.menu.tools.preferences.accesskey     "O">
+<!ENTITY claws.menu.help                            "Ayuda">
+<!ENTITY claws.menu.help.accesskey                  "A">
+<!ENTITY claws.menu.help.about                      "Acerca de Claws">
+<!ENTITY claws.menu.help.about.accesskey            "A">
 <!ENTITY claws.secondary.copy.selected              "Copiar texto seleccionado">
 <!ENTITY claws.secondary.copy.selected.accesskey    "C">
 <!ENTITY claws.secondary.copy.all                   "Copiar todo">

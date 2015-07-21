@@ -22,7 +22,7 @@
       <preference id="pref_heading_line_break" name="extensions.claws.output.heading.line.break" type="bool"/>
       <preference id="pref_link_background_color" name="extensions.claws.output.link.background.color" type="string"/>
       <preference id="pref_link_underline" name="extensions.claws.output.link.underline" type="bool"/>
-      <preference id="pref_default_lang" name="extensions.claws.output.default.lang" type="string" />
+      <preference id="pref_default_lang" name="extensions.claws.output.default.lang" type="string"/>
     </preferences>
    
     <!-- Mode selection --> 
@@ -86,10 +86,11 @@
       <checkbox id="link_underline" label="&claws.preferences.links.text.underline;" preference="pref_link_underline"/>
     </hbox>
     
-    <hbox align="center">
+    <!-- Default language -->
+    <box align="center">
       <label control="default_lang" value="&claws.preferences.default.lang;"/>
-      <textbox preference="pref_default_lang" id="default_lang" type="text"/>
-    </hbox>
+      <textbox width="25" preference="pref_default_lang" id="default_lang" type="text" maxlength="2"/>
+    </box>
     
   </prefpane> 
 </prefwindow>

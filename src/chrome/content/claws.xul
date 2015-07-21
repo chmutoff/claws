@@ -32,17 +32,22 @@
   <!-- Top Menu Bar -->
   <menubar id="claws-menubar">
     <menu id="claws-file-menu" label="&claws.menu.file;" accesskey="&claws.menu.file.accesskey;">
-      <menupopup id="file-popup">
+      <menupopup>
         <menuitem label="&claws.menu.file.close;" accesskey="&claws.menu.file.close.accesskey;" oncommand="window.close()"/>
       </menupopup>
     </menu>
     <menu id="claws-tools-menu" label="&claws.menu.tools;" accesskey="&claws.menu.tools.accesskey;">
-      <menupopup id="tools-popup">
+      <menupopup>
         <menuitem label="&claws.menu.tools.links;" accesskey="&claws.menu.tools.links.accesskey;" oncommand="openLinksWindow()"/>
         <menuitem label="&claws.menu.tools.headings;" accesskey="&claws.menu.tools.headings.accesskey;" oncommand="openHeadingsWindow()"/>
         <menuitem label="&claws.menu.tools.preferences;" accesskey="&claws.menu.tools.preferences.accesskey;" oncommand="openPreferencesWindow()"/>
       </menupopup>
     </menu>
+    <menu id="claws-help" label="&claws.menu.help;" accesskey="&claws.menu.help.accesskey;">
+      <menupopup>
+        <menuitem id="claws-about-menu" label="&claws.menu.help.about;" accesskey="&claws.menu.help.about.accesskey;" oncommand="openAboutWindow()"/>
+      </menupopup>
+      </menu>
   </menubar>
 
   <!-- Iframe with output -->

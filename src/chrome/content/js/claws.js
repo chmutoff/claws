@@ -32,7 +32,6 @@ function start(sourceWindow){
     var heading_line_break = application.prefs.get("extensions.claws.output.heading.line.break").value
     var link_background_color = application.prefs.get("extensions.claws.output.link.background.color").value
     var link_underline = application.prefs.get("extensions.claws.output.link.underline").value
-    var default_lang = application.prefs.get("extensions.claws.output.default.lang").value
        
     // object with preferences for output modes
     var preferences = {
@@ -148,4 +147,11 @@ function openPreferencesWindow(){
   }
 
   this._preferencesWindow.focus();
+}
+
+/**
+ * Open About Claws window
+ */
+function openAboutWindow() {
+    window.openDialog('chrome://claws/content/about.xul', 'about', 'menubar,close,minimizable,scrollbars,resizable,modal,width=400,height=150');    
 }
