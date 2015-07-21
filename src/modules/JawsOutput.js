@@ -18,10 +18,10 @@ function JawsOutput()
                         .createBundle("chrome://claws/locale/JAWS.properties");
 
     function getString(msg, args){ //get localized message
-        if (args){
+        if (args){ //for message with parameters
             args = Array.prototype.slice.call(arguments, 1);
             return stringBundle.formatStringFromName(msg,args,args.length);
-        } else {
+        } else { //for message without parameters
             return stringBundle.GetStringFromName(msg);
         }
     }
