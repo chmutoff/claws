@@ -1,7 +1,8 @@
 var EXPORTED_SYMBOLS = ['OutputFactory']
-Components.utils.import('resource://claws/NvdaOutput.js')
-Components.utils.import('resource://claws/ClawsOutput.js')
-Components.utils.import('resource://claws/JawsOutput.js')
+const { utils: Cu } = Components;
+Cu.import('resource://claws/NvdaOutput.js')
+Cu.import('resource://claws/ClawsOutput.js')
+Cu.import('resource://claws/JawsOutput.js')
 
 /**
  * Factory design pattern is used to generate output text functions
