@@ -269,14 +269,17 @@ function DomWalker(textProvider, sourceWindow)
      * @param {DOM Node} DOM root node to begin with
      * @returns {DOM Node} output content
      */
-    function walkDOM(dom){
+    function walkDOM(dom){        
         var nodeStack = new Array()
         var langStack = new Array()
         var output = _document.createElement('div')
         output.className = 'output'
         cleanWhitespace(dom)
         nodeStack.push(dom)
-        langStack.push(_document.documentElement.lang) //apend <html> lang attr value
+        let app = Cc["@mozilla.org/fuel/application;1"].getService(Ci.fuelIApplication)
+        var def_lang = (_document.documentElement.lang != '') ? _document.documentElement.lang : app.prefs.get("extensions.claws.output.default.lang").value
+        langStack.push(def_lang)
+    
       
         do{       
             var nodeToExpand = nodeStack.pop()

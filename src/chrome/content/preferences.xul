@@ -22,6 +22,7 @@
       <preference id="pref_heading_line_break" name="extensions.claws.output.heading.line.break" type="bool"/>
       <preference id="pref_link_background_color" name="extensions.claws.output.link.background.color" type="string"/>
       <preference id="pref_link_underline" name="extensions.claws.output.link.underline" type="bool"/>
+      <preference id="pref_default_lang" name="extensions.claws.output.default.lang" type="string" />
     </preferences>
    
     <!-- Mode selection --> 
@@ -83,6 +84,11 @@
       <label control="link_background_color" value="&claws.preferences.links.text.color;"/>
       <colorpicker preference="pref_link_background_color" id="link_background_color" type="button"/>
       <checkbox id="link_underline" label="&claws.preferences.links.text.underline;" preference="pref_link_underline"/>
+    </hbox>
+    
+    <hbox align="center">
+      <label control="default_lang" value="&claws.preferences.default.lang;"/>
+      <textbox preference="pref_default_lang" id="default_lang" type="text"/>
     </hbox>
     
   </prefpane> 

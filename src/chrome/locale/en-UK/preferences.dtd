@@ -15,3 +15,4 @@
 <!ENTITY claws.preferences.headings.line.break              "Insert line break in headings">
 <!ENTITY claws.preferences.links.text.color                 "Links text background color">
 <!ENTITY claws.preferences.links.text.underline             "Underline links">
+<!ENTITY claws.preferences.default.lang                     "Default html language">

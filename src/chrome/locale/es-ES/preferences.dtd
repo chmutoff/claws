@@ -15,3 +15,4 @@
 <!ENTITY claws.preferences.headings.text.underline          "Subrayar encabezados">
 <!ENTITY claws.preferences.links.text.color                 "Color de fondo del texto de los enlaces">
 <!ENTITY claws.preferences.links.text.underline             "Subrayar enlaces">
+<!ENTITY claws.preferences.default.lang                     "Idioma html por defecto">

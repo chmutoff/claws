@@ -32,7 +32,8 @@ function start(sourceWindow){
     var heading_line_break = application.prefs.get("extensions.claws.output.heading.line.break").value
     var link_background_color = application.prefs.get("extensions.claws.output.link.background.color").value
     var link_underline = application.prefs.get("extensions.claws.output.link.underline").value
-    
+    var default_lang = application.prefs.get("extensions.claws.output.default.lang").value
+       
     // object with preferences for output modes
     var preferences = {
         quote: quote,

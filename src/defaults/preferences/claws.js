@@ -10,3 +10,4 @@ pref("extensions.claws.output.heading.line.break", false);
 pref("extensions.claws.output.heading.underline", false);
 pref("extensions.claws.output.link.background.color","none");
 pref("extensions.claws.output.link.underline", true);
+pref("extensions.claws.output.default.lang", "en");
