@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE window SYSTEM "chrome://claws/locale/about.dtd">
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://claws/skin/about.css" type="text/css"?>
+<window id="about_claws" title="&about.title;"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+    <hbox id="main-box">
+        <image src="chrome://claws/skin/claws_logo_small.png"/>
+        <vbox>
+            <description>&about.coordinator;: <html:a href="mailto:sergio.lujan@ua.es">Sergio Luján Mora</html:a></description>
+            <description>&about.developper;: <html:a href="mailto:acc8@alu.ua.es">Anton Chmutov</html:a></description>    
+            <description><html:a href="http://desarrolloweb.dlsi.ua.es/" target="_blank">&about.website;</html:a></description>
+        </vbox>
+    </hbox>    
+</window>

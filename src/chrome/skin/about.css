@@ -1,0 +1,14 @@
+window{
+    background-color: #FFFFFF !important;
+}
+#main-box{
+    margin-left: 25px;
+    margin-top: 25px;
+}
+#main-box>image{
+    margin-right: 25px;
+}
+a{
+    text-decoration: underline;
+    font-weight: bold;
+}
