@@ -5,12 +5,15 @@
 <window id="about_claws" title="&about.title;"
     xmlns:html="http://www.w3.org/1999/xhtml"
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+    
     <hbox id="main-box">
         <image src="chrome://claws/skin/claws_logo_small.png"/>
         <vbox>
-            <description>&about.coordinator;: <html:a href="mailto:sergio.lujan@ua.es">Sergio Luján Mora</html:a></description>
-            <description>&about.developper;: <html:a href="mailto:acc8@alu.ua.es">Anton Chmutov</html:a></description>    
-            <description><html:a href="http://desarrolloweb.dlsi.ua.es/" target="_blank">&about.website;</html:a></description>
+            <description>&about.coordinator;: <html:a href="mailto:sergio.lujan@ua.es">Sergio Luján Mora (sergio.lujan@ua.es)</html:a></description>
+            <description>&about.developper;: <html:a href="mailto:acc8@alu.ua.es">Anton Chmutov (acc8@alu.ua.es)</html:a></description>    
+            <description><html:a href="http://accesibilidadweb.dlsi.ua.es/?menu=hr-claws" target="_blank">&about.website;</html:a></description>
+            <description>Claws v2.0</description>
+            <description>NVDA v2014.4</description>
         </vbox>
     </hbox>    
 </window>

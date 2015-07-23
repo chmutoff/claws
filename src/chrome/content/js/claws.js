@@ -153,5 +153,5 @@ function openPreferencesWindow(){
  * Open About Claws window
  */
 function openAboutWindow() {
-    window.openDialog('chrome://claws/content/about.xul', 'about', 'menubar,close,minimizable,scrollbars,resizable,modal,width=400,height=150');    
+    window.openDialog('chrome://claws/content/about.xul', 'about', 'menubar,close,minimizable,scrollbars,resizable,modal,width=450,height=150');    
 }
