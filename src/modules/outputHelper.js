@@ -78,7 +78,9 @@ var outputHelper = {
         // table -> tbody|tfoot -> td
         else if (node.parentNode.rowIndex != 0
                 && node.parentNode.parentNode.parentNode.tagName == 'TABLE'
-                && node.parentNode.parentNode.parentNode.getElementsByTagName('th').length > 0) {
+                && node.parentNode.parentNode.parentNode.getElementsByTagName('th').length > 0 
+                && node.parentNode.parentNode.parentNode.getElementsByTagName('th').length > node.cellIndex) {
+            //console.log("cell index " + node.cellIndex + " debug: "+node.parentNode.parentNode.parentNode.getElementsByTagName('th').length)
             return node.parentNode.parentNode.parentNode.getElementsByTagName('th')[node.cellIndex].textContent
         } else return ''
     },

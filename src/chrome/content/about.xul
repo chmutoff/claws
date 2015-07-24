@@ -12,8 +12,17 @@
             <description>&about.coordinator;: <html:a href="mailto:sergio.lujan@ua.es">Sergio Luján Mora (sergio.lujan@ua.es)</html:a></description>
             <description>&about.developper;: <html:a href="mailto:acc8@alu.ua.es">Anton Chmutov (acc8@alu.ua.es)</html:a></description>    
             <description><html:a href="http://accesibilidadweb.dlsi.ua.es/?menu=hr-claws" target="_blank">&about.website;</html:a></description>
-            <description>Claws v2.0</description>
+            <description id="claws-version"></description>
             <description>NVDA v2014.4</description>
+            
+            <script>
+                Components.utils.import("resource://gre/modules/AddonManager.jsm");
+                AddonManager.getAddonByID("claws@alicante.university.project", function(addon) {
+                    // This is an asynchronous callback function that might not be called immediately
+                    document.getElementById('claws-version').innerHTML = "Claws v" + addon.version;
+                });
+            </script>            
+            
         </vbox>
     </hbox>    
 </window>
