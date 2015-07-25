@@ -134,16 +134,12 @@ function copyAllOutput(){
  */
 function openPreferencesWindow(){
   if (null == this._preferencesWindow || this._preferencesWindow.closed) {
-    let instantApply =
-      Application.prefs.get("browser.preferences.instantApply");
-    let features =
-      "chrome,titlebar,toolbar,centerscreen" +
-      (instantApply.value ? ",dialog=no" : ",modal");
+    let features = "chrome,titlebar,toolbar,centerscreen,modal";
 
     this._preferencesWindow =
       window.openDialog(
         "chrome://claws/content/preferences.xul",
-        "xulschoolhello-preferences-window", features);
+        "claws-preferences-window", features);
   }
 
   this._preferencesWindow.focus();

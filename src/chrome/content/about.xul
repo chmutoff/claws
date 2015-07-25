@@ -4,7 +4,10 @@
 <?xml-stylesheet href="chrome://claws/skin/about.css" type="text/css"?>
 <window id="about_claws" title="&about.title;"
     xmlns:html="http://www.w3.org/1999/xhtml"
-    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    onload="getversion()">
+    
+    <script type="application/x-javascript" src="chrome://claws/content/js/about.js" />
     
     <hbox id="main-box">
         <image src="chrome://claws/skin/claws_logo_small.png"/>
@@ -13,16 +16,8 @@
             <description>&about.developper;: <html:a href="mailto:acc8@alu.ua.es">Anton Chmutov (acc8@alu.ua.es)</html:a></description>    
             <description><html:a href="http://accesibilidadweb.dlsi.ua.es/?menu=hr-claws" target="_blank">&about.website;</html:a></description>
             <description id="claws-version"></description>
-            <description>NVDA v2014.4</description>
-            
-            <script>
-                Components.utils.import("resource://gre/modules/AddonManager.jsm");
-                AddonManager.getAddonByID("claws@alicante.university.project", function(addon) {
-                    // This is an asynchronous callback function that might not be called immediately
-                    document.getElementById('claws-version').innerHTML = "Claws v" + addon.version;
-                });
-            </script>            
-            
+            <description>NVDA v2014.4</description>            
         </vbox>
-    </hbox>    
+    </hbox>
+
 </window>

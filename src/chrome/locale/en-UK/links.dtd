@@ -1,5 +1,5 @@
 <!ENTITY links.window.title                     "Links list">
 <!ENTITY links.secondary.copy.text              "Copy text">
 <!ENTITY links.secondary.copy.text.accesskey    "C">
-<!ENTITY links.secondary.copy.url               "Copy link"
+<!ENTITY links.secondary.copy.url               "Copy link">
 <!ENTITY links.secondary.copy.url.accesskey     "L">
