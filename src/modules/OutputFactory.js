@@ -6,10 +6,9 @@ Components.utils.import('resource://claws/ClawsOutput.js')
  * Factory design pattern is used to generate output text functions
  * for DomWalker depending on selected mode
  *
- * @param {Object} stringBundles -> contains all the stringBudles for all the output modes
- * @param {Object} settings -> contains output settings for each mode
+ * @param {Object} preferences -> contains output settings for each mode
  */
-function OutputFactory(stringBundles, settings){
+function OutputFactory(preferences){
         /** 
          * Generates an object with text functions for selected output mode
          *
@@ -19,11 +18,11 @@ function OutputFactory(stringBundles, settings){
                 var textProvider = {}    
                 switch (mode) {
                         case 'NVDA':
-                                textProvider = new NvdaOutput(stringBundles.nvdaStringBundle)
+                                textProvider = new NvdaOutput()
                                 break
                         case 'CLAWS':
                                 //TODO: maybe settings shold be passed like settings.clawsSettings
-                                textProvider = new ClawsOutput(stringBundles.clawsStringBundle, settings)
+                                textProvider = new ClawsOutput(preferences)
                                 break                        
                 }
                 return textProvider

@@ -4,7 +4,20 @@ const { classes: Cc, interfaces: Ci, utils: Cu } = Components;
 Cu.import('resource://claws/outputHelper.js');
 const {console} = Cu.import("resource://gre/modules/devtools/Console.jsm", {});
 
-function ClawsOutput(stringBundle, settings){    
+function ClawsOutput(settings){
+    
+    function getString(msg, args){ //get localized message
+        var stringBundle = Components.classes["@mozilla.org/intl/stringbundle;1"]
+               .getService(Components.interfaces.nsIStringBundleService)
+               .createBundle("chrome://claws/locale/CLAWS.properties");
+
+        if (args){
+            args = Array.prototype.slice.call(arguments, 1);            
+            return stringBundle.formatStringFromName(msg,args,args.length);
+        } else {
+            return stringBundle.GetStringFromName(msg);
+        }
+    }
     
     /******************Settings******************/
     /** @private
@@ -44,7 +57,7 @@ function ClawsOutput(stringBundle, settings){
         var total = outputHelper.countListNodes(node.parentNode)
         var pos = outputHelper.countItemPositionInList(node)
        
-        return stringBundle.getFormattedString('CLAWS.output.list.item.pos', [pos, total])
+        return getString('CLAWS.output.list.item.pos', pos, total)
     }
     
     /** @public
@@ -53,8 +66,8 @@ function ClawsOutput(stringBundle, settings){
      * 
      * @returns {String} Text with document info
      */
-    var getClawsIntroText = function(docInfo){        
-        return docInfo.docTitle + ' ' + stringBundle.getFormattedString('CLAWS.output.pageinfo', [docInfo.nOfLinks, docInfo.nOfForms])
+    var getClawsIntroText = function(docInfo){
+        return docInfo.docTitle + ' ' + getString('CLAWS.output.pageinfo', docInfo.nOfLinks.toString(), docInfo.nOfForms.toString())
     }
     
     /** @public
@@ -70,71 +83,71 @@ function ClawsOutput(stringBundle, settings){
         
         switch(tagName){
             case 'A':
-                output += stringBundle.getString('CLAWS.output.link')
+                output += getString('CLAWS.output.link')
                 break
             case 'ADDRESS':
                 if (showAddress()) {
-                    output += stringBundle.getString('CLAWS.output.address')
+                    output += getString('CLAWS.output.address')
                 }
                 break
             case 'AREA':
-                output += stringBundle.getString('CLAWS.output.link')
+                output += getString('CLAWS.output.link')
                 break
             case 'ASIDE':
-                output += stringBundle.getString('CLAWS.output.aside')
+                output += getString('CLAWS.output.aside')
                 break
             case 'BLOCKQUOTE':
                 if (showQuote()) {
-                    output += stringBundle.getString('CLAWS.output.blockquote')
+                    output += getString('CLAWS.output.blockquote')
                 }
                 break               
             case 'BUTTON':
-                output += stringBundle.getString('CLAWS.output.button')
+                output += getString('CLAWS.output.button')
                 break
             case 'DL':
-                output += stringBundle.getFormattedString('CLAWS.output.list', [outputHelper.countListNodes(node)])
+                output += getString('CLAWS.output.list', outputHelper.countListNodes(node))
                 break
             case 'FOOTER':
                 if (node.parentNode.nodeName == 'BODY') {
-                    output += stringBundle.getString('CLAWS.output.page.footer')
+                    output += getString('CLAWS.output.page.footer')
                 }
                 else{
-                    output += stringBundle.getString('CLAWS.output.footer')
+                    output += getString('CLAWS.output.footer')
                 }
                 break
             case 'H1':
-                output += stringBundle.getFormattedString('CLAWS.output.heading.level', [1])
+                output += getString('CLAWS.output.heading.level', 1)
                 break
             case 'H2':
-                output += stringBundle.getFormattedString('CLAWS.output.heading.level', [2])
+                output += getString('CLAWS.output.heading.level', 2)
                 break
             case 'H3':
-                output += stringBundle.getFormattedString('CLAWS.output.heading.level', [3])
+                output += getString('CLAWS.output.heading.level', 3)
                 break
             case 'H4':
-                output += stringBundle.getFormattedString('CLAWS.output.heading.level', [4])
+                output += getString('CLAWS.output.heading.level', 4)
                 break
             case 'H5':
-                output += stringBundle.getFormattedString('CLAWS.output.heading.level', [5])
+                output += getString('CLAWS.output.heading.level', 5)
                 break
             case 'H6':
-                output += stringBundle.getFormattedString('CLAWS.output.heading.level', [6])
+                output += getString('CLAWS.output.heading.level', 6)
                 break
             case 'HEADER':
-                output += stringBundle.getString('CLAWS.output.header')
+                output += getString('CLAWS.output.header')
                 break
             case 'HR':
-                output += stringBundle.getString('CLAWS.output.hr')
+                output += getString('CLAWS.output.hr')
                 break
             case 'IFRAME':                
-                output += stringBundle.getString('CLAWS.output.iframe')
+                output += getString('CLAWS.output.iframe')
                 break
             case 'IMG':
-                output += stringBundle.getString('CLAWS.output.image')
+                output += getString('CLAWS.output.image')
                 break
             case 'INPUT':
                 if (node.hasAttribute('list')) {
-                    output += stringBundle.getString('CLAWS.output.datalist')
+                    output += getString('CLAWS.output.datalist')
                 }
                 else output += getInputClawsText(node)
                 break
@@ -142,48 +155,48 @@ function ClawsOutput(stringBundle, settings){
                 output += getListItemText(node)
                 break
             case 'MAIN':
-                output += stringBundle.getString('CLAWS.output.main')
+                output += getString('CLAWS.output.main')
                 break
             case 'MAP':
-                output += stringBundle.getString('CLAWS.output.map')
+                output += getString('CLAWS.output.map')
                 break
             case 'NAV':
-                output += stringBundle.getString('CLAWS.output.nav')
+                output += getString('CLAWS.output.nav')
                 break
             case 'OBJECT':
-                output += stringBundle.getString('CLAWS.output.object')
+                output += getString('CLAWS.output.object')
                 break
             case 'OL':
-                output += stringBundle.getFormattedString('CLAWS.output.list', [outputHelper.countListNodes(node)])
+                output += getString('CLAWS.output.list', outputHelper.countListNodes(node))
                 break
             case 'PROGRESS':
-                output += stringBundle.getString('CLAWS.output.progress')
+                output += getString('CLAWS.output.progress')
                 break
             case 'Q':
                 if (showQuote()) {
-                    output += stringBundle.getString('CLAWS.output.quote')
+                    output += getString('CLAWS.output.quote')
                 }
                 break
             case 'SELECT':
-                output += stringBundle.getString('CLAWS.output.select')
+                output += getString('CLAWS.output.select')
                 break
             case 'TABLE':
-                output += stringBundle.getFormattedString('CLAWS.output.table', [outputHelper.getNumRowsInTable(node), outputHelper.getNumColumnsInTable(node)])
+                output += getString('CLAWS.output.table', outputHelper.getNumRowsInTable(node).toString(), outputHelper.getNumColumnsInTable(node).toString())
                 break
             case 'TD':
-                output += outputHelper.getCellHeading(node) + ' ' + outputHelper.getHorizontalHeading(node) + ' ' +  stringBundle.getFormattedString('CLAWS.output.table.column', [(node.cellIndex+1)])
+                output += outputHelper.getCellHeading(node) + ' ' + outputHelper.getHorizontalHeading(node) + ' ' +  getString('CLAWS.output.table.column', (node.cellIndex+1))
                 break
             case 'TEXTAREA':
-                output += stringBundle.getString('CLAWS.output.textarea')
+                output += getString('CLAWS.output.textarea')
                 break
             case 'TH':
-                output += outputHelper.getCellHeading(node) + ' ' +  stringBundle.getFormattedString('CLAWS.output.table.column', [(node.cellIndex+1)])
+                output += outputHelper.getCellHeading(node) + ' ' +  getString('CLAWS.output.table.column', (node.cellIndex+1))
                 break
             case 'TR':
-                output += stringBundle.getFormattedString('CLAWS.output.table.row', [(node.rowIndex+1)])
+                output += getString('CLAWS.output.table.row', (node.rowIndex+1))
                 break
             case 'UL':
-                output += stringBundle.getFormattedString('CLAWS.output.list', [outputHelper.countListNodes(node)])
+                output += getString('CLAWS.output.list', outputHelper.countListNodes(node))
                 break
         }
         
@@ -206,28 +219,28 @@ function ClawsOutput(stringBundle, settings){
         switch (tagName) {
             case 'BLOCKQUOTE':
                 if (showQuote()) {
-                    output +=  stringBundle.getString('CLAWS.output.blockquote.end')
+                    output +=  getString('CLAWS.output.blockquote.end')
                 }
                 break
             case 'DL':
-                output += stringBundle.getString('CLAWS.ouptut.list.end')
+                output += getString('CLAWS.ouptut.list.end')
                 break
             case 'IFRAME':
-                output += stringBundle.getString('CLAWS.output.iframe.end')
+                output += getString('CLAWS.output.iframe.end')
                 break
             case 'OL':
-                output += stringBundle.getString('CLAWS.ouptut.list.end')
+                output += getString('CLAWS.ouptut.list.end')
                 break
             case 'Q':
                 if (showQuote()) {
-                    output +=  stringBundle.getString('CLAWS.output.quote.end')
+                    output +=  getString('CLAWS.output.quote.end')
                 }
                 break
             case 'TABLE':
-                output += stringBundle.getString('CLAWS.output.table.end')
+                output += getString('CLAWS.output.table.end')
                 break
             case 'UL':
-                output += stringBundle.getString('CLAWS.ouptut.list.end')
+                output += getString('CLAWS.ouptut.list.end')
                 break
         }
         
@@ -245,43 +258,43 @@ function ClawsOutput(stringBundle, settings){
         var inputType = node.getAttribute('type').toLowerCase()
         switch (inputType){
             case 'button':
-              return stringBundle.getString('CLAWS.output.button')
+              return getString('CLAWS.output.button')
             case 'checkbox':
-              return stringBundle.getString('CLAWS.output.input.checkbox') + ' ' + ((node.checked)? stringBundle.getString('CLAWS.output.input.checkbox.checked') : stringBundle.getString('CLAWS.output.input.checkbox.unchecked'))
+              return getString('CLAWS.output.input.checkbox') + ' ' + ((node.checked)? getString('CLAWS.output.input.checkbox.checked') : getString('CLAWS.output.input.checkbox.unchecked'))
             case 'color':
-              return stringBundle.getString('CLAWS.output.input.color')
+              return getString('CLAWS.output.input.color')
             case 'date':
-              return stringBundle.getString('CLAWS.output.input.date')
+              return getString('CLAWS.output.input.date')
             case 'datetime':
-              return stringBundle.getString('CLAWS.output.input.datetime')
+              return getString('CLAWS.output.input.datetime')
             case 'datetime-local':
-              return stringBundle.getString('CLAWS.output.input.datetime')
+              return getString('CLAWS.output.input.datetime')
             case 'email':
-                return stringBundle.getString('CLAWS.output.input.type.email')
+                return getString('CLAWS.output.input.type.email')
             case 'file':
-              return stringBundle.getString('CLAWS.output.input.file')
+              return getString('CLAWS.output.input.file')
             case 'hidden':
               return ''
             case 'image':
-              return stringBundle.getString('CLAWS.output.button')
+              return getString('CLAWS.output.button')
             case 'number':
-              return stringBundle.getString('CLAWS.output.input.number')
+              return getString('CLAWS.output.input.number')
             case 'password':
-              return stringBundle.getString('CLAWS.output.input.password')
+              return getString('CLAWS.output.input.password')
             case 'radio':
-              return stringBundle.getString('CLAWS.output.input.radio') + ' ' + ((node.checked)? stringBundle.getString('CLAWS.output.input.checkbox.checked') : stringBundle.getString('CLAWS.output.input.checkbox.unchecked'))
+              return getString('CLAWS.output.input.radio') + ' ' + ((node.checked)? getString('CLAWS.output.input.checkbox.checked') : getString('CLAWS.output.input.checkbox.unchecked'))
             case 'range':
-              return stringBundle.getString('CLAWS.output.input.range')
+              return getString('CLAWS.output.input.range')
             case 'reset':
-              return stringBundle.getString('CLAWS.output.input.reset')
+              return getString('CLAWS.output.input.reset')
             case 'search':
-              return stringBundle.getString('CLAWS.output.input.search') + ' ' + ((node.autocomplete != 'off')? stringBundle.getString('CLAWS.output.input.text.autocomplete') : '')
+              return getString('CLAWS.output.input.search') + ' ' + ((node.autocomplete != 'off')? getString('CLAWS.output.input.text.autocomplete') : '')
             case 'submit':
-              return stringBundle.getString('CLAWS.output.input.submit')
+              return getString('CLAWS.output.input.submit')
             case 'time':
-                return stringBundle.getString('CLAWS.output.input.time')
+                return getString('CLAWS.output.input.time')
             default:
-                return stringBundle.getString('CLAWS.output.input.text') + ' ' + ((node.autocomplete != 'off')? stringBundle.getString('CLAWS.output.input.text.autocomplete') : '')
+                return getString('CLAWS.output.input.text') + ' ' + ((node.autocomplete != 'off')? getString('CLAWS.output.input.text.autocomplete') : '')
         } 
     }
     
@@ -355,19 +368,19 @@ function ClawsOutput(stringBundle, settings){
     {
         switch (role.toUpperCase()) {
             case 'BANNER':
-                return stringBundle.getString('CLAWS.output.header')
+                return getString('CLAWS.output.header')
             case 'COMPLEMENTARY':
-                return stringBundle.getString('CLAWS.output.aside')
+                return getString('CLAWS.output.aside')
             case 'CONTENTINFO':
-                return stringBundle.getString('CLAWS.output.footer')
+                return getString('CLAWS.output.footer')
             case 'FORM':
-                return stringBundle.getString('CLAWS.output.form')
+                return getString('CLAWS.output.form')
             case 'MAIN': 
-                return stringBundle.getString('CLAWS.output.main')
+                return getString('CLAWS.output.main')
             case 'NAVIGATION':
-                return stringBundle.getString('CLAWS.output.nav')
+                return getString('CLAWS.output.nav')
             case 'SEARCH':
-                return stringBundle.getString('CLAWS.output.search')
+                return getString('CLAWS.output.search')
             case 'APPLICATION':
                 return '' // ???
             default:
@@ -385,7 +398,7 @@ function ClawsOutput(stringBundle, settings){
      */
     var getClawsLangChangeText = function(currentLang, newLang)
     {
-        return stringBundle.getFormattedString('CLAWS.output.lang.change.from.to', [currentLang, newLang])
+        return getString('CLAWS.output.lang.change.from.to', currentLang, newLang)
     }
     
     return{

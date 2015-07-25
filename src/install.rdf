@@ -5,8 +5,9 @@
 
   <Description about="urn:mozilla:install-manifest">
     <em:id>claws@alicante.university.project</em:id>
-    <em:version>2.0.1</em:version>
+    <em:version>2.0.2</em:version>
     <em:type>2</em:type>
+    <em:unpack>true</em:unpack>
    
     <!-- Target Application this extension can install into, 
          with minimum and maximum supported versions. --> 
@@ -15,7 +16,6 @@
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
         <em:minVersion>1.5</em:minVersion>
         <em:maxVersion>4.0.*</em:maxVersion>
-        <em:unpack>true</em:unpack>
       </Description>
     </em:targetApplication>
    

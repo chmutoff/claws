@@ -14,13 +14,7 @@ var _preferencesWindow = null
  * @param {Window} Reference to the  window which contains the HTML to process
  */
 function start(sourceWindow){
-    
-    // get localized text bundles
-    var stringBundles = {
-        nvdaStringBundle : document.getElementById('NVDA-string-bundle'),
-        clawsStringBundle : document.getElementById('CLAWS-string-bundle')
-    }
-    
+   
     // get preferences
     var application = Components.classes["@mozilla.org/fuel/application;1"].getService(Components.interfaces.fuelIApplication)
     var mode = application.prefs.get("extensions.claws.output.mode").value
@@ -44,7 +38,7 @@ function start(sourceWindow){
     //TODO: separate preferences in arrays
     
     // get the output funcions for selected mode
-    var outputFactory = new OutputFactory(stringBundles, preferences)
+    var outputFactory = new OutputFactory(preferences)
     var textProvider = outputFactory.createTextProvider(mode)
     
     // walk DOM and generate otput with previously generated output functions
@@ -63,17 +57,23 @@ function start(sourceWindow){
     var elemBackgroundPref = application.prefs.get("extensions.claws.output.element.text.background.color").value
     var backgroundColor = application.prefs.get("extensions.claws.output.background.color").value
     
-    // style the output
-    var style = iframeContent.createElement('style')
-    style.type = 'text/css'    
-    style.innerHTML = 'body{background-color: '+backgroundColor+'; line-height: 25px; font-family: "Verdana" font-size: 13px; color: #333}'
-    style.innerHTML += '.tag-output{color: '+elemColorPref+'; background-color: '+elemBackgroundPref+'; margin-right: 5px; padding: 2px 5px;}'
+    // create the output style
+    var css = 'body{background-color: '+backgroundColor+'; line-height: 25px; font-family: "Verdana" font-size: 13px; color: #333}'
+    css += '.tag-output{color: '+elemColorPref+'; background-color: '+elemBackgroundPref+'; margin-right: 5px; padding: 2px 5px;}'
+    css += '.heading-text{background-color:'+heading_background_color+'; text-decoration:'+(heading_underline ? 'underline' : 'none')+';}'
+    css += '.link-text{background-color:'+link_background_color+'; text-decoration:'+(link_underline ? 'underline' : 'none')+';}'
     if (heading_line_break) {
-        style.innerHTML += '.heading{display:block; margin-top:20px;} .heading-text{display:block; margin-bottom:20px;}'
+        css += '.heading{display:block; margin-top:20px;} .heading-text{display:block; margin-bottom:20px;}'
     }
-    style.innerHTML += '.heading-text{background-color:'+heading_background_color+'; text-decoration:'+(heading_underline ? 'underline' : 'none')+';}'
-    style.innerHTML += '.link-text{background-color:'+link_background_color+'; text-decoration:'+(link_underline ? 'underline' : 'none')+';}'
+    
+    // create style element
+    var style = iframeContent.createElement('style')
+    style.type = 'text/css'
+    style.appendChild(document.createTextNode(css));
+    
+    // append style to document
     iframeContent.getElementsByTagName('head')[0].appendChild(style);
+    
     // usefull post process elements
     _linksList = dw.linkList
     _headingsList = dw.headingList
