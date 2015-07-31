@@ -26,10 +26,6 @@ function JawsOutput()
         }
     }
 
-    /* Usage */
-    //alert(getString("invalid.url", "http://bad/url/", "3")); //for message with parameters
-    //alert(getString("invalid.url")); //for message without parameters
-
     /** @public
      * Create an introduction text of the document in following format:
      * Document title
