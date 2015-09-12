@@ -97,6 +97,22 @@ var outputHelper = {
     
     getFileNameFromPath(path){
         return path.substring(path.lastIndexOf('/')+1, path.lastIndexOf('.'))
-    }
+    },
     
+    isSendMailLink(link)
+    {
+        return (link.indexOf("mailto:") > -1)
+    },
+    
+    // TODO:Count number of regions for JAWS mode
+    /*
+    countDocumentRegions(doc) {
+        var headers = doc.getElementsByTagName('header')
+        var navs = doc.getElementsByTagName('nav')
+        var asides = doc.getElementsByTagName('aside')
+        var mains = doc.getElementsByTagName('main') //only should be 1 main. just in case.
+        var articles = doc.getElementsByTagName('article')
+        var footers = doc.getElementsByTagName('footer') //check if body has footer
+    }
+    */
 }

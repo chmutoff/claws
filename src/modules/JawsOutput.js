@@ -19,13 +19,14 @@ function JawsOutput()
                         .createBundle("chrome://claws/locale/JAWS.properties");
 
     function getString(msg, args){ //get localized message
+        //console.log("Getting text for: " + msg)
         if (args){ //for message with parameters
             args = Array.prototype.slice.call(arguments, 1);
             return stringBundle.formatStringFromName(msg,args,args.length);
-        } else { //for message without parameters
+        } else { //for message without parameters            
             return stringBundle.GetStringFromName(msg);
         }
-    }
+    }   
 
     /** @public
      * Create an introduction text of the document in following format:
@@ -34,8 +35,8 @@ function JawsOutput()
      * @returns {String} Text with document info
      */
     function getJawsIntroText(docInfo) {
-        console.log(docInfo)
-        return docInfo.docTitle + ' ' + getString('JAWS.output.pageinfo', docInfo.nOfHeadings.toString(), docInfo.nOfLinks.toString())
+        //console.log(docInfo)
+        return  getString('JAWS.output.pageinfo', docInfo.nOfHeadings.toString(), docInfo.nOfLinks.toString()) + ' ' + docInfo.docTitle
     }
     
     /** @public
@@ -53,27 +54,34 @@ function JawsOutput()
                 // it is not possible for javascript to detect if a link is visited in either Firefox or Chrome (security reasons)
                 // https://developer.mozilla.org/en-US/docs/Web/CSS/Privacy_and_the_:visited_selector
                 if (node.getAttribute('href')[0] == '#') {
-                    return getString('JAWS.output.a.same')
+                    return getString('JAWS.output.link.same')
                 }
-                return getString('JAWS.output.a')
+                else if (outputHelper.isSendMailLink(node.getAttribute("href"))) {
+                    return getString('JAWS.output.link.mailto')
+                }
+                else return getString('JAWS.output.link')
             /*
             case 'AREA':
-                //return stringBundle.getString('JAWS.output.link')
+                //return getString('JAWS.output.link')
+            */
+            case 'ARTICLE':
+                return getString('JAWS.output.article')
             case 'ASIDE':
-                //return stringBundle.getString('JAWS.output.aside')
+                return getString('JAWS.output.aside')
+            /*
             case 'BLOCKQUOTE':
-                //return stringBundle.getString('JAWS.output.quote')
+                //return getString('JAWS.output.quote')
             case 'BUTTON':
-                //return stringBundle.getString('JAWS.output.button')
+                //return getString('JAWS.output.button')
             case 'DL':
-                //return stringBundle.getFormattedString('JAWS.output.list', [outputHelper.countListNodes(node)])
+                //return getString('JAWS.output.list', [outputHelper.countListNodes(node)])
+            */
             case 'FOOTER':
                 if (node.parentNode.nodeName == 'BODY') {
                     // JAWS only anounces the page footer
-                    //return stringBundle.getString('JAWS.output.footer')
+                    return getString('JAWS.output.footer')
                 }
-                //else return ''
-            */
+                else return ''            
             case 'H1':
                 return getString('JAWS.output.heading.level', 1)
             case 'H2':
@@ -85,51 +93,56 @@ function JawsOutput()
             case 'H5':
                 return getString('JAWS.output.heading.level', 5)
             case 'H6':
-                return getString('JAWS.output.heading.level', [6])
-            /*
+                return getString('JAWS.output.heading.level', 6)
+            
             case 'HEADER':
-                //return stringBundle.getString('JAWS.output.header')
+                return getString('JAWS.output.header')
+            /*
             case 'HR':
-                //return stringBundle.getString('JAWS.output.hr')
+                //return getString('JAWS.output.hr')
             case 'IFRAME':                
-                //return stringBundle.getString('JAWS.output.iframe')
+                //return getString('JAWS.output.iframe')
                 */
             case 'IMG':
                 return getString('JAWS.output.img')
-                //+ ((node.hasAttribute('longdesc'))? ' ' + stringBundle.getString('JAWS.output.img.longdesc') : '')
+                //+ ((node.hasAttribute('longdesc'))? ' ' + getString('JAWS.output.img.longdesc') : '')
             /*
             case 'INPUT':
                 if (node.hasAttribute('list')) {
-                    //return stringBundle.getString('JAWS.output.datalist')
+                    //return getString('JAWS.output.datalist')
                 }
                 //else return getInputJawsText(node)
-            case 'MAIN':
-                //return stringBundle.getString('JAWS.output.main')
-            case 'MAP':
-                //return stringBundle.getString('JAWS.output.map')
-            case 'NAV':
-                //return stringBundle.getString('JAWS.output.nav')
-            case 'OBJECT':
-                //return stringBundle.getString('JAWS.output.object')
-            case 'OL':
-                //return stringBundle.getFormattedString('JAWS.output.list', [outputHelper.countListNodes(node)])
-            case 'PROGRESS':
-                //return stringBundle.getString('JAWS.output.progress')
-            case 'SELECT':
-                //return stringBundle.getString('JAWS.output.select')
-            case 'TABLE':
-                //return stringBundle.getFormattedString('JAWS.output.table', [outputHelper.getNumRowsInTable(node), outputHelper.getNumColumnsInTable(node)])
-            case 'TD':
-                //return outputHelper.getCellHeading(node) + ' ' +  stringBundle.getFormattedString('JAWS.output.table.column', [(node.cellIndex+1)])
-            case 'TEXTAREA':
-                //return stringBundle.getString('JAWS.output.textarea')
-            case 'TH':
-                //return outputHelper.getCellHeading(node) + ' ' +  stringBundle.getFormattedString('JAWS.output.table.column', [(node.cellIndex+1)])
-            case 'TR':
-                //return stringBundle.getFormattedString('JAWS.output.table.row', [(node.rowIndex+1)])
-            case 'UL':
-                //return stringBundle.getFormattedString('JAWS.output.list', [outputHelper.countListNodes(node)])
             */
+            case 'MAIN':
+                return getString('JAWS.output.main')
+            /*    
+            case 'MAP':
+                //return getString('JAWS.output.map')
+            */
+            case 'NAV':
+                return getString('JAWS.output.nav')
+            /*
+            case 'OBJECT':
+                //return getString('JAWS.output.object')
+            case 'OL':
+                //return getString('JAWS.output.list', [outputHelper.countListNodes(node)])
+            case 'PROGRESS':
+                //return getString('JAWS.output.progress')
+            case 'SELECT':
+                //return getString('JAWS.output.select')
+            case 'TABLE':
+                //return getString('JAWS.output.table', [outputHelper.getNumRowsInTable(node), outputHelper.getNumColumnsInTable(node)])
+            case 'TD':
+                //return outputHelper.getCellHeading(node) + ' ' +  getString('JAWS.output.table.column', [(node.cellIndex+1)])
+            case 'TEXTAREA':
+                //return getString('JAWS.output.textarea')
+            case 'TH':
+                //return outputHelper.getCellHeading(node) + ' ' +  getString('JAWS.output.table.column', [(node.cellIndex+1)])
+            case 'TR':
+                //return getString('JAWS.output.table.row', [(node.rowIndex+1)])
+            */
+            case 'UL':
+                return getString('JAWS.output.list', outputHelper.countListNodes(node))
             default:
                 return ''
         }
@@ -144,21 +157,42 @@ function JawsOutput()
      */
     function getJawsClosingTagText(node){
         var tagName = node.tagName.toUpperCase()
-        switch (tagName) {           
+        switch (tagName) {
+            case 'ARTICLE':
+                return getString('JAWS.output.article.end')
+            case 'ASIDE':
+                return getString('JAWS.output.aside.end')
             /*
             case 'BLOCKQUOTE':
-                //return  stringBundle.getString('JAWS.output.quote.end')
+                //return  getString('JAWS.output.quote.end')
             case 'DL':
-                //return stringBundle.getString('JAWS.ouptut.list.end')
-            case 'IFRAME':
-                //return stringBundle.getString('JAWS.output.iframe.end')
-            case 'OL':
-                //return stringBundle.getString('JAWS.ouptut.list.end')
-            case 'TABLE':
-                //return stringBundle.getString('JAWS.output.table.end')
-            case 'UL':
-                //return stringBundle.getString('JAWS.ouptut.list.end')
+                //return getString('JAWS.ouptut.list.end')
             */
+            case 'FOOTER':
+                if (node.parentNode.nodeName == 'BODY') {
+                    // JAWS only anounces the page footer
+                    return getString('JAWS.output.footer.end')
+                }
+                else return '' 
+            case 'HEADER':
+                return getString('JAWS.output.header.end')
+            /*
+            case 'IFRAME':
+                //return getString('JAWS.output.iframe.end')
+                */
+            case 'MAIN':
+                return getString('JAWS.output.main.end')
+            case 'NAV':
+                return getString('JAWS.output.nav.end')
+            /*
+            case 'OL':
+                //return getString('JAWS.ouptut.list.end')
+            case 'TABLE':
+                //return getString('JAWS.output.table.end')
+            */
+            case 'UL':
+                return getString('JAWS.output.list.end')
+            
             default:
                 return ''
         }
@@ -175,33 +209,33 @@ function JawsOutput()
         switch (inputType){
             /*
             case 'button':
-                //return stringBundle.getString('JAWS.output.button')
+                //return getString('JAWS.output.button')
             case 'checkbox':
-                //return stringBundle.getString('JAWS.output.input.checkbox') + ' ' + ((node.checked)? stringBundle.getString('JAWS.output.input.checkbox.checked') : stringBundle.getString('JAWS.output.input.checkbox.unchecked'))
+                //return getString('JAWS.output.input.checkbox') + ' ' + ((node.checked)? getString('JAWS.output.input.checkbox.checked') : getString('JAWS.output.input.checkbox.unchecked'))
             case 'color':
-                //return stringBundle.getString('JAWS.output.button')
+                //return getString('JAWS.output.button')
             case 'file':
-                //return stringBundle.getString('JAWS.output.button') // TODO: get input button text and "no file selected" text
+                //return getString('JAWS.output.button') // TODO: get input button text and "no file selected" text
             case 'hidden':
                 //return ''
             case 'image':
-                //return stringBundle.getString('JAWS.output.button')
+                //return getString('JAWS.output.button')
             case 'number':
-                //return stringBundle.getString('JAWS.output.input.number')
+                //return getString('JAWS.output.input.number')
             case 'password':
-                //return stringBundle.getString('JAWS.output.input.password')
+                //return getString('JAWS.output.input.password')
             case 'radio':
-                //return stringBundle.getString('JAWS.output.input.radio') + ' ' + ((node.checked)? stringBundle.getString('JAWS.output.input.checkbox.checked') : stringBundle.getString('JAWS.output.input.checkbox.unchecked'))
+                //return getString('JAWS.output.input.radio') + ' ' + ((node.checked)? getString('JAWS.output.input.checkbox.checked') : getString('JAWS.output.input.checkbox.unchecked'))
             case 'range':
-                //return stringBundle.getString('JAWS.output.input.range')
+                //return getString('JAWS.output.input.range')
             case 'reset':
-                //return stringBundle.getString('JAWS.output.button') // TODO: get reset button text
+                //return getString('JAWS.output.button') // TODO: get reset button text
             case 'submit':
-                //return stringBundle.getString('JAWS.output.button') // TODO: get submit button text
+                //return getString('JAWS.output.button') // TODO: get submit button text
                 */
             default:
                 return ''
-                //return stringBundle.getString('JAWS.output.input.text') + ' ' + ((node.autocomplete != 'off')? stringBundle.getString('JAWS.output.input.text.autocomplete') : '')
+                //return getString('JAWS.output.input.text') + ' ' + ((node.autocomplete != 'off')? getString('JAWS.output.input.text.autocomplete') : '')
         } 
     }
     
@@ -268,19 +302,19 @@ function JawsOutput()
         switch (role.toUpperCase()) {
             /*
             case 'BANNER':
-                //return stringBundle.getString('JAWS.output.header')
+                //return getString('JAWS.output.header')
             case 'COMPLEMENTARY':
-                //return stringBundle.getString('JAWS.output.aside')
+                //return getString('JAWS.output.aside')
             case 'CONTENTINFO':
-                //return stringBundle.getString('JAWS.output.footer')
+                //return getString('JAWS.output.footer')
             case 'FORM':
-                //return stringBundle.getString('JAWS.output.form')
+                //return getString('JAWS.output.form')
             case 'MAIN': 
-                //return stringBundle.getString('JAWS.output.main')
+                //return getString('JAWS.output.main')
             case 'NAVIGATION':
-                //return stringBundle.getString('JAWS.output.nav')
+                //return getString('JAWS.output.nav')
             case 'SEARCH':
-                //return stringBundle.getString('JAWS.output.search')
+                //return getString('JAWS.output.search')
             case 'APPLICATION':
                 //return '' // ???
             */
