@@ -16,7 +16,8 @@
             <description>&about.developper;: <html:a href="mailto:acc8@alu.ua.es">Anton Chmutov (acc8@alu.ua.es)</html:a></description>    
             <description><html:a href="http://accesibilidadweb.dlsi.ua.es/?menu=hr-claws" target="_blank">&about.website;</html:a></description>
             <description id="claws-version"></description>
-            <description>NVDA v2014.4</description>            
+            <description>NVDA v2014.4</description>
+            <description>CLAWS 16.0.4350</description> 
         </vbox>
     </hbox>
 

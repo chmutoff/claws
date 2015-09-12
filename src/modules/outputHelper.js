@@ -3,6 +3,8 @@ var EXPORTED_SYMBOLS = ['outputHelper']
 const { classes: Cc, interfaces: Ci, utils: Cu } = Components;
 const {console} = Cu.import("resource://gre/modules/devtools/Console.jsm", {});
 
+// TODO: Maybe we should make outpuHelper a NameSpace ???
+
 /**
  * Helper object which contains functions for Output modes
  */
@@ -91,5 +93,10 @@ var outputHelper = {
             return heading.textContent
         }
         else return ''
+    },
+    
+    getFileNameFromPath(path){
+        return path.substring(path.lastIndexOf('/')+1, path.lastIndexOf('.'))
     }
+    
 }

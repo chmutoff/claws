@@ -1,6 +1,7 @@
 var EXPORTED_SYMBOLS = ['JawsOutput']
 const { classes: Cc, interfaces: Ci, utils: Cu } = Components;
 Cu.import('resource://claws/outputHelper.js')
+const {console} = Cu.import("resource://gre/modules/devtools/Console.jsm", {});
 
 /**
  * Creates an output class for  mode
@@ -33,7 +34,8 @@ function JawsOutput()
      * @returns {String} Text with document info
      */
     function getJawsIntroText(docInfo) {
-        //return docInfo.docTitle
+        console.log(docInfo)
+        return docInfo.docTitle + ' ' + getString('JAWS.output.pageinfo', docInfo.nOfHeadings.toString(), docInfo.nOfLinks.toString())
     }
     
     /** @public
@@ -50,7 +52,11 @@ function JawsOutput()
                 // JAWS annouces if link have been visited
                 // it is not possible for javascript to detect if a link is visited in either Firefox or Chrome (security reasons)
                 // https://developer.mozilla.org/en-US/docs/Web/CSS/Privacy_and_the_:visited_selector
-                //return stringBundle.getString('JAWS.output.link')
+                if (node.getAttribute('href')[0] == '#') {
+                    return getString('JAWS.output.a.same')
+                }
+                return getString('JAWS.output.a')
+            /*
             case 'AREA':
                 //return stringBundle.getString('JAWS.output.link')
             case 'ASIDE':
@@ -67,26 +73,31 @@ function JawsOutput()
                     //return stringBundle.getString('JAWS.output.footer')
                 }
                 //else return ''
+            */
             case 'H1':
-                //return stringBundle.getFormattedString('JAWS.output.heading.level', [1])
+                return getString('JAWS.output.heading.level', 1)
             case 'H2':
-                //return stringBundle.getFormattedString('JAWS.output.heading.level', [2])
+                return getString('JAWS.output.heading.level', 2)
             case 'H3':
-                //return stringBundle.getFormattedString('JAWS.output.heading.level', [3])
+                return getString('JAWS.output.heading.level', 3)
             case 'H4':
-                //return stringBundle.getFormattedString('JAWS.output.heading.level', [4])
+                return getString('JAWS.output.heading.level', 4)
             case 'H5':
-                //return stringBundle.getFormattedString('JAWS.output.heading.level', [5])
+                return getString('JAWS.output.heading.level', 5)
             case 'H6':
-                //return stringBundle.getFormattedString('JAWS.output.heading.level', [6])
+                return getString('JAWS.output.heading.level', [6])
+            /*
             case 'HEADER':
                 //return stringBundle.getString('JAWS.output.header')
             case 'HR':
                 //return stringBundle.getString('JAWS.output.hr')
             case 'IFRAME':                
                 //return stringBundle.getString('JAWS.output.iframe')
+                */
             case 'IMG':
-                //return stringBundle.getString('JAWS.output.img') + ((node.hasAttribute('longdesc'))? ' ' + stringBundle.getString('JAWS.output.img.longdesc') : '')
+                return getString('JAWS.output.img')
+                //+ ((node.hasAttribute('longdesc'))? ' ' + stringBundle.getString('JAWS.output.img.longdesc') : '')
+            /*
             case 'INPUT':
                 if (node.hasAttribute('list')) {
                     //return stringBundle.getString('JAWS.output.datalist')
@@ -118,8 +129,9 @@ function JawsOutput()
                 //return stringBundle.getFormattedString('JAWS.output.table.row', [(node.rowIndex+1)])
             case 'UL':
                 //return stringBundle.getFormattedString('JAWS.output.list', [outputHelper.countListNodes(node)])
+            */
             default:
-                //return ''
+                return ''
         }
     }
     
@@ -132,7 +144,8 @@ function JawsOutput()
      */
     function getJawsClosingTagText(node){
         var tagName = node.tagName.toUpperCase()
-        switch (tagName) {
+        switch (tagName) {           
+            /*
             case 'BLOCKQUOTE':
                 //return  stringBundle.getString('JAWS.output.quote.end')
             case 'DL':
@@ -145,8 +158,9 @@ function JawsOutput()
                 //return stringBundle.getString('JAWS.output.table.end')
             case 'UL':
                 //return stringBundle.getString('JAWS.ouptut.list.end')
+            */
             default:
-                //return ''
+                return ''
         }
     }
     
@@ -159,6 +173,7 @@ function JawsOutput()
     function getJawsInputText(node){
         var inputType = node.type.toLowerCase()
         switch (inputType){
+            /*
             case 'button':
                 //return stringBundle.getString('JAWS.output.button')
             case 'checkbox':
@@ -183,7 +198,9 @@ function JawsOutput()
                 //return stringBundle.getString('JAWS.output.button') // TODO: get reset button text
             case 'submit':
                 //return stringBundle.getString('JAWS.output.button') // TODO: get submit button text
+                */
             default:
+                return ''
                 //return stringBundle.getString('JAWS.output.input.text') + ' ' + ((node.autocomplete != 'off')? stringBundle.getString('JAWS.output.input.text.autocomplete') : '')
         } 
     }
@@ -205,10 +222,16 @@ function JawsOutput()
         var tagName = node.tagName.toUpperCase()
       
         switch (tagName) {
+            /*
             case 'AREA':
                 //return node.alt
-            case 'IMG':               
-                //return node.alt
+            */
+            case 'IMG':
+                if (node.alt) {
+                    return node.alt
+                }
+                return outputHelper.getFileNameFromPath(node.src)
+            /*
             case 'INPUT':
                 var inputType = node.type
                 switch (inputType) {
@@ -225,8 +248,9 @@ function JawsOutput()
                 //return node.value
             case 'TABLE':
                 //return node.summary
+            */
             default:
-                //return ''
+                return ''
         }
     }
     
@@ -242,6 +266,7 @@ function JawsOutput()
     function getJawsAriaLandmarkText(role)
     {
         switch (role.toUpperCase()) {
+            /*
             case 'BANNER':
                 //return stringBundle.getString('JAWS.output.header')
             case 'COMPLEMENTARY':
@@ -258,8 +283,9 @@ function JawsOutput()
                 //return stringBundle.getString('JAWS.output.search')
             case 'APPLICATION':
                 //return '' // ???
+            */
             default:
-                //return ''
+                return ''
         }
     }
     
@@ -267,7 +293,7 @@ function JawsOutput()
      * Language changes don't generate ANY textual output in JAWS
      */
     function getJawsLangChangeText(currentLang, newLang) {
-        //return ''
+        return ''
     }
     
     return{

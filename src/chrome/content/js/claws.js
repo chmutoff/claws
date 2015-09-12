@@ -83,7 +83,8 @@ function start(sourceWindow){
     var docInfo = {
         docTitle : sourceWindow.content.document.title,
         nOfLinks : _linksList.length,
-        nOfForms : formsList.length
+        nOfForms : formsList.length,
+        nOfHeadings : _headingsList.length
     }
     var firstChild = sourceWindow.content.document.createTextNode(textProvider.getIntroText(docInfo) + ' ')
     output.insertBefore(firstChild, output.firstChild)
