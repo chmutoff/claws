@@ -29,6 +29,20 @@ var outputHelper = {
         return count
     },
     
+    countDListNodes(list)
+    {
+        var count = 0
+        var node=list.firstChild
+        while (node) {
+            // do not count: <!-- <li><a href=".">Home</a></li> -->
+            if (node.nodeType == 1 && node.tagName.toUpperCase() == 'DT') {
+                ++count
+            }            
+            node = node.nextSibling
+        }
+        return count
+    },
+    
     countItemPositionInList: function(node){
         var count = 0
         while(node)
@@ -102,6 +116,22 @@ var outputHelper = {
     isSendMailLink(link)
     {
         return (link.indexOf("mailto:") > -1)
+    },
+    
+    countParentLists(node)
+    {
+      var parentLists = 0
+      node = node.parentNode
+        while(node != null)
+        {      
+    
+          if( node.tagName && (node.tagName.toUpperCase() == 'UL' || node.tagName.toUpperCase() == 'OL'))
+            ++parentLists
+            
+          node = node.parentNode
+            
+        }
+        return parentLists
     },
     
     // TODO:Count number of regions for JAWS mode

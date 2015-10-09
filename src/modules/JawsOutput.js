@@ -36,7 +36,16 @@ function JawsOutput()
      */
     function getJawsIntroText(docInfo) {
         //console.log(docInfo)
-        return  getString('JAWS.output.pageinfo', docInfo.nOfHeadings.toString(), docInfo.nOfLinks.toString()) + ' ' + docInfo.docTitle
+        if (docInfo.nOfHeadings == 0 && docInfo.nOfLinks == 0) {
+            return getString('JAWS.output.pageinfo.nolinks') + ' ' + docInfo.docTitle
+        }
+        else if (docInfo.nOfHeadings > 0 && docInfo.nOfLinks == 0) {
+            return getString('JAWS.output.pageinfo.headings.nolinks', docInfo.nOfHeadings.toString()) + ' ' + docInfo.docTitle
+        }
+        else if (docInfo.nOfHeadings == 0 && docInfo.nOfLinks > 0) {
+            return getString('JAWS.output.pageinfo.links.noheadings', docInfo.nOfLinks.toString()) + ' ' + docInfo.docTitle
+        }
+        else return  getString('JAWS.output.pageinfo', docInfo.nOfHeadings.toString(), docInfo.nOfLinks.toString()) + ' ' + docInfo.docTitle
     }
     
     /** @public
@@ -68,14 +77,17 @@ function JawsOutput()
                 return getString('JAWS.output.article')
             case 'ASIDE':
                 return getString('JAWS.output.aside')
-            /*
+            
             case 'BLOCKQUOTE':
-                //return getString('JAWS.output.quote')
+                return getString('JAWS.output.blockquote')
+            /*
             case 'BUTTON':
                 //return getString('JAWS.output.button')
-            case 'DL':
-                //return getString('JAWS.output.list', [outputHelper.countListNodes(node)])
             */
+            case 'DL':
+                return getString('JAWS.output.definitionlist', [outputHelper.countDListNodes(node)])
+            case 'FIGURE':
+                return getString('JAWS.output.figure')
             case 'FOOTER':
                 if (node.parentNode.nodeName == 'BODY') {
                     // JAWS only anounces the page footer
@@ -97,9 +109,10 @@ function JawsOutput()
             
             case 'HEADER':
                 return getString('JAWS.output.header')
-            /*
+            
             case 'HR':
-                //return getString('JAWS.output.hr')
+                return getString('JAWS.output.hr')
+            /*
             case 'IFRAME':                
                 //return getString('JAWS.output.iframe')
                 */
@@ -124,8 +137,14 @@ function JawsOutput()
             /*
             case 'OBJECT':
                 //return getString('JAWS.output.object')
+            */
             case 'OL':
-                //return getString('JAWS.output.list', [outputHelper.countListNodes(node)])
+                var parentLists = outputHelper.countParentLists(node)
+                if (parentLists == 0) {
+                    return getString('JAWS.output.list', outputHelper.countListNodes(node))
+                }
+                else return getString('JAWS.output.list.nested', outputHelper.countListNodes(node), parentLists)
+            /*
             case 'PROGRESS':
                 //return getString('JAWS.output.progress')
             case 'SELECT':
@@ -142,7 +161,11 @@ function JawsOutput()
                 //return getString('JAWS.output.table.row', [(node.rowIndex+1)])
             */
             case 'UL':
-                return getString('JAWS.output.list', outputHelper.countListNodes(node))
+                var parentLists = outputHelper.countParentLists(node)
+                if (parentLists == 0) {
+                    return getString('JAWS.output.list', outputHelper.countListNodes(node))
+                }
+                else return getString('JAWS.output.list.nested', outputHelper.countListNodes(node), parentLists)
             default:
                 return ''
         }
@@ -161,13 +184,13 @@ function JawsOutput()
             case 'ARTICLE':
                 return getString('JAWS.output.article.end')
             case 'ASIDE':
-                return getString('JAWS.output.aside.end')
-            /*
+                return getString('JAWS.output.aside.end')            
             case 'BLOCKQUOTE':
-                //return  getString('JAWS.output.quote.end')
+                return  getString('JAWS.output.blockquote.end')
             case 'DL':
-                //return getString('JAWS.ouptut.list.end')
-            */
+                return getString('JAWS.output.list.end')
+            case 'FIGURE':
+                return getString('JAWS.output.figure.end')
             case 'FOOTER':
                 if (node.parentNode.nodeName == 'BODY') {
                     // JAWS only anounces the page footer
@@ -184,15 +207,23 @@ function JawsOutput()
                 return getString('JAWS.output.main.end')
             case 'NAV':
                 return getString('JAWS.output.nav.end')
-            /*
+            
             case 'OL':
-                //return getString('JAWS.ouptut.list.end')
+                var parentLists = outputHelper.countParentLists(node)
+                if (parentLists == 0) {
+                    return getString('JAWS.output.list.end')
+                }
+                else return getString('JAWS.output.list.nested.end', parentLists)
+            /*
             case 'TABLE':
                 //return getString('JAWS.output.table.end')
             */
             case 'UL':
-                return getString('JAWS.output.list.end')
-            
+                var parentLists = outputHelper.countParentLists(node)
+                if (parentLists == 0) {
+                    return getString('JAWS.output.list.end')
+                }
+                else return getString('JAWS.output.list.nested.end', parentLists)            
             default:
                 return ''
         }
