@@ -331,24 +331,46 @@ function JawsOutput()
     function getJawsAriaLandmarkText(role)
     {
         switch (role.toUpperCase()) {
-            /*
             case 'BANNER':
-                //return getString('JAWS.output.header')
+                return getString('JAWS.output.header')
             case 'COMPLEMENTARY':
-                //return getString('JAWS.output.aside')
+                return getString('JAWS.output.aside')
             case 'CONTENTINFO':
-                //return getString('JAWS.output.footer')
+                return getString('JAWS.output.footer')
             case 'FORM':
-                //return getString('JAWS.output.form')
+                return getString('JAWS.output.form')
             case 'MAIN': 
-                //return getString('JAWS.output.main')
+                return getString('JAWS.output.main')
             case 'NAVIGATION':
-                //return getString('JAWS.output.nav')
+                return getString('JAWS.output.nav')
             case 'SEARCH':
-                //return getString('JAWS.output.search')
+                return getString('JAWS.output.search')
             case 'APPLICATION':
                 //return '' // ???
-            */
+            default:
+                return ''
+        }
+    }
+    
+    function getJawsClosingAriaLandMarkText(role)
+    {
+        switch (role.toUpperCase()) {
+            case 'BANNER':
+                return getString('JAWS.output.header.end')
+            case 'COMPLEMENTARY':
+                return getString('JAWS.output.aside.end')
+            case 'CONTENTINFO':
+                return getString('JAWS.output.footer.end')
+            case 'FORM':
+                return getString('JAWS.output.form.end')
+            case 'MAIN': 
+                return getString('JAWS.output.main.end')
+            case 'NAVIGATION':
+                return getString('JAWS.output.nav.end')
+            case 'SEARCH':
+                return getString('JAWS.output.search.end')
+            case 'APPLICATION':
+                //return '' // ???
             default:
                 return ''
         }
@@ -368,6 +390,7 @@ function JawsOutput()
         getInputText : getJawsInputText,
         getRelevantText : getJawsRelevantText,
         getAriaLandmarkText : getJawsAriaLandmarkText,
+        getClosingAriaLandmarkText : getJawsClosingAriaLandMarkText,
         getLangChangeText : getJawsLangChangeText
     }
 }

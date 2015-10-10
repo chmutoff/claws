@@ -265,9 +265,9 @@ function NvdaOutput()
     /** @public
      * Language changes don't generate ANY textual output in NVDA
      */
-    function getNvdaLangChangeText(currentLang, newLang) {
-        return ''
-    }
+    function getNvdaLangChangeText(currentLang, newLang) { return '' }
+    
+    function getClawsClosingAriaLandmarkText(role){ return '' }
     
     return{
         getIntroText : getNvdaIntroText,
@@ -276,6 +276,7 @@ function NvdaOutput()
         getInputText : getInputNvdaText,
         getRelevantText : getNvdaRelevantText,
         getAriaLandmarkText : getNvdaAriaLandmarkText,
+        getClosingAriaLandmarkText : getClawsClosingAriaLandmarkText,
         getLangChangeText : getNvdaLangChangeText
     }
     

@@ -388,6 +388,10 @@ function ClawsOutput(settings){
         }
     }
     
+    var getClawsAriaLandmarkText = function(role){ return '' }
+    
+    var getClawsClosingAriaLandmarkText = function(role){ return '' }
+    
     /** @public
      *  Generate output for lang change: language changed from currentLang to newLang
      *
@@ -408,6 +412,7 @@ function ClawsOutput(settings){
         getInputText : getInputClawsText,
         getRelevantText : getClawsRelevantText,
         getAriaLandmarkText : getClawsAriaLandmarkText,
+        getClosingAriaLandmarkText : getClawsClosingAriaLandmarkText,
         getLangChangeText : getClawsLangChangeText
     }
 }

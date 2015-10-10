@@ -328,6 +328,7 @@ function DomWalker(textProvider, sourceWindow)
                     nodeType : 'closingText',
                     tagName : tagName,
                     lang : ( nodeToExpand.hasAttribute('lang') ? nodeToExpand.getAttribute('lang') : '' ),
+                    role : ( nodeToExpand.hasAttribute('role') ? nodeToExpand.getAttribute('role') : '' ),
                     textContent : _textProvider.getClosingText(nodeToExpand)
                 }
                 nodeStack.push(closingText)
@@ -385,6 +386,9 @@ function DomWalker(textProvider, sourceWindow)
                     if (newLang != currentLang) {
                         appendSpanToOutput(textProvider.getLangChangeText(currentLang, newLang), output)
                     }
+                }
+                if (nodeToExpand.role != '') {
+                     appendSpanToOutput(textProvider.getClosingAriaLandmarkText(nodeToExpand.role), output)
                 }
                 // append closing text for some nodes
                 appendSpanToOutput(nodeToExpand.textContent, output)
