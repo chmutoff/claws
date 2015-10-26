@@ -69,21 +69,16 @@ function JawsOutput()
                     return getString('JAWS.output.link.mailto')
                 }
                 else return getString('JAWS.output.link')
-            /*
             case 'AREA':
-                //return getString('JAWS.output.link')
-            */
+                return getString('JAWS.output.area')
             case 'ARTICLE':
                 return getString('JAWS.output.article')
             case 'ASIDE':
-                return getString('JAWS.output.aside')
-            
+                return getString('JAWS.output.aside')            
             case 'BLOCKQUOTE':
                 return getString('JAWS.output.blockquote')
-            /*
             case 'BUTTON':
-                //return getString('JAWS.output.button')
-            */
+                return getString('JAWS.output.button')
             case 'DL':
                 return getString('JAWS.output.definitionlist', [outputHelper.countDListNodes(node)])
             case 'FIGURE':
@@ -105,56 +100,48 @@ function JawsOutput()
             case 'H5':
                 return getString('JAWS.output.heading.level', 5)
             case 'H6':
-                return getString('JAWS.output.heading.level', 6)
-            
+                return getString('JAWS.output.heading.level', 6)            
             case 'HEADER':
-                return getString('JAWS.output.header')
-            
+                return getString('JAWS.output.header')            
             case 'HR':
                 return getString('JAWS.output.hr')
-            /*
-            case 'IFRAME':                
-                //return getString('JAWS.output.iframe')
-                */
+            case 'IFRAME':
+                if (node.contentDocument) {
+                    return node.contentDocument.title + ' ' + getString('JAWS.output.iframe')
+                }
+                else return ''
             case 'IMG':
                 return getString('JAWS.output.img')
                 //+ ((node.hasAttribute('longdesc'))? ' ' + getString('JAWS.output.img.longdesc') : '')
-            /*
             case 'INPUT':
+                var out = getJawsInputText(node)
                 if (node.hasAttribute('list')) {
-                    //return getString('JAWS.output.datalist')
+                    out += ' ' + getString('JAWS.output.datalist')
                 }
-                //else return getInputJawsText(node)
-            */
+                return out                
             case 'MAIN':
                 return getString('JAWS.output.main')
-            /*    
-            case 'MAP':
-                //return getString('JAWS.output.map')
-            */
             case 'NAV':
                 return getString('JAWS.output.nav')
-            /*
-            case 'OBJECT':
-                //return getString('JAWS.output.object')
-            */
             case 'OL':
                 var parentLists = outputHelper.countParentLists(node)
                 if (parentLists == 0) {
                     return getString('JAWS.output.list', outputHelper.countListNodes(node))
                 }
                 else return getString('JAWS.output.list.nested', outputHelper.countListNodes(node), parentLists)
-            /*
             case 'PROGRESS':
-                //return getString('JAWS.output.progress')
+                return getString('JAWS.output.progress')
             case 'SELECT':
-                //return getString('JAWS.output.select')
+                return getString('JAWS.output.select')
+            /*
             case 'TABLE':
                 //return getString('JAWS.output.table', [outputHelper.getNumRowsInTable(node), outputHelper.getNumColumnsInTable(node)])
             case 'TD':
                 //return outputHelper.getCellHeading(node) + ' ' +  getString('JAWS.output.table.column', [(node.cellIndex+1)])
+            */
             case 'TEXTAREA':
-                //return getString('JAWS.output.textarea')
+                return getString('JAWS.output.input.text')
+            /*
             case 'TH':
                 //return outputHelper.getCellHeading(node) + ' ' +  getString('JAWS.output.table.column', [(node.cellIndex+1)])
             case 'TR':
@@ -199,15 +186,17 @@ function JawsOutput()
                 else return '' 
             case 'HEADER':
                 return getString('JAWS.output.header.end')
-            /*
             case 'IFRAME':
-                //return getString('JAWS.output.iframe.end')
-                */
+                if (node.contentDocument) {
+                    return node.contentDocument.title + ' ' + getString('JAWS.output.iframe.end')
+                }
+                else return ''
             case 'MAIN':
                 return getString('JAWS.output.main.end')
+            case 'MATH':
+                return getString('JAWS.output.math')
             case 'NAV':
-                return getString('JAWS.output.nav.end')
-            
+                return getString('JAWS.output.nav.end')            
             case 'OL':
                 var parentLists = outputHelper.countParentLists(node)
                 if (parentLists == 0) {
@@ -237,36 +226,27 @@ function JawsOutput()
      */
     function getJawsInputText(node){
         var inputType = node.type.toLowerCase()
-        switch (inputType){
-            /*
+        switch (inputType){            
             case 'button':
-                //return getString('JAWS.output.button')
+                return getString('JAWS.output.button')            
             case 'checkbox':
-                //return getString('JAWS.output.input.checkbox') + ' ' + ((node.checked)? getString('JAWS.output.input.checkbox.checked') : getString('JAWS.output.input.checkbox.unchecked'))
-            case 'color':
-                //return getString('JAWS.output.button')
+                return getString('JAWS.output.input.checkbox') + ' ' + ((node.checked)? getString('JAWS.output.input.checked') : getString('JAWS.output.input.unchecked')) 
             case 'file':
-                //return getString('JAWS.output.button') // TODO: get input button text and "no file selected" text
+                return getString('JAWS.output.button') // TODO: get input button text and "no file selected" text            
             case 'hidden':
-                //return ''
+                return ''                
             case 'image':
-                //return getString('JAWS.output.button')
-            case 'number':
-                //return getString('JAWS.output.input.number')
-            case 'password':
-                //return getString('JAWS.output.input.password')
+                return getString('JAWS.output.button')
+            case 'password':            
+                return getString('JAWS.output.input.password')                
             case 'radio':
-                //return getString('JAWS.output.input.radio') + ' ' + ((node.checked)? getString('JAWS.output.input.checkbox.checked') : getString('JAWS.output.input.checkbox.unchecked'))
-            case 'range':
-                //return getString('JAWS.output.input.range')
+                return getString('JAWS.output.input.radio') + ' ' + ((node.checked)? getString('JAWS.output.input.checked') : getString('JAWS.output.input.unchecked'))            
             case 'reset':
-                //return getString('JAWS.output.button') // TODO: get reset button text
+                return getString('JAWS.output.button') // TODO: get reset button text                
             case 'submit':
-                //return getString('JAWS.output.button') // TODO: get submit button text
-                */
+                return getString('JAWS.output.button') // TODO: get submit button text                
             default:
-                return ''
-                //return getString('JAWS.output.input.text') + ' ' + ((node.autocomplete != 'off')? getString('JAWS.output.input.text.autocomplete') : '')
+                return getString('JAWS.output.input.text') 
         } 
     }
     
@@ -287,30 +267,32 @@ function JawsOutput()
         var tagName = node.tagName.toUpperCase()
       
         switch (tagName) {
-            /*
             case 'AREA':
-                //return node.alt
-            */
+                return node.alt
             case 'IMG':
                 if (node.alt) {
                     return node.alt
                 }
                 return outputHelper.getFileNameFromPath(node.src)
-            /*
             case 'INPUT':
                 var inputType = node.type
                 switch (inputType) {
-                  case 'hidden':
-                    //return ''
-                  case 'image':
-                    //return node.alt
-                  case 'radio':
-                    //return ''
-                  default:
-                    //return node.value
-                }
+                    case 'checkbox':
+                        return ''
+                    case 'color':
+                        return ''
+                    case 'hidden':
+                        return ''
+                    case 'image':
+                        return node.alt
+                    case 'radio':
+                        return ''
+                    default:
+                        return node.value
+                }            
             case 'SELECT':
-                //return node.value
+                return node.value
+            /*
             case 'TABLE':
                 //return node.summary
             */
