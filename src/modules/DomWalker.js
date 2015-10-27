@@ -1,8 +1,8 @@
 var EXPORTED_SYMBOLS = ['DomWalker']
-Components.utils.import('resource://claws/whitespaceHelper.js')
 
 const { classes: Cc, interfaces: Ci, utils: Cu } = Components;
 const {console} = Cu.import("resource://gre/modules/devtools/Console.jsm", {});
+Cu.import('resource://claws/whitespaceHelper.js')
 
 /**
  * DOM Walker is the core of the project

@@ -1,5 +1,6 @@
 var EXPORTED_SYMBOLS = ['NvdaOutput']
-Components.utils.import('resource://claws/outputHelper.js')
+const { classes: Cc, interfaces: Ci, utils: Cu } = Components;
+Cu.import('resource://claws/outputHelper.js')
 
 /**
  * Creates an output class for NVDA mode
@@ -13,8 +14,8 @@ Components.utils.import('resource://claws/outputHelper.js')
 function NvdaOutput()
 {
     function getString(msg, args){ //get localized message
-        var stringBundle = Components.classes["@mozilla.org/intl/stringbundle;1"]
-               .getService(Components.interfaces.nsIStringBundleService)
+        var stringBundle = Cc["@mozilla.org/intl/stringbundle;1"]
+               .getService(Ci.nsIStringBundleService)
                .createBundle("chrome://claws/locale/NVDA.properties");
 
         if (args){

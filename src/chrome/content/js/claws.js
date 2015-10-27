@@ -1,8 +1,9 @@
-Components.utils.import('resource://claws/OutputFactory.js')
-Components.utils.import('resource://claws/DomWalker.js')
-Components.utils.import('resource://claws/whitespaceHelper.js')
+const { classes: Cc, interfaces: Ci, utils: Cu } = Components;
+Cu.import('resource://claws/OutputFactory.js')
+Cu.import('resource://claws/DomWalker.js')
+Cu.import('resource://claws/whitespaceHelper.js')
 
-const gClipboardHelper = Components.classes["@mozilla.org/widget/clipboardhelper;1"].getService(Components.interfaces.nsIClipboardHelper)
+const gClipboardHelper = Cc["@mozilla.org/widget/clipboardhelper;1"].getService(Ci.nsIClipboardHelper)
 
 var _linksList
 var _headingsList
@@ -16,8 +17,8 @@ var _preferencesWindow = null
 function start(sourceWindow){
    
     // get preferences
-    var prefs = Components.classes["@mozilla.org/preferences-service;1"]
-                    .getService(Components.interfaces.nsIPrefService).getBranch("extensions.claws.output.");
+    var prefs = Cc["@mozilla.org/preferences-service;1"]
+                    .getService(Ci.nsIPrefService).getBranch("extensions.claws.output.");
 
     var mode = prefs.getCharPref("mode")
     var quote = prefs.getBoolPref("quote")
