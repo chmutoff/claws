@@ -16,17 +16,19 @@ var _preferencesWindow = null
 function start(sourceWindow){
    
     // get preferences
-    var application = Components.classes["@mozilla.org/fuel/application;1"].getService(Components.interfaces.fuelIApplication)
-    var mode = application.prefs.get("extensions.claws.output.mode").value
-    var quote = application.prefs.get("extensions.claws.output.quote").value
-    var address = application.prefs.get("extensions.claws.output.address").value
-    var claws_mode_title = application.prefs.get("extensions.claws.output.claws.mode.title").value
-    var heading_background_color = application.prefs.get("extensions.claws.output.heading.background.color").value
-    var heading_underline = application.prefs.get("extensions.claws.output.heading.underline").value
-    var heading_line_break = application.prefs.get("extensions.claws.output.heading.line.break").value
-    var link_background_color = application.prefs.get("extensions.claws.output.link.background.color").value
-    var link_underline = application.prefs.get("extensions.claws.output.link.underline").value
-       
+    var prefs = Components.classes["@mozilla.org/preferences-service;1"]
+                    .getService(Components.interfaces.nsIPrefService).getBranch("extensions.claws.output.");
+
+    var mode = prefs.getCharPref("mode")
+    var quote = prefs.getBoolPref("quote")
+    var address = prefs.getBoolPref("address")
+    var claws_mode_title = prefs.getBoolPref("claws.mode.title")
+    var heading_background_color = prefs.getCharPref("heading.background.color")
+    var heading_underline = prefs.getBoolPref("heading.underline")
+    var heading_line_break = prefs.getBoolPref("heading.line.break")
+    var link_background_color = prefs.getCharPref("link.background.color")
+    var link_underline = prefs.getBoolPref("link.underline")
+    
     // object with preferences for output modes
     var preferences = {
         quote: quote,
@@ -52,11 +54,10 @@ function start(sourceWindow){
     iframeContent.body.innerHTML = ''
 
     // get user preferences for output style
-    var application = Components.classes["@mozilla.org/fuel/application;1"].getService(Components.interfaces.fuelIApplication)
-    var elemColorPref = application.prefs.get("extensions.claws.output.element.text.color").value
-    var elemBackgroundPref = application.prefs.get("extensions.claws.output.element.text.background.color").value
-    var backgroundColor = application.prefs.get("extensions.claws.output.background.color").value
-    
+    var elemColorPref = prefs.getCharPref("element.text.color")
+    var elemBackgroundPref = prefs.getCharPref("element.text.background.color")
+    var backgroundColor = prefs.getCharPref("background.color")
+
     // create the output style
     var css = 'body{background-color: '+backgroundColor+'; line-height: 25px; font-family: "Verdana" font-size: 13px; color: #333}'
     css += '.tag-output{color: '+elemColorPref+'; background-color: '+elemBackgroundPref+'; margin-right: 5px; padding: 2px 5px;}'

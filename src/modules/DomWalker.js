@@ -276,11 +276,14 @@ function DomWalker(textProvider, sourceWindow)
         output.className = 'output'
         cleanWhitespace(dom)
         nodeStack.push(dom)
-        let app = Cc["@mozilla.org/fuel/application;1"].getService(Ci.fuelIApplication)
-        var def_lang = (_document.documentElement.lang != '') ? _document.documentElement.lang : app.prefs.get("extensions.claws.output.default.lang").value
-        langStack.push(def_lang)
-    
-      
+        
+        var prefs = Components.classes["@mozilla.org/preferences-service;1"]
+                    .getService(Components.interfaces.nsIPrefService).getBranch("extensions.claws.output.");
+
+        var defLang = (_document.documentElement.lang != '') ? _document.documentElement.lang : prefs.getCharPref("default.lang")
+
+        langStack.push(defLang)
+
         do{       
             var nodeToExpand = nodeStack.pop()
             
