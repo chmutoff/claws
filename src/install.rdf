@@ -5,7 +5,7 @@
 
   <Description about="urn:mozilla:install-manifest">
     <em:id>claws@alicante.university.project</em:id>
-    <em:version>2.0.2</em:version>
+    <em:version>3.0</em:version>
     <em:type>2</em:type>
     <em:unpack>true</em:unpack>
    
@@ -27,5 +27,6 @@
     <em:homepageURL>https://github.com/chmutoff/claws</em:homepageURL>
     <em:iconURL>chrome://claws/skin/claws_logo_small.png</em:iconURL>
     <em:optionsURL>chrome://claws/content/preferences.xul</em:optionsURL>
+    <em:aboutURL>chrome://claws/content/about.xul</em:aboutURL>
   </Description>      
 </RDF>

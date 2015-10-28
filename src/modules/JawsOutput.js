@@ -19,7 +19,6 @@ function JawsOutput()
                         .createBundle("chrome://claws/locale/JAWS.properties");
 
     function getString(msg, args){ //get localized message
-        //console.log("Getting text for: " + msg)
         if (args){ //for message with parameters
             args = Array.prototype.slice.call(arguments, 1);
             return stringBundle.formatStringFromName(msg,args,args.length);
@@ -35,7 +34,7 @@ function JawsOutput()
      * @returns {String} Text with document info
      */
     function getJawsIntroText(docInfo) {
-        //console.log(docInfo)
+        //TODO: show number of regions and iframes
         if (docInfo.nOfHeadings == 0 && docInfo.nOfLinks == 0) {
             return getString('JAWS.output.pageinfo.nolinks') + ' ' + docInfo.docTitle
         }
@@ -112,7 +111,6 @@ function JawsOutput()
                 else return ''
             case 'IMG':
                 return getString('JAWS.output.img')
-                //+ ((node.hasAttribute('longdesc'))? ' ' + getString('JAWS.output.img.longdesc') : '')
             case 'INPUT':
                 var out = getJawsInputText(node)
                 if (node.hasAttribute('list')) {
@@ -132,10 +130,10 @@ function JawsOutput()
             case 'PROGRESS':
                 return getString('JAWS.output.progress')
             case 'SELECT':
-                return getString('JAWS.output.select')
-            /*
+                return getString('JAWS.output.select')            
             case 'TABLE':
-                //return getString('JAWS.output.table', [outputHelper.getNumRowsInTable(node), outputHelper.getNumColumnsInTable(node)])
+                return getString('JAWS.output.table', outputHelper.getNumColumnsInTable(node), outputHelper.getNumRowsInTable(node))
+            /*
             case 'TD':
                 //return outputHelper.getCellHeading(node) + ' ' +  getString('JAWS.output.table.column', [(node.cellIndex+1)])
             */
@@ -203,10 +201,8 @@ function JawsOutput()
                     return getString('JAWS.output.list.end')
                 }
                 else return getString('JAWS.output.list.nested.end', parentLists)
-            /*
             case 'TABLE':
-                //return getString('JAWS.output.table.end')
-            */
+                return getString('JAWS.output.table.end')
             case 'UL':
                 var parentLists = outputHelper.countParentLists(node)
                 if (parentLists == 0) {
@@ -273,7 +269,7 @@ function JawsOutput()
                 if (node.alt) {
                     return node.alt
                 }
-                return outputHelper.getFileNameFromPath(node.src)
+                return outputHelper.getFileNameFromPath(node.src).substring(0, 15);
             case 'INPUT':
                 var inputType = node.type
                 switch (inputType) {
@@ -292,10 +288,8 @@ function JawsOutput()
                 }            
             case 'SELECT':
                 return node.value
-            /*
             case 'TABLE':
-                //return node.summary
-            */
+                return 'Summary: ' + node.summary
             default:
                 return ''
         }

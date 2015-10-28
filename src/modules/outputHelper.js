@@ -134,7 +134,7 @@ var outputHelper = {
         return parentLists
     },
     
-    // TODO:Count number of regions for JAWS mode
+    // TODO: Count number of regions for JAWS mode
     /*
     countDocumentRegions(doc) {
         var headers = doc.getElementsByTagName('header')

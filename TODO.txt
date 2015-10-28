@@ -6,3 +6,4 @@ Rename funcions to start with getNVDA and sort return by name
 Show heding level in da list
 Make factory autoload modes from mode folder (need to put moes in separate folder as well)
 Make modes to be chids of some Mode category (to not implement empty functions which returns empty string)
+Add localization for install.rdf
