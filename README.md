@@ -1,2 +1,2 @@
 # Claws
-Screen reader emulator extension for Mozilla Firefox
+Claws is a screen reader emulator which generates the same output like a screen reader would do. There are 3 output modes. The first one generates the same output like NVDA, the second one like JAWS and the last one is a custom output mode which has a very rich output.
