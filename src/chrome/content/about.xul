@@ -17,7 +17,7 @@
             <description><html:a href="http://accesibilidadweb.dlsi.ua.es/?menu=hr-claws" target="_blank">&about.website;</html:a></description>
             <description id="claws-version"></description>
             <description>NVDA v2014.4</description>
-            <description>CLAWS 16.0.4350</description> 
+            <description>CLAWS v16.0.4350</description> 
         </vbox>
     </hbox>
 

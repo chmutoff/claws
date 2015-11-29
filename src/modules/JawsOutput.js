@@ -1,7 +1,7 @@
 var EXPORTED_SYMBOLS = ['JawsOutput']
 const { classes: Cc, interfaces: Ci, utils: Cu } = Components;
 Cu.import('resource://claws/outputHelper.js')
-const {console} = Cu.import("resource://gre/modules/devtools/Console.jsm", {});
+// const {console} = Cu.import("resource://gre/modules/devtools/Console.jsm", {});
 
 /**
  * Creates an output class for  mode
@@ -19,6 +19,7 @@ function JawsOutput()
                         .createBundle("chrome://claws/locale/JAWS.properties");
 
     function getString(msg, args){ //get localized message
+        // console.log('Geting string for: ' + msg)
         if (args){ //for message with parameters
             args = Array.prototype.slice.call(arguments, 1);
             return stringBundle.formatStringFromName(msg,args,args.length);
@@ -133,18 +134,8 @@ function JawsOutput()
                 return getString('JAWS.output.select')            
             case 'TABLE':
                 return getString('JAWS.output.table', outputHelper.getNumColumnsInTable(node), outputHelper.getNumRowsInTable(node))
-            /*
-            case 'TD':
-                //return outputHelper.getCellHeading(node) + ' ' +  getString('JAWS.output.table.column', [(node.cellIndex+1)])
-            */
             case 'TEXTAREA':
                 return getString('JAWS.output.input.text')
-            /*
-            case 'TH':
-                //return outputHelper.getCellHeading(node) + ' ' +  getString('JAWS.output.table.column', [(node.cellIndex+1)])
-            case 'TR':
-                //return getString('JAWS.output.table.row', [(node.rowIndex+1)])
-            */
             case 'UL':
                 var parentLists = outputHelper.countParentLists(node)
                 if (parentLists == 0) {
@@ -322,7 +313,7 @@ function JawsOutput()
             case 'SEARCH':
                 return getString('JAWS.output.search')
             case 'APPLICATION':
-                //return '' // ???
+                return '' // ???
             default:
                 return ''
         }
@@ -346,7 +337,7 @@ function JawsOutput()
             case 'SEARCH':
                 return getString('JAWS.output.search.end')
             case 'APPLICATION':
-                //return '' // ???
+                return '' // ???
             default:
                 return ''
         }

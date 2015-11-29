@@ -29,7 +29,7 @@ var outputHelper = {
         return count
     },
     
-    countDListNodes(list)
+    countDListNodes: function(list)
     {
         var count = 0
         var node=list.firstChild
@@ -101,7 +101,7 @@ var outputHelper = {
         } else return ''
     },
     
-    getHorizontalHeading : function(node){
+    getHorizontalHeading: function(node){
         var heading = node.parentElement.firstChild
         if (heading.tagName.toUpperCase() == 'TH') {
             return heading.textContent
@@ -109,27 +109,25 @@ var outputHelper = {
         else return ''
     },
     
-    getFileNameFromPath(path){
+    getFileNameFromPath: function(path){
         return path.substring(path.lastIndexOf('/')+1, path.lastIndexOf('.'))
     },
     
-    isSendMailLink(link)
+    isSendMailLink: function(link)
     {
         return (link.indexOf("mailto:") > -1)
     },
     
-    countParentLists(node)
+    countParentLists: function(node)
     {
       var parentLists = 0
       node = node.parentNode
         while(node != null)
-        {      
-    
+        {  
           if( node.tagName && (node.tagName.toUpperCase() == 'UL' || node.tagName.toUpperCase() == 'OL'))
             ++parentLists
             
           node = node.parentNode
-            
         }
         return parentLists
     },
